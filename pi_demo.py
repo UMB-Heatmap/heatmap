@@ -52,3 +52,4 @@ for j in range(N):
 pi = 4 * (ptsIn/ptsTotal)
 plt.title("Pi = "+str(pi))
 plt.show()
+plt.savefig()
