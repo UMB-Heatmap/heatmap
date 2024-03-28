@@ -1,12 +1,16 @@
-from subprocess import Popen, PIPE, STDOUT, run, call
+from subprocess import run
 import numpy as np
 import matplotlib.pylab as plt
 import sys
 
-# settings for c++ command flags
+# settings for c++ command flags 
 ALGORITHM = sys.argv[1] # 'splitmix' # = 'xorshift'
 START_SEED = int(sys.argv[2])
 N = int(sys.argv[3])
+
+# TODO: add INPUT ERROR HANDLING w/ error msgs / usage instructions
+
+# TODO: add options for visualization type via cli input and switch stmt w/ case for each data / heatmap generation
 
 data = []
 # create N*N array of data with random numbers

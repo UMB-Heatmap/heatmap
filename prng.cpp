@@ -7,6 +7,7 @@
 
 #define XORSHIFT 1
 #define SPLITMIX 2
+// TODO: #define ALGO n for each new PRNG algorithm
 
 int debug = 0;
 int isOutFile = 0;
@@ -23,7 +24,6 @@ class PRNGStream {
         uint64_t seed;
         uint64_t state;
         int algo;
-
         // en.wikipedia.org/wiki/Xorshift
         uint64_t xorshift64() {
             if (debug) std::cout << "Performing xorshift64 operation... ";
@@ -41,12 +41,14 @@ class PRNGStream {
             result = (result ^ (result >> 27)) * 0x94D049BB133111EB;
             return result ^ (result >> 31);
         }
+        // TODO: implement additional PRNG algorithms...
         uint64_t nextState() {
             if (debug) std::cout << "Moving to next state... ";
+            // TODO: add case for each new algorithm
             switch (this->algo) {
-                case 1:
+                case XORSHIFT:
                     return xorshift64();
-                case 2:
+                case SPLITMIX:
                     return splitmix64();
                 default:
                     return splitmix64();
@@ -145,10 +147,8 @@ int main(int argc, char** argv) {
     // fill parameters from switches p = { int algo, uint64_t seed, int n }
     params* p = handleSwitches(argc, argv);
     PRNGStream rng = PRNGStream(p->seed, p->algo);
-
     if (isOutFile) { buildToOutFile(&rng, p->n); } 
     else { buildToStdOut(&rng, p->n); }
-
     free(p);
     return 0;
 }
