@@ -1,4 +1,4 @@
-#include "algorithm.h"
+#include "../include/algorithm.h"
 
 Algorithm::Algorithm(uint64_t seed) {
     this->seed = seed;
