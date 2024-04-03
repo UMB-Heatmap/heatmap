@@ -1,11 +1,20 @@
-#ifndef LEHMER_H
-#define LEHMER_H
-#include <stdint.h>
+#ifndef A_LEHMER
+#define A_LEHMER
 
-inline uint32_t lehmer(uint32_t* state) {
-    uint64_t product = (uint64_t)*state * 48271;
-    uint32_t x = (product & 0x7fffffff) + (product >> 31);
-    x = (x & 0x7fffffff) + (x >> 31);
-    return *state = x;
-}
+#include "algorithm.h"
+
+class Lehmer : public Algorithm {
+public:
+    Lehmer(uint64_t seed) : Algorithm(seed) {};
+    uint64_t peekNext() {
+        uint64_t x = this->state;
+
+        uint64_t product = this->state * 48271;
+        uint64_t x = (product & 0x7fffffff) + (product >> 31);
+        x = (x & 0x7fffffff) + (x >> 31);
+
+        return x;
+    };
+};
+
 #endif

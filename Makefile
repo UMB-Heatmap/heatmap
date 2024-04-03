@@ -6,8 +6,9 @@ INCLUDE = -I$(INC_DIR)
 
 PRE_OBJECTS = $(wildcard $(INC_DIR)/*.cpp)
 OBJECTS = $(patsubst $(INC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(PRE_OBJECTS))
+HEADERS = $(wildcard $(INC_DIR)/*.h)
 
-prng: $(SRC_DIR)/prng.cpp $(OBJECTS)
+prng: $(SRC_DIR)/prng.cpp $(OBJECTS) $(HEADERS)
 	gcc -o prng $(SRC_DIR)/prng.cpp $(OBJECTS) -lstdc++ -std=c++11
 
 $(OBJ_DIR)/%.o: $(INC_DIR)/%.cpp

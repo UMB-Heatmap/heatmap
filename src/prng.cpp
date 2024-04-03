@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <string.h>
 
-#include "../master_header.h"
+#include "../include/master_header.h"
 
 class AlgorithmRunner {
 private: 
