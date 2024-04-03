@@ -7,19 +7,6 @@
 
 #include "../master_header.h"
 
-#define XORSHIFT 1
-#define SPLITMIX 2
-// TODO: #define ALGO n for each new PRNG algorithm
-
-struct params {
-    int algo;
-    int n;
-    uint64_t seed;
-    bool debug;
-    bool isOutFile;
-    std::string outFile;
-};
-
 class AlgorithmRunner {
 private: 
     int algo;
@@ -55,17 +42,7 @@ public:
             return;
         }
         delete this->rng;
-        switch (algorithm) {
-            case XORSHIFT:
-                this->rng = new XorShift64(this->seed);
-                break;
-            case SPLITMIX:
-                this->rng = new Splitmix(this->seed);
-                break;
-            default:
-                this->rng = new XorShift64(this->seed);
-                break;
-        }
+        this->rng = getAlgorithm(algorithm, this->seed);
     }
 
     // generate output file of n random scalars [0, 1) from PRNGStream Object
@@ -116,12 +93,7 @@ params handleSwitches(int argc, char** argv) {
                 p.outFile = optarg;
                 break;
             case 'a':
-                if (strcmp(optarg, "xorshift") == 0) {
-                    p.algo = XORSHIFT;
-                } 
-                else if (strcmp(optarg, "splitmix") == 0) {
-                    p.algo = SPLITMIX;
-                }
+                p.algo = getAlgorithmNum(optarg);
                 break;
             case 's':
                 p.seed = (uint64_t) atoi(optarg);
