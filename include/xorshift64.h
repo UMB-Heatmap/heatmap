@@ -1,5 +1,5 @@
-#ifndef XORSHIFT64
-#define XORSHIFT64
+#ifndef A_XORSHIFT64
+#define A_XORSHIFT64
 
 #include "algorithm.h"
 

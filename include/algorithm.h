@@ -1,5 +1,5 @@
-#ifndef ALGORITHM
-#define ALGORITHM
+#ifndef A_ALGORITHM
+#define A_ALGORITHM
 
 #include <iostream>
 #include <fstream>

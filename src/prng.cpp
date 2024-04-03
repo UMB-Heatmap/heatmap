@@ -5,8 +5,7 @@
 #include <unistd.h>
 #include <string.h>
 
-#include "../include/algorithm.h"
-#include "../include/xorshift64.h"
+#include "../master_header.h"
 
 #define XORSHIFT 1
 #define SPLITMIX 2
@@ -52,9 +51,17 @@ public:
     }
 
     void setAlgorithm(int algorithm) {
+        if (algorithm == this->algo && this->rng != nullptr) {
+            return;
+        }
         delete this->rng;
         switch (algorithm) {
             case XORSHIFT:
+                this->rng = new XorShift64(this->seed);
+                break;
+            case SPLITMIX:
+                this->rng = new Splitmix(this->seed);
+                break;
             default:
                 this->rng = new XorShift64(this->seed);
                 break;
