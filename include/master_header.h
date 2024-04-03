@@ -4,9 +4,9 @@
 #include <stdint.h>
 #include <unistd.h>
 #include <string.h>
+#include "algorithm.h"
 
 // ADD HEADER HERE
-#include "algorithm.h"
 #include "xorshift64.h"
 #include "splitmix.h"
 #include "lehmer.h"
