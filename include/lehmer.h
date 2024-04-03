@@ -9,9 +9,10 @@ public:
     uint64_t peekNext() {
         uint64_t x = this->state;
 
-        uint64_t product = this->state * 48271;
-        uint64_t x = (product & 0x7fffffff) + (product >> 31);
-        x = (x & 0x7fffffff) + (x >> 31);
+        uint64_t product = x * 48271;
+        uint64_t y = (product & 0x7fffffff) + (product >> 31);
+        y = (y & 0x7fffffff) + (y >> 31);
+        x = y;
 
         return x;
     };
