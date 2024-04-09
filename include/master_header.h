@@ -10,17 +10,20 @@
 #include "xorshift64.h"
 #include "splitmix.h"
 #include "lehmer.h"
+#include "lcg.h"
 
 // ADD INDEX HERE
 #define XORSHIFT    1
 #define SPLITMIX    2
 #define LEHMER      3
+#define LCG         4
 
 // ADD COMMAND LINE NAME HERE
 std::unordered_map<std::string, int> algorithmMap = {
     {"xorshift",    XORSHIFT},
     {"splitmix",    SPLITMIX},
     {"lehmer",      LEHMER},
+    {"lcg",         LCG}
 };
 
 Algorithm * getAlgorithm(int algorithm, uint64_t seed) {
@@ -35,6 +38,9 @@ Algorithm * getAlgorithm(int algorithm, uint64_t seed) {
             break;
         case LEHMER:
             algo = new Lehmer(seed);
+            break;
+        case LCG:
+            algo = new LCG(seed);
             break;
 
         default:
