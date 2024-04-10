@@ -7,7 +7,7 @@ EXAMPLE USAGE:
 Where:
 
     ALGORITHM = 'lehmer' | 'splitmix'| 'xorshift' | ...
-    VISUAL = '2d' | ...
+    VISUAL = '2d' | distribution | ...
     SEED = [<optional> Integer]
 
 For Implementing additional Algorithms:
@@ -20,4 +20,11 @@ For Implementing additional Visualizations:
       **(see src/2d.py for example and exaplanation)
     2. update src/main.py VISUALS list
 
+TODO:
+    xorshift always giving first value ~ 0 
+        - IDEA: might just need to advance seed once upon initilization
+
+    lehmer seems to only be giving values [0, 1e-10) 
+        - IDEA: check algorithm implementation for correctness 
+        - may just need to scale
 
