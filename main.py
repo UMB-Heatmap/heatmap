@@ -15,7 +15,7 @@ import sys
 ALGORITHMS = ['lehmer', 'splitmix', 'xorshift']
 
 # add visual options HERE: (must be all lowercase and same as python script name)
-VISUALS = ['2d', 'distribution'] 
+VISUALS = ['2d', 'distribution', 'frequency'] 
 
 DEFAULT_SEED = 1
 
