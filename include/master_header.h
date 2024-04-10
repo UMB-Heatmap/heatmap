@@ -40,7 +40,7 @@ Algorithm * getAlgorithm(int algorithm, uint64_t seed) {
             algo = new Lehmer(seed);
             break;
         case LCG:
-            algo = new LCG(seed);
+            algo = new LinConGen(seed);
             break;
 
         default:

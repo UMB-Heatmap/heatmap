@@ -82,7 +82,19 @@ def handleCLI():
         printUsageTable()
         sys.exit()
 
+# rebuilds prng.cpp objects via makefile if necessary
+def makeIfNeeded():
+    try:
+        run('./prng -f data/output.txt', shell=True, check=True)
+        return
+    except:
+        print('Rebuilding ./prng ...')
+        run('Make clean', shell=True)
+        run('Make', shell=True)
+        return
+
 # Run external script for visualization
+makeIfNeeded()
 algorithm, visual, seed = handleCLI()
 cmd = 'python3 ' + 'src/' + visual + '.py ' + algorithm + ' ' + str(seed)
 run(cmd, shell=True)

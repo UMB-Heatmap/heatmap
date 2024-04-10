@@ -14,6 +14,7 @@ from subprocess import run
 import numpy as np
 import matplotlib.pylab as plt
 import sys
+import visuals_utils as vis
 
 # main.py validates user input so we can assume proper CLI input
 ALGORITHM = sys.argv[1]
@@ -26,32 +27,11 @@ COLOR_MAPS = ['viridis', 'plasma', 'inferno', 'magma', 'cividis', 'binary',
             'gist_yarg', 'gist_gray', 'gray', 'bone', 'pink',
             'spring', 'summer', 'autumn', 'winter', 'cool', 'Wistia',
             'hot', 'afmhot', 'gist_heat', 'copper']
-
-# validates int from standard input
-def getIntFromInput(message):
-    while True: 
-        try:
-            x = int(input(message))
-            return x
-        except ValueError:
-            print("Invalid Input -- Must be Integer")
-
-# validates color map string from standard input
-def getColorMap():
-    cmap = input("Color Map: ")
-    while (cmap not in COLOR_MAPS):
-        print("\nInvalid Color Map -- Select From:")
-        print("-----------------------------------")
-        for cmap in COLOR_MAPS:
-            print(cmap)
-        print()
-        cmap = input("Color Map: ")
-    return cmap
             
 # STEP 1: Acquire and Validate visualization-specific inputs
-numRows = getIntFromInput("Number of Rows: ")
-numCols = getIntFromInput("Number of Columns: ")
-colorMap = getColorMap()
+numRows = vis.getIntFromInput("Number of Rows: ")
+numCols = vis.getIntFromInput("Number of Columns: ")
+colorMap = vis.getColorMap()
 
 # STEP 2: Generate data for visualization via prng.cpp calls
 #   to get NUM_VALUES random doubles in range [0, 1) using ALGORITHM and SEED:

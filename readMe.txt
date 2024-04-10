@@ -1,8 +1,8 @@
 EXAMPLE USAGE:
 
-    Make clean
-    Make
     python3 main.py (ALGORITHM) (VISUAL) [SEED]
+
+    - should now run 'Make clean' and 'Make' to rebuild C++ automatically if it needs to
 
 Where:
 
@@ -18,6 +18,7 @@ For Implementing additional Algorithms:
 For Implementing additional Visualizations:
     1. write VISUALIZATION_NAME.py in src folder 
       **(see src/2d.py for example and exaplanation)
+      **(see src/visuals_utils.py for common functions)
     2. update src/main.py VISUALS list
 
 TODO:
@@ -27,4 +28,6 @@ TODO:
     lehmer seems to only be giving values [0, 1e-10) 
         - IDEA: check algorithm implementation for correctness 
         - may just need to scale
+
+    test LCG algorithm with all visuals
 
