@@ -50,7 +50,12 @@ for n in range(numRowsCols):
     filePath = "data/output.txt"
     cmd = './prng -f ' + filePath + ' -a ' + str(ALGORITHM) + ' -s ' + str(START_SEED + n * SEED_INCREMENT) + ' -n ' + str(numRowsCols)
     run(cmd, shell=True)
-    row = list(np.genfromtxt(filePath))
+    nums = np.genfromtxt(filePath)
+    row = []
+    if (nums.size == 1):
+        row = [nums.item()]
+    else:
+        row = list(nums)
     data.append(row)
 
 # STEP 3: Convert each entry in the data array to an index of the colors array (same

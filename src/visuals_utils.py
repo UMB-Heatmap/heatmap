@@ -6,6 +6,7 @@ COLOR_MAPS = ['viridis', 'plasma', 'inferno', 'magma', 'cividis', 'binary',
             'hot', 'afmhot', 'gist_heat', 'copper']
 
 # validates int from standard input
+# TODO: add error handling to prevent negative values
 def getIntFromInput(message):
     while True: 
         try:
