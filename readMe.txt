@@ -28,7 +28,8 @@ N = number of random points to draw
 
 to build & run prng:
 
-    g++ prng.cpp -o prng
-    ./prng -d [-f outFileName] [-a algorithm] [-s seed] [-n numbersToGenerate]
+    make clean
+    make
+    ./prng -d [-f outFileName] [-a algorithm] [-s seed] [-n numbersToGenerate] [-O comma,separated,parameters]
 
 (-d is an optional debug switch to print debug messages to stdout)
