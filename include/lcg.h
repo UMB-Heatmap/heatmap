@@ -4,9 +4,9 @@
 
 #include "algorithm.h"
 
-class Lcg : public Algorithm {
+class LinConGen : public Algorithm {
 public:
-    Lcg(uint64_t seed) : Algorithm(seed) {};
+    LinConGen(uint64_t seed) : Algorithm(seed) {};
     uint64_t peekNext() {
         uint64_t x = this->state;
         uint64_t mod = 2147483648, mult = 1103515245, inc = 12345;

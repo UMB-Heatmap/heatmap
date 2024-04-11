@@ -14,6 +14,7 @@
 #include "lehmer.h"
 #include "lcg.h"
 #include "lagged_fibonacci.h"
+#include "lcg.h"
 
 // ADD INDEX HERE
 #define XORSHIFT    1
@@ -21,6 +22,7 @@
 #define LEHMER      3
 #define LCG         4
 #define LAGGED_FIBO 5
+#define LCG         4
 
 // ADD COMMAND LINE NAME HERE
 std::unordered_map<std::string, int> algorithmMap = {
@@ -45,11 +47,12 @@ Algorithm * getAlgorithm(int algorithm, uint64_t seed, std::deque<int> algOpt_in
             algo = new Lehmer(seed);
             break;
         case LCG:
-            algo = new Lcg(seed);
+            algo = new LinConGen(seed);
             break;
         case LAGGED_FIBO:
             algo = new LaggedFibonacci(seed, algOpt_int, algOpt_string);
             break;
+
         default:
             algo = new XorShift64(seed);
             break;
@@ -79,3 +82,4 @@ int getAlgorithmNum(std::string algorithm) {
     // Default Value
     return XORSHIFT;
 };
+

@@ -6,7 +6,7 @@ private:
     int n;
     uint64_t seed;
     bool debug;
-    int isOutFile;
+    bool isOutFile;
     std::string outFile;
     Algorithm *rng;
     std::deque<int> algOpt_int;
@@ -102,7 +102,7 @@ params handleSwitches(int argc, char** argv) {
                 p.debug = true;
                 break;
             case 'f':
-                p.isOutFile = false;
+                p.isOutFile = true;
                 p.outFile = optarg;
                 break;
             case 'a':
