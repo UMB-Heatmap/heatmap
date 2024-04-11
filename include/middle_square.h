@@ -8,6 +8,9 @@ public:
     Middle_Square(uint64_t seed) : Algorithm(seed) {};
     uint64_t peekNext() {
         uint64_t x = this->state;
+
+        if (x == 0) return x;
+
         x = x * x;
         std::string squareX = std::to_string(x);
         int midIndex = (squareX.size() / 2) - 2;
