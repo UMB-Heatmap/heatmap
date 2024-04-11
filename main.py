@@ -12,7 +12,7 @@ from subprocess import run
 import sys
 
 # add algorithm options HERE: (must be all lowercase)
-ALGORITHMS = ['lehmer', 'splitmix', 'xorshift', 'lcg']
+ALGORITHMS = ['lehmer', 'splitmix', 'xorshift', 'lcg', 'middle_square']
 
 # add visual options HERE: (must be all lowercase and same as python script name)
 VISUALS = ['2d', 'distribution', 'frequency'] 

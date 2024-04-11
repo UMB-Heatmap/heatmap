@@ -5,25 +5,29 @@
 #include <unistd.h>
 #include <string.h>
 #include "algorithm.h"
+#include <unordered_map>
 
 // ADD HEADER HERE
 #include "xorshift64.h"
 #include "splitmix.h"
 #include "lehmer.h"
 #include "lcg.h"
+#include "middle_square.h"
 
 // ADD INDEX HERE
 #define XORSHIFT    1
 #define SPLITMIX    2
 #define LEHMER      3
 #define LCG         4
+#define MIDDLE_SQUARE 5
 
 // ADD COMMAND LINE NAME HERE
 std::unordered_map<std::string, int> algorithmMap = {
     {"xorshift",    XORSHIFT},
     {"splitmix",    SPLITMIX},
     {"lehmer",      LEHMER},
-    {"lcg",         LCG}
+    {"lcg",         LCG},
+    {"middle_square", MIDDLE_SQUARE},
 };
 
 Algorithm * getAlgorithm(int algorithm, uint64_t seed) {
@@ -42,7 +46,9 @@ Algorithm * getAlgorithm(int algorithm, uint64_t seed) {
         case LCG:
             algo = new LinConGen(seed);
             break;
-
+        case MIDDLE_SQUARE:
+            algo = new Middle_Square(seed);
+            break;
         default:
             algo = new XorShift64(seed);
             break;
