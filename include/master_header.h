@@ -4,6 +4,8 @@
 #include <stdint.h>
 #include <unistd.h>
 #include <string.h>
+#include <deque>
+#include <sstream>
 #include "algorithm.h"
 
 // ADD HEADER HERE
@@ -11,22 +13,25 @@
 #include "splitmix.h"
 #include "lehmer.h"
 #include "lcg.h"
+#include "lagged_fibonacci.h"
 
 // ADD INDEX HERE
 #define XORSHIFT    1
 #define SPLITMIX    2
 #define LEHMER      3
 #define LCG         4
+#define LAGGED_FIBO 5
 
 // ADD COMMAND LINE NAME HERE
 std::unordered_map<std::string, int> algorithmMap = {
     {"xorshift",    XORSHIFT},
     {"splitmix",    SPLITMIX},
     {"lehmer",      LEHMER},
-    {"lcg",         LCG}
+    {"lcg",         LCG},
+    {"lfg",         LAGGED_FIBO}
 };
 
-Algorithm * getAlgorithm(int algorithm, uint64_t seed) {
+Algorithm * getAlgorithm(int algorithm, uint64_t seed, std::deque<int> algOpt_int, std::deque<std::string> algOpt_string) {
     Algorithm * algo = nullptr;
     switch (algorithm) {
         // ADD CASE HERE
@@ -40,9 +45,11 @@ Algorithm * getAlgorithm(int algorithm, uint64_t seed) {
             algo = new Lehmer(seed);
             break;
         case LCG:
-            algo = new LCG(seed);
+            algo = new Lcg(seed);
             break;
-
+        case LAGGED_FIBO:
+            algo = new LaggedFibonacci(seed, algOpt_int, algOpt_string);
+            break;
         default:
             algo = new XorShift64(seed);
             break;
@@ -60,6 +67,8 @@ struct params {
     bool debug;
     bool isOutFile;
     std::string outFile;
+    std::deque<int> algOpts_int;
+    std::deque<std::string> algOpts_string;
 };
 
 int getAlgorithmNum(std::string algorithm) {
