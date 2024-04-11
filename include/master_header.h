@@ -22,7 +22,6 @@
 #define LEHMER      3
 #define LCG         4
 #define LAGGED_FIBO 5
-#define LCG         4
 
 // ADD COMMAND LINE NAME HERE
 std::unordered_map<std::string, int> algorithmMap = {
@@ -52,7 +51,6 @@ Algorithm * getAlgorithm(int algorithm, uint64_t seed, std::deque<int> algOpt_in
         case LAGGED_FIBO:
             algo = new LaggedFibonacci(seed, algOpt_int, algOpt_string);
             break;
-
         default:
             algo = new XorShift64(seed);
             break;

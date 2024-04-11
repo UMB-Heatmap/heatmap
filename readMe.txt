@@ -31,3 +31,5 @@ TODO:
 
     test LCG algorithm with all visuals
 
+    allow python main file to accept additional (optional) arguments for use with the -O flag.
+
