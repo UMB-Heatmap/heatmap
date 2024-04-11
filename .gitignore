@@ -4,3 +4,4 @@ prng
 heatmaps/*.svg
 data/*.txt
 .DS_store
+output.txt
