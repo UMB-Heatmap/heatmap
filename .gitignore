@@ -1,2 +1,6 @@
 *.o
 **/*.o
+prng
+heatmaps/*.svg
+data/*.txt
+.DS_store
