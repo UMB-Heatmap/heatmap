@@ -2,13 +2,28 @@ EXAMPLE USAGE:
 
     python3 main.py (ALGORITHM) (VISUAL) [SEED]
 
-    - should now run 'Make clean' and 'Make' to rebuild C++ automatically if it needs to
+    - should run 'Make clean' and 'Make' to rebuild C++ automatically if it needs to
 
 Where:
 
     ALGORITHM = 'lehmer' | 'splitmix'| 'xorshift' | 'lcg' | ...
-    VISUAL = '2d' | distribution | frequency | '3d' ...
+    VISUAL = '2d' | distribution | frequency | '3d_scatter' ...
     SEED = [<optional> Integer]
+
+VISUALS :: result
+
+    2d           :: NxM Heatmap of Random Values [0, 1) with color mapped to each value
+
+    distribution :: NxM Heatmap animated .gif of Distributions of (X) Random Values [0, N) 
+                    per M iterations with color mapped to the distribution of each value
+
+    frequency    :: NxN Heatmap of Frequency of random number with color mapped to random 
+                    2D point selection frequency (darker = more frequently selected)
+
+    3d_scatter   :: Interactive 3D Scatter Plot with N Random Points and multiple 
+                    color mapping options
+
+
 
 For Implementing additional Algorithms:
     1. copy include/template.h and implement peekNext()
