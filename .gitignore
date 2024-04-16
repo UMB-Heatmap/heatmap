@@ -1,1 +1,8 @@
 *.o
+**/*.o
+prng
+heatmaps/*
+data/*.txt
+!data/README.txt
+.DS_store
+output.txt
