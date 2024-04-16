@@ -13,9 +13,8 @@ public:
 
         x = x * x;
         std::string squareX = std::to_string(x);
-
+        
         if (squareX.size() < 4) return stoull(squareX);
-
         int midIndex = (squareX.size() / 2) - 2;
         std::string newX = squareX.substr(midIndex, 4);
         x = std::stoull(newX);
