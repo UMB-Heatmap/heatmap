@@ -5,7 +5,6 @@
 #include <unistd.h>
 #include <string.h>
 #include <limits>
-
 #include "../include/master_header.h"
 
 class AlgorithmRunner {
@@ -17,6 +16,8 @@ private:
     bool isOutFile;
     std::string outFile;
     Algorithm *rng;
+    std::deque<int> algOpt_int;
+    std::deque<std::string> algOpt_string;
 public:
     AlgorithmRunner(params p) {
         this->algo = p.algo;
@@ -26,7 +27,12 @@ public:
         this->isOutFile = p.isOutFile;
         this->outFile = p.outFile;
         this->rng = nullptr;
+        this->algOpt_int = p.algOpts_int;
+        this->algOpt_string = p.algOpts_string;
+        
         this->setAlgorithm(p.algo);
+
+        this->rng->setDebug(this->debug);
     };
     ~AlgorithmRunner() {
         delete this->rng;
@@ -34,7 +40,7 @@ public:
 
     float next() {
         this->rng->next();
-        float randScalar = ((float) this->rng->getState() / (float) std::numeric_limits<uint64_t>::max()); 
+        float randScalar = ((float) this->rng->getState() / (float) this->rng->maxValue); 
         return randScalar;
     }
 
@@ -43,7 +49,7 @@ public:
             return;
         }
         delete this->rng;
-        this->rng = getAlgorithm(algorithm, this->seed);
+        this->rng = getAlgorithm(algorithm, this->seed, this->algOpt_int, this->algOpt_string);
     }
 
     // generate output file of n random scalars [0, 1) from PRNGStream Object
@@ -71,6 +77,19 @@ public:
     }
 };
 
+void readMultiple(char *arg, std::deque<int> *deque_int, std::deque<std::string> *deque_string) {
+    std::stringstream ss(arg);
+    std::string token;
+    while (std::getline(ss, token, ',')) {
+        if (token.length() == 1 && std::isdigit(token[0])) {
+            deque_int->push_back(std::stoi(token));
+        } else {
+            deque_string->push_back(token);
+        }
+        arg++;
+    }
+}
+
 // accept input from command line switches (algo, seed, n) file? 
 params handleSwitches(int argc, char** argv) {
     params p;
@@ -84,7 +103,7 @@ params handleSwitches(int argc, char** argv) {
     p.outFile = "test.txt";
 
     int option;
-    while ((option = getopt(argc, argv, "df:a:s:n:")) != -1) {
+    while ((option = getopt(argc, argv, "df:a:s:n:O:")) != -1) {
         switch (option) {
             case 'd':
                 p.debug = true;
@@ -102,8 +121,11 @@ params handleSwitches(int argc, char** argv) {
             case 'n':
                 p.n = atoi(optarg);
                 break;
+            case 'O':
+                readMultiple(optarg, &p.algOpts_int, &p.algOpts_string);
+                break;
             default:
-                fprintf(stderr, "Usage: %s [-d] [-f outputFileName] [-a algorithm] [-s seed] [-n numValues]", argv[0]);
+                fprintf(stderr, "Usage: %s [-d] [-f outputFileName] [-a algorithm] [-s seed] [-n numValues] [-O algorithm options]", argv[0]);
                 exit(EXIT_FAILURE);
         }
     }
@@ -113,14 +135,18 @@ params handleSwitches(int argc, char** argv) {
 
 int main(int argc, char** argv) {
     // fill parameters from switches p = { int algo, uint64_t seed, int n }
-    params p = handleSwitches(argc, argv);
-    AlgorithmRunner *runner = new AlgorithmRunner(p);
-
-    if (p.isOutFile) {
-        runner->buildToOutFile(); 
-    } 
-    else {
-        runner->buildToStdOut(); 
+    try {
+        params p = handleSwitches(argc, argv);
+        AlgorithmRunner *runner = new AlgorithmRunner(p);
+        if (p.isOutFile) {
+            runner->buildToOutFile(); 
+        } 
+        else {
+            runner->buildToStdOut(); 
+        }
+    } catch (const std::runtime_error &err) {
+        std::cerr << err.what() << std::endl;
     }
+    
     return 0;
 }

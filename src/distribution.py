@@ -54,7 +54,12 @@ for n in range(numIterations):
     filePath = "data/output.txt"
     cmd = './prng -f ' + filePath + ' -a ' + str(ALGORITHM) + ' -s ' + str(START_SEED + n * SEED_INCREMENT) + ' -n ' + str(numValsPerIter)
     run(cmd, shell=True)
-    output = list(np.genfromtxt(filePath))
+    nums = np.genfromtxt(filePath)
+    output = []
+    if (nums.size == 1):
+        output = [nums.item()]
+    else:
+        output = list(nums)
 
     for elem in output:
         # Scale random value to integer [0, numCandidates)

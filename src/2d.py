@@ -46,7 +46,12 @@ for n in range(numRows):
     filePath = "data/output.txt"
     cmd = './prng -f ' + filePath + ' -a ' + str(ALGORITHM) + ' -s ' + str(START_SEED + n * SEED_INCREMENT) + ' -n ' + str(numCols)
     run(cmd, shell=True)
-    row = list(np.genfromtxt(filePath))
+    nums = np.genfromtxt(filePath)
+    row = []
+    if (nums.size == 1):
+        row = [nums.item()]
+    else:
+        row = list(nums)
     data.append(row)
 
 # STEP 3: Generate visualization
