@@ -6,3 +6,4 @@ data/*.txt
 !data/README.txt
 .DS_store
 output.txt
+src/__pycache__/*
