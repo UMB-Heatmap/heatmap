@@ -14,9 +14,8 @@
 #   number_of_iterations : int
 #   number_of_values_per_iteration : int
 #   color_map : string in COLOR_MAPS
-#   is_normalized? : 'y' | 'n'
+#   is_looping? : 'y' | 'n'
 
-from lib2to3.refactor import get_fixers_from_package
 from subprocess import run
 import numpy as np
 import matplotlib.pyplot as plt
@@ -31,6 +30,9 @@ debug = False
 ALGORITHM = sys.argv[1]
 START_SEED = int(sys.argv[2])
 SEED_INCREMENT = 12345 # default value
+
+# clear any warnings
+os.system('clear')
 
 # STEP 1: Acquire and Validate visualization-specific inputs
 numCandidates = vis.getIntFromInput("Number of Candidates: ")
@@ -64,6 +66,9 @@ rowCount = [0] * numCandidates
 total_data_points = 0
 
 for n in range(numIterations):
+    # display progress
+    if (not debug): print("Generating GIF... " + str(round(100 * (frameNum / numIterations))) + "%")
+
     rowDistribution = [0.0] * numCandidates
     # Generate numValsPerIter random values into list output
     filePath = "data/output.txt"
@@ -75,6 +80,11 @@ for n in range(numIterations):
         output = [nums.item()]
     else:
         output = list(nums)
+
+    if (debug):
+        print("\PRNG output ----------\n")
+        print(rowDistribution)
+        print("-----------------------\n")
 
     for elem in output:
         # Scale random value to integer [0, numCandidates)
@@ -139,6 +149,10 @@ for n in range(numIterations):
     framePaths.append(heatmapPath)
     plt.savefig(heatmapPath)
     plt.clf()
+
+    # clear progress for next update
+    if (not debug): os.system('clear')
+
 
 
 # STEP 5: Open .png frames to generate .gif from numIterations 
