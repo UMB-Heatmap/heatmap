@@ -4,6 +4,9 @@ EXAMPLE USAGE:
 
     - should now run 'Make clean' and 'Make' to rebuild C++ automatically if it needs to
 
+    If you need to test your algorithm:
+        ./prng [-d] [-a YOUR_ALGORITHM] [-s YOUR_SEED] [-n GENERATE_N_NUMBERS] [-O COMMA,SEPARATED,ARGUMENTS]
+
 Where:
 
     ALGORITHM = 'lehmer' | 'splitmix'| 'xorshift' | ...
@@ -32,4 +35,3 @@ TODO:
     test LCG algorithm with all visuals
 
     allow python main file to accept additional (optional) arguments for use with the -O flag.
-
