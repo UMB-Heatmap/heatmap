@@ -54,6 +54,7 @@ Algorithm * getAlgorithm(int algorithm, uint64_t seed, std::deque<int> algOpt_in
             break;
         case MIDDLE_SQUARE:
             algo = new Middle_Square(seed);
+            break;
         case LAGGED_FIBO:
             algo = new LaggedFibonacci(seed, algOpt_int, algOpt_string);
             break;

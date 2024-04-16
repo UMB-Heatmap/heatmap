@@ -8,6 +8,7 @@
 #include <deque>
 #include <string.h>
 #include <unistd.h>
+#include <limits>
 
 class Algorithm {
 public:
