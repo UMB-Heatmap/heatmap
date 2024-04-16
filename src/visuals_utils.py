@@ -17,14 +17,21 @@ def getIntFromInput(message):
         except ValueError:
             print("Invalid Input -- Must be Integer")
 
+# display color map options
+def printColorMapOptions():
+    print("\nColor Map Options -- Select From:")
+    for cmap in COLOR_MAPS:
+        print("\t" + cmap)
+    print()
+
 # validates color map string from standard input
 def getColorMap():
+    printColorMapOptions()
     cmap = input("Color Map: ")
     while (cmap not in COLOR_MAPS):
         print("\nInvalid Color Map -- Select From:")
-        print("-----------------------------------")
         for cmap in COLOR_MAPS:
-            print(cmap)
+            print("\t" + cmap)
         print()
         cmap = input("Color Map: ")
     return cmap

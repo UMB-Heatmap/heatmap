@@ -19,14 +19,7 @@ import visuals_utils as vis
 # main.py validates user input so we can assume proper CLI input
 ALGORITHM = sys.argv[1]
 START_SEED = int(sys.argv[2])
-SEED_INCREMENT = 1 # default value
-
-# Color Map Options (directly from MatPlotLib)
-# https://matplotlib.org/stable/gallery/color/colormap_reference.html
-COLOR_MAPS = ['viridis', 'plasma', 'inferno', 'magma', 'cividis', 'binary', 
-            'gist_yarg', 'gist_gray', 'gray', 'bone', 'pink',
-            'spring', 'summer', 'autumn', 'winter', 'cool', 'Wistia',
-            'hot', 'afmhot', 'gist_heat', 'copper']
+SEED_INCREMENT = 12345 # default value
             
 # STEP 1: Acquire and Validate visualization-specific inputs
 numRows = vis.getIntFromInput("Number of Rows: ")
