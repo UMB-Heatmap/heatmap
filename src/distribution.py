@@ -16,7 +16,6 @@
 #   color_map : string in COLOR_MAPS
 #   is_looping? : 'y' | 'n'
 
-from lib2to3.refactor import get_fixers_from_package
 from subprocess import run
 import numpy as np
 import matplotlib.pyplot as plt
@@ -31,6 +30,9 @@ debug = False
 ALGORITHM = sys.argv[1]
 START_SEED = int(sys.argv[2])
 SEED_INCREMENT = 12345 # default value
+
+# clear any warnings
+os.system('clear')
 
 # STEP 1: Acquire and Validate visualization-specific inputs
 numCandidates = vis.getIntFromInput("Number of Candidates: ")
@@ -78,6 +80,11 @@ for n in range(numIterations):
         output = [nums.item()]
     else:
         output = list(nums)
+
+    if (debug):
+        print("\PRNG output ----------\n")
+        print(rowDistribution)
+        print("-----------------------\n")
 
     for elem in output:
         # Scale random value to integer [0, numCandidates)
