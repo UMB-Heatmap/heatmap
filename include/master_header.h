@@ -23,8 +23,8 @@
 #define SPLITMIX    2
 #define LEHMER      3
 #define LCG         4
-#define MIDDLE_SQUARE 5
-#define LAGGED_FIBO 6
+#define LAGGED_FIBO 5
+#define MIDDLE_SQUARE 6
 
 // ADD COMMAND LINE NAME HERE
 std::unordered_map<std::string, int> algorithmMap = {
