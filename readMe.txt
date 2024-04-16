@@ -9,7 +9,7 @@ EXAMPLE USAGE:
 
 Where:
 
-    ALGORITHM = 'lehmer' | 'splitmix'| 'xorshift' | ...
+    ALGORITHM = 'lehmer' | 'splitmix'| 'xorshift' | 'lcg' | ...
     VISUAL = '2d' | distribution | frequency | ...
     SEED = [<optional> Integer]
 
@@ -29,9 +29,12 @@ TODO:
         - IDEA: might just need to advance seed once upon initilization
 
     lehmer seems to only be giving values [0, 1e-10) 
-        - IDEA: check algorithm implementation for correctness 
+        - IDEA: include max_int attribute for each algorithm to scale with
+                instead of always using max_uint64_t
         - may just need to scale
 
-    test LCG algorithm with all visuals
+    LCG also giving values ~ 1e-11
+        - IDEA: implement/adjust max_int attribute
 
     allow python main file to accept additional (optional) arguments for use with the -O flag.
+        - IDEA: can also use default algorithm to generate additional values if needed / unspecified
