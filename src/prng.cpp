@@ -1,3 +1,10 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <stdint.h>
+#include <unistd.h>
+#include <string.h>
+#include <limits>
 #include "../include/master_header.h"
 
 class AlgorithmRunner {
@@ -118,11 +125,10 @@ params handleSwitches(int argc, char** argv) {
                 readMultiple(optarg, &p.algOpts_int, &p.algOpts_string);
                 break;
             default:
-                fprintf(stderr, "Usage: %s [-d] [-f outputFileName] [-a algorithm] [-s seed] [-n numValues] [-O algorithm options]", argv[0]);
+                fprintf(stderr, "Usage: %s [-d] [-f outputFileName] [-a algorithm] [-s seed] [-n numValues] [-O algorithm options]\n", argv[0]);
                 exit(EXIT_FAILURE);
         }
     }
-
     return p;
 }
 

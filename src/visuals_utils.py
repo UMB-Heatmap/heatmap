@@ -39,3 +39,15 @@ def getBoolFromInput(message):
             return False
         else:
             print("Invalid Input -- Must be Yes/No or Y/N")
+
+# validates positive float input from standard input
+def getPosFloatFromInput(message):
+    while True: 
+        try:
+            x = float(input(message))
+            if (x > 0.0):
+                return x
+            else:
+                print("Invalid Input -- Must be > 0.0")
+        except ValueError:
+            print("Invalid Input -- Must be Integer")
