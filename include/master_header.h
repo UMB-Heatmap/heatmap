@@ -14,7 +14,6 @@
 #include "lehmer.h"
 #include "lcg.h"
 #include "lagged_fibonacci.h"
-#include "lcg.h"
 
 // ADD INDEX HERE
 #define XORSHIFT    1
