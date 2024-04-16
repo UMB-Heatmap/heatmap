@@ -14,7 +14,7 @@
 #   number_of_iterations : int
 #   number_of_values_per_iteration : int
 #   color_map : string in COLOR_MAPS
-#   is_normalized? : 'y' | 'n'
+#   is_looping? : 'y' | 'n'
 
 from lib2to3.refactor import get_fixers_from_package
 from subprocess import run
@@ -64,6 +64,9 @@ rowCount = [0] * numCandidates
 total_data_points = 0
 
 for n in range(numIterations):
+    # display progress
+    if (not debug): print("Generating GIF... " + str(round(100 * (frameNum / numIterations))) + "%")
+
     rowDistribution = [0.0] * numCandidates
     # Generate numValsPerIter random values into list output
     filePath = "data/output.txt"
@@ -139,6 +142,10 @@ for n in range(numIterations):
     framePaths.append(heatmapPath)
     plt.savefig(heatmapPath)
     plt.clf()
+
+    # clear progress for next update
+    if (not debug): os.system('clear')
+
 
 
 # STEP 5: Open .png frames to generate .gif from numIterations 
