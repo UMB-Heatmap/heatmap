@@ -5,6 +5,24 @@ COLOR_MAPS = ['viridis', 'plasma', 'inferno', 'magma', 'cividis', 'binary',
             'spring', 'summer', 'autumn', 'winter', 'cool', 'Wistia',
             'hot', 'afmhot', 'gist_heat', 'copper']
 
+COLOR_MODES_NAMES = ['random', 'diagonal gradient', 'x gradient', 'y gradient', 'z gradient']
+COLOR_MODES = range(1, len(COLOR_MODES_NAMES) + 1)
+
+# display color mode options
+def printColorModeOptions():
+    print("\nColor Modes -- Select From:")
+    for i in COLOR_MODES:
+        print("\t" + str(i) + ": " + COLOR_MODES_NAMES[i-1])
+    print()
+
+# validates color mode option int from standard input
+def getColorMode():
+    printColorModeOptions()
+    colorMode = getIntFromInput("Color Mode: ")
+    while (colorMode not in COLOR_MODES):
+        colorMode = getIntFromInput("Invalid Input -- Select From:\n\t1: random\n\t2: diagonal gradient\n\t3: x gradient\n\t4: y gradient\n\t5: z gradient\n\nColor Mode: ")
+    return colorMode
+
 # validates int from standard input
 def getIntFromInput(message):
     while True: 
