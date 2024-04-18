@@ -1,9 +1,115 @@
+import numpy as np
+from subprocess import run
+import sys
+
+DEFAULT_SEED = 1
+DEFAULT_SEED_INCREMENT = 12345
+
+# add algorithm options HERE: (must be all lowercase)
+ALGORITHMS = ['lehmer', 'splitmix', 'xorshift', 'lcg', 'middle_square']
+
+# add visual options HERE: (must be all lowercase and same as python script name)
+VISUALS = ['2d', 'distribution', 'frequency', '3d_scatter', '3d_walk'] 
+
+def printAlgorithmOptions():
+    for algo in ALGORITHMS: 
+            print(algo)
+
+def printVisualOptions():
+    for vis in VISUALS:
+            print(vis)
+
+def printUsageTable():
+    print("\nInvalid Arguments -- Usage:")
+    print("-------------------------")
+    print("python3 main.py (algorithm) (visual) [seed : Int]\n")
+    print("PRNG Algorithm Options:  ")
+    print("-------------------------")
+    printAlgorithmOptions()
+    print("\nVisualization Options: ")
+    print("-------------------------")
+    printVisualOptions()
+    print()
+
+def getAlgorithm():
+    algorithm = sys.argv[1].lower()
+    if (algorithm not in ALGORITHMS):
+        print("Invalid Algorithm -- Select From: ")
+        print("----------------------------------")
+        printAlgorithmOptions()
+        sys.exit()
+    return algorithm
+
+def getVisual():
+    visual = sys.argv[2].lower()
+    if (visual not in VISUALS):
+        print("Invalid Visualization -- Select From: ")
+        print("--------------------------------------")
+        printVisualOptions()
+        sys.exit()
+    return visual
+
+def getSeed():
+    try:
+        seed = int(sys.argv[3])
+    except ValueError:
+        print("Invalid Seed -- Must be Integer")
+        sys.exit()
+    return seed
+
+# CLI Input with Error Handling and Usage Messages
+def handleCLI():
+    seed = DEFAULT_SEED
+    num_args = len(sys.argv)
+
+    if (num_args == 3 or num_args == 4):
+        algorithm = getAlgorithm()
+        visual = getVisual()
+        if (num_args == 4):
+            seed = getSeed()
+
+        return algorithm, visual, seed
+
+    else: 
+        printUsageTable()
+        sys.exit()
+
+# rebuilds prng.cpp objects via makefile if necessary
+def makeIfNeeded():
+    try:
+        run('./prng -f data/output.txt', shell=True, check=True)
+        return
+    except:
+        print('Rebuilding ./prng ...')
+        run('Make clean', shell=True)
+        run('Make', shell=True)
+        return
+
 # Color Map Options (directly from MatPlotLib)
 # https://matplotlib.org/stable/gallery/color/colormap_reference.html
 COLOR_MAPS = ['viridis', 'plasma', 'inferno', 'magma', 'cividis', 'binary', 
             'gist_yarg', 'gist_gray', 'gray', 'bone', 'pink',
             'spring', 'summer', 'autumn', 'winter', 'cool', 'Wistia',
             'hot', 'afmhot', 'gist_heat', 'copper']
+
+# display color map options
+def printColorMapOptions():
+    print("\nColor Map Options -- Select From:")
+    for cmap in COLOR_MAPS:
+        print("\t" + cmap)
+    print()
+
+# validates color map string from standard input
+def getColorMap():
+    printColorMapOptions()
+    cmap = input("Color Map: ")
+    while (cmap not in COLOR_MAPS):
+        print("\nInvalid Color Map -- Select From:")
+        for cmap in COLOR_MAPS:
+            print("\t" + cmap)
+        print()
+        cmap = input("Color Map: ")
+    return cmap
 
 COLOR_MODES_NAMES = ['random', 'diagonal gradient', 'x gradient', 'y gradient', 'z gradient']
 COLOR_MODES = range(1, len(COLOR_MODES_NAMES) + 1)
@@ -35,25 +141,6 @@ def getIntFromInput(message):
         except ValueError:
             print("Invalid Input -- Must be Integer")
 
-# display color map options
-def printColorMapOptions():
-    print("\nColor Map Options -- Select From:")
-    for cmap in COLOR_MAPS:
-        print("\t" + cmap)
-    print()
-
-# validates color map string from standard input
-def getColorMap():
-    printColorMapOptions()
-    cmap = input("Color Map: ")
-    while (cmap not in COLOR_MAPS):
-        print("\nInvalid Color Map -- Select From:")
-        for cmap in COLOR_MAPS:
-            print("\t" + cmap)
-        print()
-        cmap = input("Color Map: ")
-    return cmap
-
 # validates yes/no (boolean) input from standard input
 def getBoolFromInput(message):
     while True:
@@ -76,3 +163,21 @@ def getPosFloatFromInput(message):
                 print("Invalid Input -- Must be > 0.0")
         except ValueError:
             print("Invalid Input -- Must be Integer")
+
+# returns list of N scalars [0, 1) from algo and seed or -1 if invalid inputs
+def nRandomScalars(algo, seed, numVals):
+    try: #filter out bad inputs
+        s = int(seed)
+        n = int(numVals)
+        if (s < 0) or (n <= 0): return -1
+    except ValueError: return -1
+    if (algo.lower() not in ALGORITHMS): return -1
+    # get random scalars from ./prng
+    filePath = "data/output.txt"
+    cmd = './prng -f ' + filePath + ' -a ' + str(algo.lower()) + ' -s ' + str(s) + ' -n ' + str(n)
+    run(cmd, shell=True)
+    nums = np.genfromtxt(filePath)
+    if (nums.size == 1): randoms = [nums.item()]
+    else: randoms = list(nums)
+    return randoms
+

@@ -11,7 +11,6 @@
 #   number_of_rows, number_of_columns, color_map
 
 from subprocess import run
-import numpy as np
 import matplotlib.pylab as plt
 import sys
 import visuals_utils as vis
@@ -19,32 +18,17 @@ import visuals_utils as vis
 # main.py validates user input so we can assume proper CLI input
 ALGORITHM = sys.argv[1]
 START_SEED = int(sys.argv[2])
-SEED_INCREMENT = 12345 # default value
+SEED_INCREMENT = vis.DEFAULT_SEED_INCREMENT
             
 # STEP 1: Acquire and Validate visualization-specific inputs
 numRows = vis.getIntFromInput("Number of Rows: ")
 numCols = vis.getIntFromInput("Number of Columns: ")
 colorMap = vis.getColorMap()
 
-# STEP 2: Generate data for visualization via prng.cpp calls
-#   to get NUM_VALUES random doubles in range [0, 1) using ALGORITHM and SEED:
-#
-#       ./prng -f data/OUTPUT_FILENAME.txt -a ALGORITHM -s SEED -n NUM_VALUES
-#   
-#   then read random numbers from txt file data/OUTPUT_FILENAME.txt 
-#
-#   NOTE: output txt files are meant as intermediate data storage so naming is arbitrary
+# STEP 2: Generate data for visualization via ./prng calls (abstracted to vis.nRandomScalars)
 data = []
 for n in range(numRows):
-    filePath = "data/output.txt"
-    cmd = './prng -f ' + filePath + ' -a ' + str(ALGORITHM) + ' -s ' + str(START_SEED + n * SEED_INCREMENT) + ' -n ' + str(numCols)
-    run(cmd, shell=True)
-    nums = np.genfromtxt(filePath)
-    row = []
-    if (nums.size == 1):
-        row = [nums.item()]
-    else:
-        row = list(nums)
+    row = vis.nRandomScalars(ALGORITHM, (START_SEED + n * SEED_INCREMENT), numCols)
     data.append(row)
 
 # STEP 3: Generate visualization
