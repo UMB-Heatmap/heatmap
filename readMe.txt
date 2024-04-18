@@ -28,9 +28,11 @@ VISUALS :: result
                     Also has functionality to generate .gif animation of random walk.
 
 Python Dependencies:
-    matplotlib
-    numpy
+    matplotlib*
+    numpy*
     ...
+
+*On Mac OS if pip does not work use Brew.
 
 For Implementing additional Algorithms:
     1. copy include/template.h and implement peekNext()
