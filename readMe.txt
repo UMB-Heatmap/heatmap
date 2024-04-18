@@ -62,6 +62,11 @@ TODO:
         set this->maxValue in algorithm header constructor
 
 **** Otherwise, all algorithms work with all visuals ****
+if having errors with gif creation for distribution, 3d_scatter, or 3d_walk, check that you have:
+    heatmaps/3d_scatter/
+    heatmaps/3d_walk/
+    heatmaps/distribution/
+subfolders in the heatmaps folder
 
     Lagged Fibonacci arguments:
 
