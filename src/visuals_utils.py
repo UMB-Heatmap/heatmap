@@ -163,7 +163,7 @@ def getPosFloatFromInput(message):
             else:
                 print("Invalid Input -- Must be > 0.0")
         except ValueError:
-            print("Invalid Input -- Must be Integer")
+            print("Invalid Input -- Must be > 0.0")
 
 # gets / sanitizes extra arguments for algorithms that require them
 def getAlgoArgs(algo):

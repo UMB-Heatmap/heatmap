@@ -1,7 +1,12 @@
 *.o
 **/*.o
 prng
-heatmaps/*
+heatmaps/3d_scatter/*
+heatmaps/3d_walk/*
+heatmaps/distribution/*
+heatmaps/*.png
+heatmaps/*.gif
+heatmaps/*.svg
 data/*.txt
 !data/README.txt
 .DS_store
