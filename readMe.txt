@@ -7,7 +7,7 @@ EXAMPLE USAGE:
 Where:
 
     ALGORITHM = 'lehmer' | 'splitmix'| 'xorshift' | 'lcg' | 'middle_square' | ...
-    VISUAL = '2d' | 'distribution' | 'frequency' | '3d_scatter' | '3d_walk' | '3d' | '3d_no_ip' | ...
+    VISUAL = '2d' | 'distribution' | 'frequency' | '3d_scatter' | '3d_walk' | '3d' | ...
     SEED = [<optional> Integer]
 
 VISUALS :: result
@@ -29,9 +29,7 @@ VISUALS :: result
     
     3d           :: 3D heatmap of N points generated from a starting seed or a seed 
                     aquired from user input. N number of points is aquired from user input 
-    
-    3d_no_ip     :: 3D heatmap of N points generated from a starting seed or a seed 
-                    aquired from user input. Interpolation is preformed to generate the nessesary
+                    User has the option of Interpolation which is preformed to generate the nessesary
                     points between each randomly generated point, creating a smoother map.
                     The smoothness can be controlled by the number of interpolation points 
                     aquired from user input. Best result/preformance is around 100 interP.
@@ -76,12 +74,12 @@ TODO:
 
     Lagged Fibonacci arguments:
 
-        ./prng [other arguments] -a lfg -O (operator_char,j_int,k_int)
+        ./prng [other arguments] -a lfg -O "operator_char,j_int,k_int"
 
         operator_char can be '*', '+', '-', or '^'
             - right now only '*' seems to make sense, but other ones can show the flawed nature of the algorithm
             
-        In the parenthesis are comma separated values.
+        In the quotes are comma separated values.
 
         Ex:
-            ./prng -d -a lfg -s 1 -n 10 -O *,3,9
+            ./prng -d -a lfg -s 1 -n 10 -O "*,3,9"
