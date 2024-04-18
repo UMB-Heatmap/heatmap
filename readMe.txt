@@ -58,3 +58,14 @@ TODO:
     allow python main file to accept additional (optional) arguments for use with the -O flag.
         - IDEA: can also use default algorithm to generate additional values if needed / unspecified
 
+    Lagged Fibonacci arguments:
+
+        ./prng [other arguments] -a lfg -O (operator_char,j_int,k_int)
+
+        operator_char can be '*', '+', '-', or '^'
+            - right now only '*' seems to make sense, but other ones can show the flawed nature of the algorithm
+            
+        In the parenthesis are comma separated values.
+
+        Ex:
+            ./prng -d -a lfg -s 1 -n 10 -O *,3,9
