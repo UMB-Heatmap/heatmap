@@ -12,44 +12,39 @@
 # TODO: 
 #   have colors change for individual points / lines
 #   implement color modes & color maps
+#   ** might have to switch matplotlib -> plotly
 
 from subprocess import run
-import numpy as np
-import matplotlib.pyplot as plt
+import matplotlib.pylab as plt
+from pylab import *
 import sys
 import visuals_utils as vis
 from PIL import Image
 import os
 
-debug = False
+debug = False 
 
 # main.py validates user input so we can assume proper CLI input
 ALGORITHM = sys.argv[1]
 START_SEED = int(sys.argv[2])
-SEED_INCREMENT = 12345 # default value
+SEED_INCREMENT = vis.DEFAULT_SEED_INCREMENT
 N = 100 # default scalar
 
 # clear any warnings
 os.system('clear')
 
 # get additional user inputs
-steps = vis.getIntFromInput("Number of Steps: ")
+steps = vis.getIntFromInput("Maximum Number of Steps: ")
 max_step_size = vis.getIntFromInput("Maximum Step Size: ")
-isLoop = vis.getBoolFromInput("GIF Looping? (Y/N): ")
-openPlot = vis.getBoolFromInput("Would you like to Open finished Plot? (Y/N): ")
-colorMode =  3 # vis.getColorMode()
-# colorMap = vis.getColorMap()
+colorMap = vis.getColorMap()
+genGif = vis.getBoolFromInput("Would you like to generate a .gif? (Y/N): ")
+if (genGif): isLoop = vis.getBoolFromInput("GIF Looping? (Y/N): ")
+if (genGif): gifDuration = vis.getPosFloatFromInput("GIF Duration: ")
 
 # get random numbers
-if colorMode == 1: scale = 7
-else: scale = 6
+scale = 6
 values = steps * scale
-filePath = "data/output.txt"
-cmd = './prng -f ' + filePath + ' -a ' + str(ALGORITHM) + ' -s ' + str(START_SEED) + ' -n ' + str(values)
-run(cmd, shell=True)
-nums = np.genfromtxt(filePath)
-if (nums.size == 1): randoms = [nums.item()]
-else: randoms = list(nums)
+randoms = vis.nRandomScalars(ALGORITHM, START_SEED, values)
 
 # unpack random data
 x = []
@@ -58,7 +53,7 @@ z = []
 s1 = []
 s2 = []
 s3 = []
-if colorMode == 1: color = []
+color = []
 for i in range(steps):
     if randoms[(i*scale)+3] >= 0.5: s1.append(1)
     else: s1.append(-1)
@@ -71,82 +66,115 @@ for i in range(steps):
         y.append(round(randoms[(i*scale)+1]*N))
         z.append(round(randoms[(i*scale)+2]*N))
     else:
-        x.append(x[i-1] + randoms[(i*scale)] * max_step_size * s1[i])
-        y.append(y[i-1] + randoms[(i*scale)+1] * max_step_size * s2[i])
-        z.append(z[i-1] + randoms[(i*scale)+2] * max_step_size * s3[i])
+        x.append(round(x[i-1] + randoms[(i*scale)] * max_step_size * s1[i], 2))
+        y.append(round(y[i-1] + randoms[(i*scale)+1] * max_step_size * s2[i], 2))
+        z.append(round(z[i-1] + randoms[(i*scale)+2] * max_step_size * s3[i], 2))
 
-    if colorMode == 1: color.append(randoms[(i*scale)+6]) # random color mode
+    color.append(i/steps) # gradient from start point -> end point
 
-# other color mode cases
-if (colorMode == 2): # diagonal gradient
-    color = [0] * steps
-    for i in range(steps):
-        color[i] = (x[i] + y[i] + z[i])
-elif (colorMode == 3):  # x gradient
-    color = x.copy()
-elif (colorMode == 4): # y gradient
-    color = y.copy()
-elif (colorMode == 5): # z gradient
-    color = z.copy()
+if (debug):
+    print("-------X--------")
+    print(x)
+    print("-------Y--------")
+    print(y)
+    print("-------Z--------")
+    print(z)
+    print("---------------")
 
-framePaths = []
+# generate .gif from .png frames of random walk steps
+if (genGif):
+    framePaths = []
+    for step in range(0, steps):
+        # step: (x, y, z) +- randomInt [0, max_step_size)
 
-# generate first point frame
+        # display progress
+        if (not debug): print("Generating GIF... " + str(round(100 * (step / steps))) + "%")
+
+        # generate plot frame
+        ax = plt.axes(projection='3d')
+        ax.set_xlabel('X')
+        ax.set_ylabel('Y')
+        ax.set_zlabel('Z')
+        if (step > 0): ax.plot3D(x[0:step], y[0:step], z[0:step], marker='o', c='0.5')
+        ax.scatter3D(x[0:step], y[0:step], z[0:step], c=color[0:step], cmap=colorMap, alpha=0.8)
+
+        # save plot
+        walkPath = 'heatmaps/3d_walk/' + str(ALGORITHM) + '_' + str(steps) + 'x' + str(max_step_size) + '_3d_walk_frame' + str(step) + '.png'
+        framePaths.append(walkPath)
+        plt.savefig(walkPath)
+        if (step != steps-1): # dont clear last frame plot
+            plt.close()
+
+        # clear progress for next update
+        if (not debug): os.system('clear')
+
+    # generate .gif from frames
+    frames = []
+    for png_path in framePaths:
+        # convert to .png and open
+        img = Image.open(png_path)
+        frames.append(img)
+    gifPath = 'heatmaps/' + str(ALGORITHM) + '_' + str(steps) + 'x' + str(max_step_size) + '_3d_walk_frame.gif'
+    frames[0].save(gifPath, save_all=True, append_images=frames[1:], loop=(not isLoop), duration=gifDuration) # duration=gifDuration
+
+    # clean up pngs
+    for file in os.listdir('heatmaps/3d_walk'):
+        if file.endswith('.png'):
+            os.remove('heatmaps/3d_walk/' + file)
+
+    # open result .gif
+    cmd = 'open ' + gifPath
+    run(cmd, shell=True)
+    plt.close()
+
+# initialize plot
 fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
-ax.plot(round(x[0]*N), round(y[0]*N), round(z[0]*N), marker='o', c='b')
-# ax.scatter(round(x[0]*N), round(y[0]*N), round(z[0]*N), c=color[0], cmap=colorMap)
+
+# Horizontal slider to control number of points displayed
+axNumPoints = fig.add_axes([0.25, 0.1, 0.65, 0.03])
+numPoints_slider = Slider(
+    ax=axNumPoints,
+    label='Random Steps',
+    valmin=0,
+    valmax=steps,
+    valinit=round(steps / 10),
+)
+# Vertical slider to control size of random points
+axPointSize = fig.add_axes([0.1, 0.25, 0.0225, 0.63])
+pointSize_slider = Slider(
+    ax=axPointSize,
+    label='Point Size',
+    valmin=0.1,
+    valmax=50,
+    valinit=5,
+    orientation='vertical'
+)
+# update plot when slider value changes
+def update(val):
+    values = round(numPoints_slider.val)
+    ax.cla()
+    ax.scatter3D(
+        x[0:values], 
+        y[0:values], 
+        z[0:values], 
+        s=pointSize_slider.val, 
+        c=color[0:values], 
+        marker='o', 
+        cmap=colorMap, 
+        alpha=0.8
+    )
+    if (values > 0): 
+        ax.plot3D(x[0:values], y[0:values], z[0:values], marker=',', c='0.6')
+
+# register update function with NumPoints slider
+numPoints_slider.on_changed(update)
+pointSize_slider.on_changed(update)
+
+# initialize plot
+values = round(numPoints_slider.val)
 ax.set_xlabel('X')
 ax.set_ylabel('Y')
 ax.set_zlabel('Z')
-# plt.show()
-
-# save first plot frame
-walkPath = 'heatmaps/3d_walk/' + str(ALGORITHM) + '_' + str(steps) + 'x' + str(max_step_size) + '_3d_walk_frame' + str(0) + '.png'
-framePaths.append(walkPath)
-plt.savefig(walkPath)
-plt.close()
-
-# generate random walk frames
-for step in range(1, steps):
-    # step: (x, y, z) +- [0, max_step_size)
-
-    # display progress
-    if (not debug): print("Generating GIF... " + str(round(100 * (step / steps))) + "%")
-
-    # generate plot frame
-    fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
-    # ax.scatter(x[0:step], y[0:step], z[0:step], c=color[0:step], cmap=colorMap, alpha=0.8)
-    ax.plot(x[0:step], y[0:step], z[0:step], marker='o', c='b')
-    ax.set_xlabel('X')
-    ax.set_ylabel('Y')
-    ax.set_zlabel('Z')
-
-    # save plot
-    walkPath = 'heatmaps/3d_walk/' + str(ALGORITHM) + '_' + str(steps) + 'x' + str(max_step_size) + '_3d_walk_frame' + str(step) + '.png'
-    framePaths.append(walkPath)
-    plt.savefig(walkPath)
-    if (step != steps-1): # dont clear last frame plot
-        plt.close()
-
-    # clear progress for next update
-    if (not debug): os.system('clear')
-
-# generate .gif from frames
-frames = []
-for png_path in framePaths:
-    # convert to .png and open
-    img = Image.open(png_path)
-    frames.append(img)
-gifPath = 'heatmaps/' + str(ALGORITHM) + '_' + str(steps) + 'x' + str(max_step_size) + '_3d_walk_frame.gif'
-frames[0].save(gifPath, save_all=True, append_images=frames[1:], loop=(not isLoop)) # duration=gifDuration
-
-# clean up pngs
-for file in os.listdir('heatmaps/3d_walk'):
-    if file.endswith('.png'):
-        os.remove('heatmaps/3d_walk/' + file)
-
-# open result
-cmd = 'open ' + gifPath
-run(cmd, shell=True)
-if openPlot: 
-    plt.show()
+if (values > 0): ax.plot3D(x[0:values], y[0:values], z[0:values], marker='o', c='0.5')
+ax.scatter3D(x[0:values], y[0:values], z[0:values], c=color[0:values], cmap=colorMap, alpha=0.8)
+plt.show()

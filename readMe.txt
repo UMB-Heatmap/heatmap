@@ -6,8 +6,8 @@ EXAMPLE USAGE:
 
 Where:
 
-    ALGORITHM = 'lehmer' | 'splitmix'| 'xorshift' | 'lcg' | ...
-    VISUAL = '2d' | distribution | frequency | '3d_scatter' ...
+    ALGORITHM = 'lehmer' | 'splitmix'| 'xorshift' | 'lcg' | 'middle_square' | ...
+    VISUAL = '2d' | 'distribution' | 'frequency' | '3d_scatter' | '3d_walk' | ...
     SEED = [<optional> Integer]
 
 VISUALS :: result
@@ -21,20 +21,27 @@ VISUALS :: result
                     2D point selection frequency (darker = more frequently selected)
 
     3d_scatter   :: Interactive 3D Scatter Plot with N Random Points and multiple 
-                    color mapping options
+                    color mapping options.
 
+    3d_walk      :: Interactive 3D plot of N points generated from a step of +- X in each 
+                    (x, y, z) direction connected by lines to visualize a 3D random walk. 
+                    Also has functionality to generate .gif animation of random walk.
 
+Python Dependencies:
+    matplotlib
+    numpy
+    ...
 
 For Implementing additional Algorithms:
     1. copy include/template.h and implement peekNext()
     2. update include/master_header.h HEADER, INDEX, and COMMAND LINE NAME
-    3. update src/main.py ALGORITHM list
+    3. update src/visuals_utils.py ALGORITHM list
 
 For Implementing additional Visualizations:
     1. write VISUALIZATION_NAME.py in src folder 
       **(see src/2d.py for example and exaplanation)
-      **(see src/visuals_utils.py for common functions)
-    2. update src/main.py VISUALS list
+      **(see src/visuals_utils.py for common functions and shared values)
+    2. update src/visuals_utils.py VISUALS list
 
 TODO:
     xorshift always giving first value ~ 0 

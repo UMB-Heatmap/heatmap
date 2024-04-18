@@ -37,25 +37,10 @@ SEED_INCREMENT = 12345 # default value
 numRowsCols = vis.getIntFromInput("Number of rows/columns: ")
 colorMap = vis.getColorMap()
 
-# STEP 2: Generate data for visualization via prng.cpp calls
-#   to get NUM_VALUES random doubles in range [0, 1) using ALGORITHM and SEED:
-#
-#       ./prng -f data/OUTPUT_FILENAME.txt -a ALGORITHM -s SEED -n NUM_VALUES
-#   
-#   then read random numbers from txt file data/OUTPUT_FILENAME.txt 
-#
-#   NOTE: output txt files are meant as intermediate data storage so naming is arbitrary
+# STEP 2: Generate data for visualization via prng.cpp calls (abstracted to vis.nRandomScalars)
 data = []
 for n in range(numRowsCols):
-    filePath = "data/output.txt"
-    cmd = './prng -f ' + filePath + ' -a ' + str(ALGORITHM) + ' -s ' + str(START_SEED + n * SEED_INCREMENT) + ' -n ' + str(numRowsCols)
-    run(cmd, shell=True)
-    nums = np.genfromtxt(filePath)
-    row = []
-    if (nums.size == 1):
-        row = [nums.item()]
-    else:
-        row = list(nums)
+    row = vis.nRandomScalars(ALGORITHM, START_SEED + n * SEED_INCREMENT, numRowsCols)
     data.append(row)
 
 # STEP 3: Convert each entry in the data array to an index of the colors array (same

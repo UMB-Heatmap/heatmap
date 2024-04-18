@@ -26,29 +26,27 @@ import visuals_utils as vis
 ALGORITHM = sys.argv[1]
 START_SEED = int(sys.argv[2])
 SEED_INCREMENT = 12345 # default value
+# MAX_FRAMES = 100 # limit maximum number of .gif frames
 
 N = 100 # default scalar for random values
-
-
 
 # STEP 1: Acquire and Validate visualization-specific inputs
 MAX_VALUES = vis.getIntFromInput("Maximum Number of Random Points: ")
 colorMap = vis.getColorMap()
 colorMode = vis.getColorMode()
 
+# TODO: allow .gif generation
+# genGif = vis.getBoolFromInput("Would you like to generate a .gif? (Y/N): ")
+# if (genGif): isLoop = vis.getBoolFromInput("GIF Looping? (Y/N): ")
+# if (genGif): gifDuration = vis.getPosFloatFromInput("GIF Duration: ")
+
 # STEP 2: Generate data for visualization via prng.cpp calls
 data = []
 if (colorMode == 1): numAxis = 4 
 else: numAxis = 3
 for i in range(numAxis):
-    filePath = "data/output.txt"
-    cmd = './prng -f ' + filePath + ' -a ' + str(ALGORITHM) + ' -s ' + str(START_SEED + i * SEED_INCREMENT) + ' -n ' + str(MAX_VALUES)
-    run(cmd, shell=True)
-    nums = np.genfromtxt(filePath)
-    if (nums.size == 1): axis = [nums.item()]
-    else: axis = list(nums)
-    for i in range(MAX_VALUES): # scale values
-        axis[i] = axis[i] * N
+    axis = vis.nRandomScalars(ALGORITHM, START_SEED + i * SEED_INCREMENT, MAX_VALUES)
+    for i in range(MAX_VALUES): axis[i] = axis[i] * N # scale values
     data.append(axis) # append axis of numVals values scaled to [0, N)
     
 # STEP 3: Generate visualization
