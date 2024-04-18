@@ -58,19 +58,10 @@ For Implementing additional Visualizations:
     2. update src/visuals_utils.py VISUALS list
 
 TODO:
-    xorshift always giving first value ~ 0 
-        - IDEA: might just need to advance seed once upon initilization
+    Lehmer, LCG, and middle_square:
+        set this->maxValue in algorithm header constructor
 
-    lehmer seems to only be giving values [0, 1e-10) 
-        - IDEA: include max_int attribute for each algorithm to scale with
-                instead of always using max_uint64_t
-        - may just need to scale
-
-    LCG also giving values ~ 1e-11
-        - IDEA: implement/adjust max_int attribute
-
-    allow python main file to accept additional (optional) arguments for use with the -O flag.
-        - IDEA: can also use default algorithm to generate additional values if needed / unspecified
+**** Otherwise, all algorithms work with all visuals ****
 
     Lagged Fibonacci arguments:
 
@@ -83,3 +74,4 @@ TODO:
 
         Ex:
             ./prng -d -a lfg -s 1 -n 10 -O "*,3,9"
+
