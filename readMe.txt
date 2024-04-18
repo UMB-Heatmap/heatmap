@@ -69,14 +69,10 @@ if having errors with gif creation for distribution, 3d_scatter, or 3d_walk, che
 subfolders in the heatmaps folder
 
     Lagged Fibonacci arguments:
-
         ./prng [other arguments] -a lfg -O "operator_char,j_int,k_int"
-
         operator_char can be '*', '+', '-', or '^'
-            - right now only '*' seems to make sense, but other ones can show the flawed nature of the algorithm
-            
+            - right now only '*' seems to make sense
         In the quotes are comma separated values.
-
         Ex:
             ./prng -d -a lfg -s 1 -n 10 -O "*,3,9"
 
