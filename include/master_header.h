@@ -19,6 +19,7 @@
 #include "rule30.h"
 
 
+
 // ADD INDEX HERE
 #define XORSHIFT    1
 #define SPLITMIX    2
@@ -27,6 +28,7 @@
 #define LAGGED_FIBO 5
 #define MIDDLE_SQUARE 6
 #define RULE30 7
+
 
 // ADD COMMAND LINE NAME HERE
 std::unordered_map<std::string, int> algorithmMap = {
