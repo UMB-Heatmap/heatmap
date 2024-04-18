@@ -6,7 +6,7 @@ DEFAULT_SEED = 1
 DEFAULT_SEED_INCREMENT = 12345
 
 # add algorithm options HERE: (must be all lowercase)
-ALGORITHMS = ['lehmer', 'splitmix', 'xorshift', 'lcg', 'middle_square']
+ALGORITHMS = ['lehmer', 'splitmix', 'xorshift', 'lcg', 'middle_square', 'rule30']
 
 # add visual options HERE: (must be all lowercase and same as python script name)
 VISUALS = ['2d', 'distribution', 'frequency', '3d_scatter', '3d_walk'] 
