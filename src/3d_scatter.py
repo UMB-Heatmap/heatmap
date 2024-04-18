@@ -21,12 +21,16 @@ import numpy as np
 import matplotlib.pylab as plt
 import sys
 import visuals_utils as vis
+from PIL import Image
+import os
+
+debug = False
 
 # main.py validates user input so we can assume proper CLI input
 ALGORITHM = sys.argv[1]
 START_SEED = int(sys.argv[2])
 SEED_INCREMENT = 12345 # default value
-# MAX_FRAMES = 100 # limit maximum number of .gif frames
+MAX_FRAMES = 100 # limit maximum number of .gif frames
 
 N = 100 # default scalar for random values
 
@@ -36,9 +40,9 @@ colorMap = vis.getColorMap()
 colorMode = vis.getColorMode()
 
 # TODO: allow .gif generation
-# genGif = vis.getBoolFromInput("Would you like to generate a .gif? (Y/N): ")
-# if (genGif): isLoop = vis.getBoolFromInput("GIF Looping? (Y/N): ")
-# if (genGif): gifDuration = vis.getPosFloatFromInput("GIF Duration: ")
+genGif = vis.getBoolFromInput("Would you like to generate a .gif? (Y/N): ")
+if (genGif): isLoop = vis.getBoolFromInput("GIF Looping? (Y/N): ")
+if (genGif): gifDuration = vis.getPosFloatFromInput("GIF Duration: ")
 
 # STEP 2: Generate data for visualization via prng.cpp calls
 data = []
@@ -105,6 +109,56 @@ elif (colorMode == 4): # y gradient
     color = y.copy()
 elif (colorMode == 5): # z gradient
     color = z.copy()
+
+if (genGif):
+    # display progress
+    
+    # generate .gif frames
+    plt.close()
+    framePaths = []
+    frames = []
+    numFrames = min(MAX_VALUES, MAX_FRAMES)
+    if (numFrames == MAX_VALUES): valuesPerFrame = 1
+    else: valuesPerFrame = MAX_VALUES // MAX_FRAMES
+    for n in range(numFrames):
+        if (not debug): print("Generating GIF... " + str(round(100 * (n / numFrames))) + "%")
+        i = n*valuesPerFrame
+        fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
+        ax.scatter(
+            x[0:i], 
+            y[0:i], 
+            z[0:i], 
+            c=color[0:i], 
+            marker='o', 
+            cmap=colorMap, 
+            alpha=1
+        )
+        scatterPath = 'heatmaps/3d_scatter/' + str(ALGORITHM) + '_3d_scatter_frame_' + str(i) + '.png'
+        framePaths.append(scatterPath)
+        plt.savefig(scatterPath)
+        plt.close()
+
+        # clear progress for next update
+        if (not debug): os.system('clear')
+
+    # STEP 5: Open .png frames to generate .gif from numIterations 
+    for png_path in framePaths:
+        # convert to .png and open
+        img = Image.open(png_path)
+        frames.append(img)
+
+    # generate .gif
+    gifPath = 'heatmaps/' + str(ALGORITHM) + '3d_scatter_frame_' + str(i) + '.gif'
+    frames[0].save(gifPath, save_all=True, append_images=frames[1:], loop=(not isLoop), duration=gifDuration) # duration=gifDuration
+
+    # clean up pngs
+    for file in os.listdir('heatmaps/3d_scatter'):
+        if file.endswith('.png'):
+            os.remove('heatmaps/3d_scatter/' + file)
+
+    # open .gif
+    cmd = 'open ' + gifPath
+    run(cmd, shell=True)
 
 # initialize plot
 values = round(numPoints_slider.val)
