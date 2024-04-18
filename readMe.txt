@@ -38,6 +38,10 @@ For Implementing additional Algorithms:
     1. copy include/template.h and implement peekNext()
     2. update include/master_header.h HEADER, INDEX, and COMMAND LINE NAME
     3. update src/visuals_utils.py ALGORITHM list
+    if algorithm requires additional arguments (-O flag):
+        1. upate src/visuals_utils.py HAS_EXTRA_ARGS list 
+        2. update src/visuals_utils.py getAlgoArgs() with elif case for algorithm
+        3. update src/visuals_utils.py nRandomScalars() with elif case for algorithm
 
 For Implementing additional Visualizations:
     1. write VISUALIZATION_NAME.py in src folder 

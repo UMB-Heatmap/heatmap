@@ -26,6 +26,7 @@ debug = False
 
 # main.py validates user input so we can assume proper CLI input
 ALGORITHM = sys.argv[1]
+ALGO_ARGS = vis.getAlgoArgs(ALGORITHM)
 START_SEED = int(sys.argv[2])
 SEED_INCREMENT = vis.DEFAULT_SEED_INCREMENT
 N = 100 # default scalar
@@ -44,7 +45,7 @@ if (genGif): gifDuration = vis.getPosFloatFromInput("GIF Duration: ")
 # get random numbers
 scale = 6
 values = steps * scale
-randoms = vis.nRandomScalars(ALGORITHM, START_SEED, values)
+randoms = vis.nRandomScalars(ALGORITHM, START_SEED, values, ALGO_ARGS)
 
 # unpack random data
 x = []

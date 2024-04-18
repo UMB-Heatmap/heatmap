@@ -28,6 +28,7 @@ debug = False
 
 # main.py validates user input so we can assume proper CLI input
 ALGORITHM = sys.argv[1]
+ALGO_ARGS = vis.getAlgoArgs(ALGORITHM)
 START_SEED = int(sys.argv[2])
 SEED_INCREMENT = 12345 # default value
 MAX_FRAMES = 100 # limit maximum number of .gif frames
@@ -49,7 +50,7 @@ data = []
 if (colorMode == 1): numAxis = 4 
 else: numAxis = 3
 for i in range(numAxis):
-    axis = vis.nRandomScalars(ALGORITHM, START_SEED + i * SEED_INCREMENT, MAX_VALUES)
+    axis = vis.nRandomScalars(ALGORITHM, START_SEED + i * SEED_INCREMENT, MAX_VALUES, ALGO_ARGS)
     for i in range(MAX_VALUES): axis[i] = axis[i] * N # scale values
     data.append(axis) # append axis of numVals values scaled to [0, N)
     

@@ -30,6 +30,7 @@ import visuals_utils as vis
 
 # main.py validates user input so we can assume proper CLI input
 ALGORITHM = sys.argv[1]
+ALGO_ARGS = vis.getAlgoArgs(ALGORITHM)
 START_SEED = int(sys.argv[2])
 SEED_INCREMENT = 12345 # default value
 
@@ -40,7 +41,7 @@ colorMap = vis.getColorMap()
 # STEP 2: Generate data for visualization via prng.cpp calls (abstracted to vis.nRandomScalars)
 data = []
 for n in range(numRowsCols):
-    row = vis.nRandomScalars(ALGORITHM, START_SEED + n * SEED_INCREMENT, numRowsCols)
+    row = vis.nRandomScalars(ALGORITHM, START_SEED + n * SEED_INCREMENT, numRowsCols, ALGO_ARGS)
     data.append(row)
 
 # STEP 3: Convert each entry in the data array to an index of the colors array (same
