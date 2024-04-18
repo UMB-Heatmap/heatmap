@@ -1,14 +1,13 @@
 *.o
 **/*.o
 prng
-heatmaps/3d_scatter/*
-heatmaps/3d_walk/*
-heatmaps/distribution/*
-heatmaps/*.png
-heatmaps/*.gif
-heatmaps/*.svg
-data/*.txt
-!data/README.txt
+heatmaps/*
+data/*
 .DS_store
 output.txt
 src/__pycache__/*
+.vscode/*
+
+# Exemptions adsdfs
+!heatmaps/README.txt
+!data/README.txt
