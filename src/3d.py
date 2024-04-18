@@ -19,25 +19,18 @@ import visuals_utils as vis
 
 # main.py validates user input so we can assume proper CLI input
 ALGORITHM = sys.argv[1]
+ALGO_ARGS = vis.getAlgoArgs(ALGORITHM)
 START_SEED = int(sys.argv[2])
-SEED_INCREMENT = 1 # default value
-
-# Color Map Options (directly from MatPlotLib)
-# https://matplotlib.org/stable/gallery/color/colormap_reference.html
-COLOR_MAPS = ['viridis', 'plasma', 'inferno', 'magma', 'cividis', 'binary', 
-            'gist_yarg', 'gist_gray', 'gray', 'bone', 'pink',
-            'spring', 'summer', 'autumn', 'winter', 'cool', 'Wistia',
-            'hot', 'afmhot', 'gist_heat', 'copper']
+SEED_INCREMENT = vis.DEFAULT_SEED_INCREMENT # default value
             
 # STEP 1: Acquire and Validate visualization-specific inputs
 numP = vis.getIntFromInput("Number of Points: ")
-interP = vis.getIntFromInput("Number of Interpolation Points (Higher = Smoother): ")
+isInterpolate = vis.getBoolFromInput("Interpolate? (Y/N): ")
+if (isInterpolate): interP = vis.getIntFromInput("Number of Interpolation Points (Higher = Smoother): ")
 colorMap = vis.getColorMap()
-
 
 # This only serves to fix an error down the line
 colorMap1 = plt.colormaps.get_cmap(colorMap)
-
 
 # STEP 2: Generate data for visualization via prng.cpp calls
 #   to get NUM_VALUES random doubles in range [0, 1) using ALGORITHM and SEED:
@@ -47,20 +40,10 @@ colorMap1 = plt.colormaps.get_cmap(colorMap)
 #   then read random numbers from txt file data/OUTPUT_FILENAME.txt 
 #
 #   NOTE: output txt files are meant as intermediate data storage so naming is arbitrary
-
 data = []
 for x in range(numP):
-    filePath = "data/output.txt"
-    cmd = './prng -f ' + filePath + ' -a ' + str(ALGORITHM) + ' -s ' + str(START_SEED + x * SEED_INCREMENT) + ' -n ' + str(numP)
-    run(cmd, shell=True)
-    nums = np.genfromtxt(filePath)
-    row = []
-    if (nums.size == 1):
-        row = [nums.item()]
-    else:
-        row = list(nums)
+    row = vis.nRandomScalars(ALGORITHM, (START_SEED + x*SEED_INCREMENT), numP, ALGO_ARGS)
     data.append(row)
-
 
 # STEP 3: Generate visualization
 
@@ -73,21 +56,24 @@ Y = np.linspace(0, 1, numP)
 X, Y = np.meshgrid(X, Y)
 Z = np.asarray(data)
 
-# Define new grid for interpolation
-newX, newY = np.mgrid[0:1:1j * interP, 0:1:1j * interP]
+if (isInterpolate):
+    # Define new grid for interpolation
+    newX, newY = np.mgrid[0:1:1j * interP, 0:1:1j * interP]
 
-# Perform interpolation
-tck = interpolate.bisplrep(X, Y, Z, s=0)  # Adjust 's' for smoothing level
-newZ = interpolate.bisplev(newX[:, 0], newY[0, :], tck)
+    # Perform interpolation
+    tck = interpolate.bisplrep(X, Y, Z, s=0)  # Adjust 's' for smoothing level
+    newZ = interpolate.bisplev(newX[:, 0], newY[0, :], tck)
 
-# Plot interpolated surface
-surf = ax.plot_surface(newX, newY, newZ, cmap=colorMap1, antialiased=True)
+    # Plot interpolated surface
+    surf = ax.plot_surface(newX, newY, newZ, cmap=colorMap1, antialiased=True)
 
+else:
+    # Plot surface
+    surf = ax.plot_surface(X, Y, Z, cmap=colorMap1, antialiased=True)
 
 # STEP 4: Save visualization in heatmaps folder with appropriate name
 heatmapPath = 'heatmaps/' + str(ALGORITHM) + '_' + str(START_SEED) + '_3d_heatmap.svg'
 plt.savefig(heatmapPath)
-
 
 # STEP 5: Open visualization
 cmd = 'open ' + heatmapPath

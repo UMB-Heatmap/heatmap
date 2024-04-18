@@ -7,13 +7,10 @@ DEFAULT_SEED_INCREMENT = 12345
 
 # add algorithm options HERE: (must be all lowercase)
 ALGORITHMS = ['lehmer', 'splitmix', 'xorshift', 'lcg', 'middle_square', 'rule30', 'lfg']
-
 HAS_EXTRA_ARGS = ['lfg']
 
-
-
 # add visual options HERE: (must be all lowercase and same as python script name)
-VISUALS = ['2d', 'distribution', 'frequency', '3d_scatter', '3d_walk', '3d', '3d_no_ip'] 
+VISUALS = ['2d', 'distribution', 'frequency', '3d_scatter', '3d_walk', '3d'] 
 
 def printAlgorithmOptions():
     for algo in ALGORITHMS: 
