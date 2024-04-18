@@ -7,7 +7,7 @@ EXAMPLE USAGE:
 Where:
 
     ALGORITHM = 'lehmer' | 'splitmix'| 'xorshift' | 'lcg' | 'middle_square' | ...
-    VISUAL = '2d' | 'distribution' | 'frequency' | '3d_scatter' | '3d_walk' | ...
+    VISUAL = '2d' | 'distribution' | 'frequency' | '3d_scatter' | '3d_walk' | '3d' | '3d_no_ip' | ...
     SEED = [<optional> Integer]
 
 VISUALS :: result
@@ -26,10 +26,20 @@ VISUALS :: result
     3d_walk      :: Interactive 3D plot of N points generated from a step of +- X in each 
                     (x, y, z) direction connected by lines to visualize a 3D random walk. 
                     Also has functionality to generate .gif animation of random walk.
+    
+    3d           :: 3D heatmap of N points generated from a starting seed or a seed 
+                    aquired from user input. N number of points is aquired from user input 
+    
+    3d_no_ip     :: 3D heatmap of N points generated from a starting seed or a seed 
+                    aquired from user input. Interpolation is preformed to generate the nessesary
+                    points between each randomly generated point, creating a smoother map.
+                    The smoothness can be controlled by the number of interpolation points 
+                    aquired from user input. Best result/preformance is around 100 interP.
 
 Python Dependencies:
     matplotlib
     numpy
+    scipy
     ...
 
 For Implementing additional Algorithms:
