@@ -28,10 +28,11 @@ import visuals_utils as vis
 from PIL import Image
 import os
 
-debug = False
+debug = True
 
 # main.py validates user input so we can assume proper CLI input
 ALGORITHM = sys.argv[1]
+ALGO_ARGS = vis.getAlgoArgs(ALGORITHM)
 START_SEED = int(sys.argv[2])
 SEED_INCREMENT = vis.DEFAULT_SEED_INCREMENT
 
@@ -61,10 +62,10 @@ for n in range(numIterations):
 
     rowDistribution = [0.0] * numCandidates
     # Generate numValsPerIter random values into list output
-    output = vis.nRandomScalars(ALGORITHM, (START_SEED + (n*SEED_INCREMENT)), numValsPerIter)
+    output = vis.nRandomScalars(ALGORITHM, (START_SEED + (n*SEED_INCREMENT)), numValsPerIter, ALGO_ARGS)
 
     if (debug):
-        print("\PRNG output ----------\n")
+        print("\nPRNG output ----------\n")
         print(rowDistribution)
         print("-----------------------\n")
 

@@ -6,7 +6,13 @@ DEFAULT_SEED = 1
 DEFAULT_SEED_INCREMENT = 12345
 
 # add algorithm options HERE: (must be all lowercase)
+<<<<<<< Updated upstream
 ALGORITHMS = ['lehmer', 'splitmix', 'xorshift', 'lcg', 'middle_square']
+=======
+ALGORITHMS = ['lehmer', 'splitmix', 'xorshift', 'lcg', 'middle_square', 'rule30', 'lfg']
+
+HAS_EXTRA_ARGS = ['lfg']
+>>>>>>> Stashed changes
 
 # add visual options HERE: (must be all lowercase and same as python script name)
 VISUALS = ['2d', 'distribution', 'frequency', '3d_scatter', '3d_walk'] 
@@ -164,17 +170,37 @@ def getPosFloatFromInput(message):
         except ValueError:
             print("Invalid Input -- Must be Integer")
 
+# gets / sanitizes extra arguments for algorithms that require them
+def getAlgoArgs(algo):
+    if algo not in HAS_EXTRA_ARGS:
+        return []
+    # IMPORTANT: add case for each algorithm that requires extra arguments
+    elif algo == 'lfg':
+        op_char = input("Operator (*, +, -, ^): ")
+        while op_char not in ['*', '+', '-', '^']:
+            op_char = input("Invalid Input -- Select From Operators (*, +, -, ^): ")
+        j = getIntFromInput("J Value: ")
+        k = getIntFromInput("K Value: ")
+        return [op_char, j, k]
+
 # returns list of N scalars [0, 1) from algo and seed or -1 if invalid inputs
-def nRandomScalars(algo, seed, numVals):
+def nRandomScalars(algo, seed, numVals, args):
     try: #filter out bad inputs
         s = int(seed)
         n = int(numVals)
         if (s < 0) or (n <= 0): return -1
     except ValueError: return -1
     if (algo.lower() not in ALGORITHMS): return -1
+
     # get random scalars from ./prng
     filePath = "data/output.txt"
-    cmd = './prng -f ' + filePath + ' -a ' + str(algo.lower()) + ' -s ' + str(s) + ' -n ' + str(n)
+
+    # IMPORTANT: add case for each algorithm that requires extra arguments
+    if algo not in HAS_EXTRA_ARGS:
+        cmd = './prng -f ' + filePath + ' -a ' + str(algo.lower()) + ' -s ' + str(s) + ' -n ' + str(n)
+    elif algo == 'lfg':
+        cmd = './prng -f ' + filePath + '-a lfg -s ' + str(s) + ' -n ' + str(n) + ' -O ' + str(args[0]) + ',' + str(args[1]) + ',' + str(args[2])
+    
     run(cmd, shell=True)
     nums = np.genfromtxt(filePath)
     if (nums.size == 1): randoms = [nums.item()]
