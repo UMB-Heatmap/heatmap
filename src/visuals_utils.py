@@ -10,6 +10,8 @@ ALGORITHMS = ['lehmer', 'splitmix', 'xorshift', 'lcg', 'middle_square', 'rule30'
 
 HAS_EXTRA_ARGS = ['lfg']
 
+
+
 # add visual options HERE: (must be all lowercase and same as python script name)
 VISUALS = ['2d', 'distribution', 'frequency', '3d_scatter', '3d_walk'] 
 
