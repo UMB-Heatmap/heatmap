@@ -37,7 +37,8 @@ std::unordered_map<std::string, int> algorithmMap = {
     {"lehmer",      LEHMER},
     {"lcg",         LCG},
     {"middle_square", MIDDLE_SQUARE},
-    {"lfg",         LAGGED_FIBO}
+    {"lfg",         LAGGED_FIBO},
+    {"rule30",      RULE30},
 };
 
 Algorithm * getAlgorithm(int algorithm, uint64_t seed, std::deque<int> algOpt_int, std::deque<std::string> algOpt_string) {
