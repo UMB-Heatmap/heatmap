@@ -28,7 +28,7 @@ import visuals_utils as vis
 from PIL import Image
 import os
 
-debug = True
+debug = False
 
 # main.py validates user input so we can assume proper CLI input
 ALGORITHM = sys.argv[1]
@@ -66,7 +66,7 @@ for n in range(numIterations):
 
     if (debug):
         print("\nPRNG output ----------\n")
-        print(rowDistribution)
+        print(output)
         print("-----------------------\n")
 
     for elem in output:

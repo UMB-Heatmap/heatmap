@@ -6,13 +6,9 @@ DEFAULT_SEED = 1
 DEFAULT_SEED_INCREMENT = 12345
 
 # add algorithm options HERE: (must be all lowercase)
-<<<<<<< Updated upstream
-ALGORITHMS = ['lehmer', 'splitmix', 'xorshift', 'lcg', 'middle_square']
-=======
 ALGORITHMS = ['lehmer', 'splitmix', 'xorshift', 'lcg', 'middle_square', 'rule30', 'lfg']
 
 HAS_EXTRA_ARGS = ['lfg']
->>>>>>> Stashed changes
 
 # add visual options HERE: (must be all lowercase and same as python script name)
 VISUALS = ['2d', 'distribution', 'frequency', '3d_scatter', '3d_walk'] 
@@ -199,7 +195,7 @@ def nRandomScalars(algo, seed, numVals, args):
     if algo not in HAS_EXTRA_ARGS:
         cmd = './prng -f ' + filePath + ' -a ' + str(algo.lower()) + ' -s ' + str(s) + ' -n ' + str(n)
     elif algo == 'lfg':
-        cmd = './prng -f ' + filePath + '-a lfg -s ' + str(s) + ' -n ' + str(n) + ' -O ' + str(args[0]) + ',' + str(args[1]) + ',' + str(args[2])
+        cmd = './prng -f ' + filePath + ' -a lfg -s ' + str(s) + ' -n ' + str(n) + ' -O \"' + str(args[0]) + ',' + str(args[1]) + ',' + str(args[2]) + '\"'
     
     run(cmd, shell=True)
     nums = np.genfromtxt(filePath)
