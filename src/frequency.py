@@ -40,8 +40,9 @@ colorMap = vis.getColorMap()
 
 # STEP 2: Generate data for visualization via prng.cpp calls (abstracted to vis.nRandomScalars)
 data = []
+all_data = vis.nRandomScalars(ALGORITHM, START_SEED, numRowsCols*numRowsCols, ALGO_ARGS)
 for n in range(numRowsCols):
-    row = vis.nRandomScalars(ALGORITHM, START_SEED + n * SEED_INCREMENT, numRowsCols, ALGO_ARGS)
+    row = all_data[(n*numRowsCols):((n+1)*numRowsCols)]
     data.append(row)
 
 # STEP 3: Convert each entry in the data array to an index of the colors array (same
