@@ -31,7 +31,7 @@ ALGORITHM = sys.argv[1]
 ALGO_ARGS = vis.getAlgoArgs(ALGORITHM)
 START_SEED = int(sys.argv[2])
 SEED_INCREMENT = 12345 # default value
-MAX_FRAMES = 100 # limit maximum number of .gif frames
+MAX_FRAMES = 500 # limit maximum number of .gif frames
 
 N = 100 # default scalar for random values
 
@@ -72,8 +72,8 @@ pointSize_slider = Slider(
     ax=axPointSize,
     label='Point Size',
     valmin=0.1,
-    valmax=20,
-    valinit=5,
+    valmax=50,
+    valinit=1,
     orientation='vertical'
 )
 # update plot when slider value changes
@@ -149,7 +149,7 @@ if (genGif):
         frames.append(img)
 
     # generate .gif
-    gifPath = 'heatmaps/' + str(ALGORITHM) + '3d_scatter_frame_' + str(i) + '.gif'
+    gifPath = 'heatmaps/' + str(ALGORITHM) + '3d_scatter_' + str(MAX_VALUES) + '.gif'
     frames[0].save(gifPath, save_all=True, append_images=frames[1:], loop=(not isLoop), duration=gifDuration) # duration=gifDuration
 
     # clean up pngs

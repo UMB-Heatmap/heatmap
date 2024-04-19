@@ -55,14 +55,14 @@ frames = [] # .svg files (1 per Iteration / Row)
 framePaths = []
 rowCount = [0] * numCandidates # tracks total number of occurences of each random int in range [0, numCandidates)
 total_data_points = 0 # tracks distribution of random ints so far (list elements sum to 1.0)
-
+all_data = vis.nRandomScalars(ALGORITHM, (START_SEED), numValsPerIter*numIterations, ALGO_ARGS)
 for n in range(numIterations):
     # display progress
     if (not debug): print("Generating GIF... " + str(round(100 * (n / numIterations))) + "%")
 
     rowDistribution = [0.0] * numCandidates
     # Generate numValsPerIter random values into list output
-    output = vis.nRandomScalars(ALGORITHM, (START_SEED + (n*SEED_INCREMENT)), numValsPerIter, ALGO_ARGS)
+    output = all_data[(n*numValsPerIter):((n+1)*numValsPerIter)]
 
     if (debug):
         print("\nPRNG output ----------\n")

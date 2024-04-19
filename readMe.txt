@@ -61,6 +61,16 @@ TODO:
     Lehmer, LCG, and middle_square:
         set this->maxValue in algorithm header constructor
 
+    LFG fails with 2-digit j or k values
+        **(I added a safeguard to the src/visual_utils.py getAlgoArgs() to only allow i,k = 1-9
+           but this can be removed if this was a bug and gets fixed)
+
+    GENERAL TESTING for bugs between all algos and visuals
+
+    Convert visuals to only use a single call to nRandomScalars() for better preformance
+    and more consistent PRNG states without having to use SEED_INCREMENT
+
+
 **** Otherwise, all algorithms work with all visuals ****
 if having errors with gif creation for distribution, 3d_scatter, or 3d_walk, check that you have:
     heatmaps/3d_scatter/
