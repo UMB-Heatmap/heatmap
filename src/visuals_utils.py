@@ -174,8 +174,13 @@ def getAlgoArgs(algo):
         op_char = input("Operator (*, +, -, ^): ")
         while op_char not in ['*', '+', '-', '^']:
             op_char = input("Invalid Input -- Select From Operators (*, +, -, ^): ")
-        j = getIntFromInput("J Value: ")
-        k = getIntFromInput("K Value: ")
+        j = -1
+        while not (j > 0 and j < 10):
+            j = getIntFromInput("J Value (1-9): ")
+        k = -1
+        while not (k > 0 and k < 10):
+            k = getIntFromInput("K Value (1-9): ")
+        
         return [op_char, j, k]
 
 # returns list of N scalars [0, 1) from algo and seed or -1 if invalid inputs

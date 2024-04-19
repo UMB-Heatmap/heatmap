@@ -40,12 +40,18 @@ max_step_size = vis.getIntFromInput("Maximum Step Size: ")
 colorMap = vis.getColorMap()
 genGif = vis.getBoolFromInput("Would you like to generate a .gif? (Y/N): ")
 if (genGif): isLoop = vis.getBoolFromInput("GIF Looping? (Y/N): ")
-if (genGif): gifDuration = vis.getPosFloatFromInput("GIF Duration: ")
+if (genGif): gifDuration = vis.getPosFloatFromInput("GIF Duration (seconds): ") 
+if (genGif): openPlot = vis.getBoolFromInput("Open Interactive plot? (Y/N): ")
+else: openPlot = True
 
 # get random numbers
 scale = 6
 values = steps * scale
 randoms = vis.nRandomScalars(ALGORITHM, START_SEED, values, ALGO_ARGS)
+if (debug): 
+    print("Randoms----------")
+    print(randoms)
+    print("-----------------")
 
 # unpack random data
 x = []
@@ -96,6 +102,7 @@ if (genGif):
         ax.set_xlabel('X')
         ax.set_ylabel('Y')
         ax.set_zlabel('Z')
+        ax.set_title('Random 3D Walk Step ' + str(step) + ' from ' + ALGORITHM.upper())
         if (step > 0): ax.plot3D(x[0:step], y[0:step], z[0:step], marker='o', c='0.5')
         ax.scatter3D(x[0:step], y[0:step], z[0:step], c=color[0:step], cmap=colorMap, alpha=0.8)
 
@@ -146,8 +153,8 @@ pointSize_slider = Slider(
     ax=axPointSize,
     label='Point Size',
     valmin=0.1,
-    valmax=50,
-    valinit=5,
+    valmax=100,
+    valinit=25,
     orientation='vertical'
 )
 # update plot when slider value changes
@@ -178,4 +185,4 @@ ax.set_ylabel('Y')
 ax.set_zlabel('Z')
 if (values > 0): ax.plot3D(x[0:values], y[0:values], z[0:values], marker='o', c='0.5')
 ax.scatter3D(x[0:values], y[0:values], z[0:values], c=color[0:values], cmap=colorMap, alpha=0.8)
-plt.show()
+if openPlot: plt.show()
