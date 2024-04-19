@@ -67,7 +67,7 @@ TODO:
 
     GENERAL TESTING for bugs between all algos and visuals
 
-    Convert visuals to only use a single call to nRandomScalars() for better preformance
+    DONE: Convert visuals to only use a single call to nRandomScalars() for better preformance
     and more consistent PRNG states without having to use SEED_INCREMENT
 
 

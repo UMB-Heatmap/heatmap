@@ -41,8 +41,9 @@ colorMap1 = plt.colormaps.get_cmap(colorMap)
 #
 #   NOTE: output txt files are meant as intermediate data storage so naming is arbitrary
 data = []
+all_data = vis.nRandomScalars(ALGORITHM, START_SEED, numP*numP, ALGO_ARGS)
 for x in range(numP):
-    row = vis.nRandomScalars(ALGORITHM, (START_SEED + x*SEED_INCREMENT), numP, ALGO_ARGS)
+    row = all_data[(x*numP):((x+1)*numP)]
     data.append(row)
 
 # STEP 3: Generate visualization

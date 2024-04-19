@@ -49,8 +49,9 @@ if (genGif): gifDuration = vis.getPosFloatFromInput("GIF Duration: ")
 data = []
 if (colorMode == 1): numAxis = 4 
 else: numAxis = 3
+all_data = vis.nRandomScalars(ALGORITHM, START_SEED, MAX_VALUES*numAxis, ALGO_ARGS)
 for i in range(numAxis):
-    axis = vis.nRandomScalars(ALGORITHM, START_SEED + i * SEED_INCREMENT, MAX_VALUES, ALGO_ARGS)
+    axis = all_data[(i*MAX_VALUES):((i+1)*MAX_VALUES)]
     for i in range(MAX_VALUES): axis[i] = axis[i] * N # scale values
     data.append(axis) # append axis of numVals values scaled to [0, N)
     

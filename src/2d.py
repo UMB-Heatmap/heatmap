@@ -28,8 +28,9 @@ colorMap = vis.getColorMap()
 
 # STEP 2: Generate data for visualization via ./prng calls (abstracted to vis.nRandomScalars)
 data = []
+all_data = vis.nRandomScalars(ALGORITHM, START_SEED, numCols*numRows, ALGO_ARGS)
 for n in range(numRows):
-    row = vis.nRandomScalars(ALGORITHM, (START_SEED + n * SEED_INCREMENT), numCols, ALGO_ARGS)
+    row = all_data[(n*numCols):((n+1)*numCols)]
     data.append(row)
 
 # STEP 3: Generate visualization
