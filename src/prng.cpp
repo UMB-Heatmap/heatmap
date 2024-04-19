@@ -81,7 +81,7 @@ void readMultiple(char *arg, std::deque<int> *deque_int, std::deque<std::string>
     std::stringstream ss(arg);
     std::string token;
     while (std::getline(ss, token, ',')) {
-        if (token.length() == 1 && std::isdigit(token[0])) {
+        if (std::isdigit(token[0])) {
             deque_int->push_back(std::stoi(token));
         } else {
             deque_string->push_back(token);
