@@ -55,13 +55,7 @@ Algorithm * getAlgorithm(int algorithm, uint64_t seed, std::deque<int> algOpt_in
             algo = new Lehmer(seed);
             break;
         case LCG:
-            algo = new LinConGen(seed);
-            break;
-        case MIDDLE_SQUARE:
-            algo = new Middle_Square(seed);
-            break;
-        case LAGGED_FIBO:
-            algo = new LaggedFibonacci(seed, algOpt_int, algOpt_string);
+            algo = new Lcg(seed);
             break;
         case RULE30:
             algo = new Rule30(seed);
