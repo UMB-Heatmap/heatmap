@@ -85,5 +85,5 @@ subfolders in the heatmaps folder
             - right now only '*' seems to make sense
         In the quotes are comma separated values.
         Ex:
-            ./prng -d -a lfg -s 1 -n 10 -O "*,3,9"
+            ./prng -d -a lfg -s 1 -n 10 -O *,3,9
 
