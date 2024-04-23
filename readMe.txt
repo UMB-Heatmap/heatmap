@@ -56,6 +56,7 @@ For Implementing additional Visualizations:
       **(see src/2d.py for example and exaplanation)
       **(see src/visuals_utils.py for common functions and shared values)
     2. update src/visuals_utils.py VISUALS list
+    3. use ALGO_ARGS = vis.getAlgoArgs(ALGORITHM) and use vis.nRandomScalars() to get data (see examples)
 
 TODO:
     Lehmer, LCG, and middle_square:
