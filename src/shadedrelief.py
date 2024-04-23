@@ -23,18 +23,11 @@ colorMap = vis.getColorMap()
 
 
 # GENERATE data 
-
-filePath = "data/output.txt"
-cmd = './prng -f ' + filePath + ' -a ' + str(ALGORITHM) + ' -s ' + str(START_SEED +  SEED_INCREMENT) + ' -n ' + str(numRowsCols*numRowsCols)
-run(cmd, shell=True)
-nums = np.genfromtxt(filePath)
-#array = np.array(nums)
 array = vis.nRandomScalars(ALGORITHM, START_SEED, numRowsCols*numRowsCols, ALGO_ARGS)
 array = np.array(array)
 
 # creates a 2d array
 world = array.reshape(numRowsCols, numRowsCols)
-
 
 # function to update plot for each frame
 def update(frame):

@@ -18,8 +18,6 @@
 #include "lagged_fibonacci.h"
 #include "rule30.h"
 
-
-
 // ADD INDEX HERE
 #define XORSHIFT    1
 #define SPLITMIX    2
@@ -28,7 +26,6 @@
 #define LAGGED_FIBO 5
 #define MIDDLE_SQUARE 6
 #define RULE30 7
-
 
 // ADD COMMAND LINE NAME HERE
 std::unordered_map<std::string, int> algorithmMap = {
@@ -56,6 +53,12 @@ Algorithm * getAlgorithm(int algorithm, uint64_t seed, std::deque<int> algOpt_in
             break;
         case LCG:
             algo = new Lcg(seed);
+            break;
+        case MIDDLE_SQUARE:
+            algo = new Middle_Square(seed);
+            break;
+        case LAGGED_FIBO:
+            algo = new LaggedFibonacci(seed, algOpt_int, algOpt_string);
             break;
         case RULE30:
             algo = new Rule30(seed);
