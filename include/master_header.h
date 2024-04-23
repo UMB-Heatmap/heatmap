@@ -17,6 +17,7 @@
 #include "middle_square.h"
 #include "lagged_fibonacci.h"
 #include "rule30.h"
+#include "number_four.h"
 
 
 
@@ -28,6 +29,7 @@
 #define LAGGED_FIBO 5
 #define MIDDLE_SQUARE 6
 #define RULE30 7
+#define NUM_FOUR    8
 
 
 // ADD COMMAND LINE NAME HERE
@@ -39,6 +41,7 @@ std::unordered_map<std::string, int> algorithmMap = {
     {"middle_square", MIDDLE_SQUARE},
     {"lfg",         LAGGED_FIBO},
     {"rule30",      RULE30},
+    {"four",        NUM_FOUR}
 };
 
 Algorithm * getAlgorithm(int algorithm, uint64_t seed, std::deque<int> algOpt_int, std::deque<std::string> algOpt_string) {
@@ -65,6 +68,9 @@ Algorithm * getAlgorithm(int algorithm, uint64_t seed, std::deque<int> algOpt_in
             break;
         case RULE30:
             algo = new Rule30(seed);
+            break;
+        case NUM_FOUR:
+            algo = new NumberFour(seed);
             break;
         default:
             algo = new XorShift64(seed);
