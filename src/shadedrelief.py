@@ -11,6 +11,7 @@ import sys
 import visuals_utils as vis
 
 ALGORITHM = sys.argv[1]
+ALGO_ARGS = vis.getAlgoArgs(ALGORITHM)
 START_SEED = int(sys.argv[2])
 SEED_INCREMENT = 12345 #default 
 fig, ax = plt.subplots()
@@ -18,16 +19,19 @@ fig, ax = plt.subplots()
 numRowsCols = vis.getIntFromInput("Number of rows/cols: ")
 # Get color map - get_cmap is necessary because it's a string by default and can't be used as an object
 colorMap = vis.getColorMap()
-colorMap = get_cmap(colorMap)
+#colorMap = get_cmap(colorMap)
 
 
 # GENERATE data 
-for i in range(numRowsCols):
-    filePath = "data/output.txt"
-    cmd = './prng -f ' + filePath + ' -a ' + str(ALGORITHM) + ' -s ' + str(START_SEED +  SEED_INCREMENT) + ' -n ' + str(numRowsCols*numRowsCols)
-    run(cmd, shell=True)
-    nums = np.genfromtxt(filePath)
-    array = np.array(nums)
+
+filePath = "data/output.txt"
+cmd = './prng -f ' + filePath + ' -a ' + str(ALGORITHM) + ' -s ' + str(START_SEED +  SEED_INCREMENT) + ' -n ' + str(numRowsCols*numRowsCols)
+run(cmd, shell=True)
+nums = np.genfromtxt(filePath)
+#array = np.array(nums)
+array = vis.nRandomScalars(ALGORITHM, START_SEED, numRowsCols*numRowsCols, ALGO_ARGS)
+array = np.array(array)
+
 # creates a 2d array
 world = array.reshape(numRowsCols, numRowsCols)
 
@@ -44,7 +48,7 @@ def update(frame):
         # update light source with new altitude angle
     ls = LightSource(azdeg= 0 , altdeg=altdeg)
     # shade the world array with new light source
-    rgb = ls.shade(world, colorMap)
+    rgb = ls.shade(world, plt.colormaps.get_cmap(colorMap))
     # plot shaded world array
     ax.imshow(rgb)
     # shows current angle as a title 
@@ -55,7 +59,7 @@ ani = FuncAnimation(fig, update, frames = range(72) ,interval = 200)
 # ls and rgb redefined out of the animation function
 # for the sake of generating a static image
 ls = LightSource(azdeg= 0 , altdeg = 0)
-rgb = ls.shade(world, colorMap)
+rgb = ls.shade(world, plt.colormaps.get_cmap(colorMap))
 # does the animation
 plt.show() 
 # gets the static image
