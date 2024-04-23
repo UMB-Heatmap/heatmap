@@ -51,6 +51,12 @@ for x in range(numP):
 # Set up plot
 fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
 
+ax.set(
+    xlabel='X',
+    ylabel='Y',
+    zlabel='Z',
+)
+
 # Original Heatmap without interpolation
 X = np.linspace(0, 1, numP)
 Y = np.linspace(0, 1, numP)
@@ -72,8 +78,11 @@ else:
     # Plot surface
     surf = ax.plot_surface(X, Y, Z, cmap=colorMap1, antialiased=True)
 
+fig.colorbar(surf, ax=ax, fraction=0.02, pad=0.1, label=str(colorMap))
+
 # STEP 4: Save visualization in heatmaps folder with appropriate name
 heatmapPath = 'heatmaps/' + str(ALGORITHM) + '_' + str(START_SEED) + '_3d_heatmap.svg'
+plt.title("3D Heat Map from " + ALGORITHM.upper())
 plt.savefig(heatmapPath)
 
 # STEP 5: Open visualization
