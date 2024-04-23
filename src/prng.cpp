@@ -1,3 +1,10 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <stdint.h>
+#include <unistd.h>
+#include <string.h>
+#include <limits>
 #include "../include/master_header.h"
 
 class AlgorithmRunner {
@@ -74,7 +81,7 @@ void readMultiple(char *arg, std::deque<int> *deque_int, std::deque<std::string>
     std::stringstream ss(arg);
     std::string token;
     while (std::getline(ss, token, ',')) {
-        if (token.length() == 1 && std::isdigit(token[0])) {
+        if (std::isdigit(token[0])) {
             deque_int->push_back(std::stoi(token));
         } else {
             deque_string->push_back(token);
@@ -118,7 +125,7 @@ params handleSwitches(int argc, char** argv) {
                 readMultiple(optarg, &p.algOpts_int, &p.algOpts_string);
                 break;
             default:
-                fprintf(stderr, "Usage: %s [-d] [-f outputFileName] [-a algorithm] [-s seed] [-n numValues] [-O algorithm options]", argv[0]);
+                fprintf(stderr, "Usage: %s [-d] [-f outputFileName] [-a algorithm] [-s seed] [-n numValues] [-O algorithm options]\n", argv[0]);
                 exit(EXIT_FAILURE);
         }
     }

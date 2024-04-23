@@ -1,14 +1,14 @@
 # PRNG Integer Distribution Heatmap Visualization:
 #   N possible candidates 
 #   X Iterations of Z random values [0, N)
-
+#
 # Calculate each row to be % of total (X*Z) in each bucket to show distribution of random ints
 # With enough iterations (and a good PRNG algorithm) should balance out to consistent color rows
 # Option to normalize distributions for a clearer color gradient between more/less commonly picked integers
-
+#
 # Visuals are called from main.py with initial parameters algorithm and seed:
 #   python3 2d.py (algorithm) (seed)
-
+#
 # 2D Visualization requires 4 additional inputs:
 #   number_of_candidates : int
 #   number_of_iterations : int
@@ -16,9 +16,13 @@
 #   color_map : string in COLOR_MAPS
 #   is_looping? : 'y' | 'n'
 
+# TODO: 
+#   add sliders for interactive plot
+#   optional gif generation
+
 from subprocess import run
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 import sys
 import visuals_utils as vis
 from PIL import Image
@@ -28,8 +32,9 @@ debug = False
 
 # main.py validates user input so we can assume proper CLI input
 ALGORITHM = sys.argv[1]
+ALGO_ARGS = vis.getAlgoArgs(ALGORITHM)
 START_SEED = int(sys.argv[2])
-SEED_INCREMENT = 12345 # default value
+SEED_INCREMENT = vis.DEFAULT_SEED_INCREMENT
 
 # clear any warnings
 os.system('clear')
@@ -38,52 +43,30 @@ os.system('clear')
 numCandidates = vis.getIntFromInput("Number of Candidates: ")
 numIterations = vis.getIntFromInput("Number of Iterations: ")
 numValsPerIter = vis.getIntFromInput("Number of Values per Iteration: ")
-isNormalized = False # vis.getBoolFromInput("Normalize Distributions? (Y/N): ")
-# gifDuration = vis.getPosFloatFromInput("GIF Duration: ")
+isNormalized = vis.getBoolFromInput("Normalize Distributions? (Y/N): ")
 isLoop = vis.getBoolFromInput("GIF Looping? (Y/N): ")
+gifDuration = vis.getPosFloatFromInput("GIF Duration: ")
 isScaleColorMap = True # vis.getBoolFromInput("Scale Color Map? (Y/N): ")
 colorMap = vis.getColorMap()
 
-# UNCOMMENT TO ENABLE DEBUG OPTION
-# debug = vis.getBoolFromInput("Debugging? (Y/N): ")
-
-# STEP 2: Generate data for visualization via prng.cpp calls
-#   to get NUM_VALUES random doubles in range [0, 1) using ALGORITHM and SEED:
-#
-#       ./prng -f data/OUTPUT_FILENAME.txt -a ALGORITHM -s SEED -n NUM_VALUES
-#   
-#   then read random numbers from txt file data/OUTPUT_FILENAME.txt 
-#
-#   NOTE: output txt files are meant as intermediate data storage so naming is arbitrary
+# STEP 2: Generate data for visualization via prng.cpp calls (abstracted to vis.nRandomScalars)
 data = []
-# .svg files (1 per Iteration / Row)
-frames = []
+frames = [] # .svg files (1 per Iteration / Row)
 framePaths = []
-frameNum = 0
-# tracks total number of occurences of each random int in range [0, numCandidates)
-rowCount = [0] * numCandidates
-# tracks distribution of random ints so far (list elements sum to 1.0)
-total_data_points = 0
-
+rowCount = [0] * numCandidates # tracks total number of occurences of each random int in range [0, numCandidates)
+total_data_points = 0 # tracks distribution of random ints so far (list elements sum to 1.0)
+all_data = vis.nRandomScalars(ALGORITHM, (START_SEED), numValsPerIter*numIterations, ALGO_ARGS)
 for n in range(numIterations):
     # display progress
-    if (not debug): print("Generating GIF... " + str(round(100 * (frameNum / numIterations))) + "%")
+    if (not debug): print("Generating GIF... " + str(round(100 * (n / numIterations))) + "%")
 
     rowDistribution = [0.0] * numCandidates
     # Generate numValsPerIter random values into list output
-    filePath = "data/output.txt"
-    cmd = './prng -f ' + filePath + ' -a ' + str(ALGORITHM) + ' -s ' + str(START_SEED + n * SEED_INCREMENT) + ' -n ' + str(numValsPerIter)
-    run(cmd, shell=True)
-    nums = np.genfromtxt(filePath)
-    output = []
-    if (nums.size == 1):
-        output = [nums.item()]
-    else:
-        output = list(nums)
+    output = all_data[(n*numValsPerIter):((n+1)*numValsPerIter)]
 
     if (debug):
-        print("\PRNG output ----------\n")
-        print(rowDistribution)
+        print("\nPRNG output ----------\n")
+        print(output)
         print("-----------------------\n")
 
     for elem in output:
@@ -114,7 +97,7 @@ for n in range(numIterations):
         data.append(rowDistribution)
 
     if (debug):
-        print("\nData " + str(frameNum) + " ---------\n")
+        print("\nData " + str(n) + " ---------\n")
         for row in data:
             print(row)
         print("-----------------\n")
@@ -125,12 +108,10 @@ for n in range(numIterations):
         frame.append([0.0] * numCandidates)
 
     if (debug):
-        print("\nFrame " + str(frameNum) + " ---------\n")
+        print("\nFrame " + str(n) + " ---------\n")
         for row in frame:
             print(row)
         print("-----------------\n")
-    
-    frameNum += 1
 
     # STEP 3: Generate .svg frame
     if (isScaleColorMap):
@@ -140,20 +121,16 @@ for n in range(numIterations):
     plt.title("Distribution Heat Map from " + ALGORITHM.upper())
     plt.xlabel("Random Int [0, " + str(numCandidates) + ") from " + ALGORITHM.upper())
     plt.ylabel("Iterations of " + str(numValsPerIter) + " Random Ints")
-    
-    # TODO: adjust colorbar range to locked [0, 1) for clearer visual effect
     plt.colorbar() 
 
     # STEP 4: Save visualization in heatmaps/distribution folder with appropriate name for each frame
     heatmapPath = 'heatmaps/distribution/' + str(ALGORITHM) + '_' + str(numCandidates) + 'x' + str(numIterations) + 'x' + str(numValsPerIter) + '_dist_HM_frame' + str(n) + '.png'
     framePaths.append(heatmapPath)
     plt.savefig(heatmapPath)
-    plt.clf()
+    plt.close()
 
     # clear progress for next update
     if (not debug): os.system('clear')
-
-
 
 # STEP 5: Open .png frames to generate .gif from numIterations 
 for png_path in framePaths:
@@ -162,7 +139,7 @@ for png_path in framePaths:
     frames.append(img)
 # generate .gif
 gifPath = 'heatmaps/'+ str(ALGORITHM) + '_' + str(numCandidates) + 'x' + str(numIterations) + 'x' + str(numValsPerIter) + '_dist_HM.gif'
-frames[0].save(gifPath, save_all=True, append_images=frames[1:], loop=(not isLoop)) # duration=gifDuration
+frames[0].save(gifPath, save_all=True, append_images=frames[1:], loop=(not isLoop), duration=gifDuration) # duration=gifDuration
 
 # clean up pngs
 for file in os.listdir('heatmaps/distribution'):

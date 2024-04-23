@@ -7,13 +7,18 @@
 #include <deque>
 #include <sstream>
 #include "algorithm.h"
+#include <unordered_map>
 
 // ADD HEADER HERE
 #include "xorshift64.h"
 #include "splitmix.h"
 #include "lehmer.h"
 #include "lcg.h"
+#include "middle_square.h"
 #include "lagged_fibonacci.h"
+#include "rule30.h"
+
+
 
 // ADD INDEX HERE
 #define XORSHIFT    1
@@ -21,6 +26,9 @@
 #define LEHMER      3
 #define LCG         4
 #define LAGGED_FIBO 5
+#define MIDDLE_SQUARE 6
+#define RULE30 7
+
 
 // ADD COMMAND LINE NAME HERE
 std::unordered_map<std::string, int> algorithmMap = {
@@ -28,7 +36,9 @@ std::unordered_map<std::string, int> algorithmMap = {
     {"splitmix",    SPLITMIX},
     {"lehmer",      LEHMER},
     {"lcg",         LCG},
-    {"lfg",         LAGGED_FIBO}
+    {"middle_square", MIDDLE_SQUARE},
+    {"lfg",         LAGGED_FIBO},
+    {"rule30",      RULE30},
 };
 
 Algorithm * getAlgorithm(int algorithm, uint64_t seed, std::deque<int> algOpt_int, std::deque<std::string> algOpt_string) {
@@ -46,6 +56,9 @@ Algorithm * getAlgorithm(int algorithm, uint64_t seed, std::deque<int> algOpt_in
             break;
         case LCG:
             algo = new Lcg(seed);
+            break;
+        case RULE30:
+            algo = new Rule30(seed);
             break;
         default:
             algo = new XorShift64(seed);

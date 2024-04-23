@@ -2,7 +2,12 @@
 **/*.o
 prng
 heatmaps/*
-data/*.txt
-!data/README.txt
+data/*
 .DS_store
 output.txt
+src/__pycache__/*
+.vscode/*
+
+# Exemptions adsdfs
+!heatmaps/README.txt
+!data/README.txt

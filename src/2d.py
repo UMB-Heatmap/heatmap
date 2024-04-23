@@ -11,47 +11,26 @@
 #   number_of_rows, number_of_columns, color_map
 
 from subprocess import run
-import numpy as np
 import matplotlib.pylab as plt
 import sys
 import visuals_utils as vis
 
 # main.py validates user input so we can assume proper CLI input
 ALGORITHM = sys.argv[1]
+ALGO_ARGS = vis.getAlgoArgs(ALGORITHM)
 START_SEED = int(sys.argv[2])
-SEED_INCREMENT = 1 # default value
-
-# Color Map Options (directly from MatPlotLib)
-# https://matplotlib.org/stable/gallery/color/colormap_reference.html
-COLOR_MAPS = ['viridis', 'plasma', 'inferno', 'magma', 'cividis', 'binary', 
-            'gist_yarg', 'gist_gray', 'gray', 'bone', 'pink',
-            'spring', 'summer', 'autumn', 'winter', 'cool', 'Wistia',
-            'hot', 'afmhot', 'gist_heat', 'copper']
+SEED_INCREMENT = vis.DEFAULT_SEED_INCREMENT
             
 # STEP 1: Acquire and Validate visualization-specific inputs
 numRows = vis.getIntFromInput("Number of Rows: ")
 numCols = vis.getIntFromInput("Number of Columns: ")
 colorMap = vis.getColorMap()
 
-# STEP 2: Generate data for visualization via prng.cpp calls
-#   to get NUM_VALUES random doubles in range [0, 1) using ALGORITHM and SEED:
-#
-#       ./prng -f data/OUTPUT_FILENAME.txt -a ALGORITHM -s SEED -n NUM_VALUES
-#   
-#   then read random numbers from txt file data/OUTPUT_FILENAME.txt 
-#
-#   NOTE: output txt files are meant as intermediate data storage so naming is arbitrary
+# STEP 2: Generate data for visualization via ./prng calls (abstracted to vis.nRandomScalars)
 data = []
+all_data = vis.nRandomScalars(ALGORITHM, START_SEED, numCols*numRows, ALGO_ARGS)
 for n in range(numRows):
-    filePath = "data/output.txt"
-    cmd = './prng -f ' + filePath + ' -a ' + str(ALGORITHM) + ' -s ' + str(START_SEED + n * SEED_INCREMENT) + ' -n ' + str(numCols)
-    run(cmd, shell=True)
-    nums = np.genfromtxt(filePath)
-    row = []
-    if (nums.size == 1):
-        row = [nums.item()]
-    else:
-        row = list(nums)
+    row = all_data[(n*numCols):((n+1)*numCols)]
     data.append(row)
 
 # STEP 3: Generate visualization
