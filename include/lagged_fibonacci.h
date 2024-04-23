@@ -13,28 +13,50 @@ public:
         try {
             this->op = getArg_char(&algOpt_string);
         } catch (const std::runtime_error &err) {
-            throw err;
+            this->op = '*';
         }
         try {
-            this->j = getArg_int(&algOpt_int);
-            this->k = getArg_int(&algOpt_int);
+            int a = getArg_int(&algOpt_int);
+            int b = getArg_int(&algOpt_int);
+            this->j = std::min(a, b);
+            this->k = std::max(a, b);
         } catch (const std::runtime_error &err) {
             throw std::runtime_error("Missing options: j, k");
         }
-
-        try {
-            this->m = getArg_int(&algOpt_int);
-        } catch (const std::runtime_error &err) {
-            this->m = 2147483647;
+        // j != k, k != 0, j and k is not negative
+        if (this->j == this->k || this->k <= 0 || this->j < 0) {
+            throw std::runtime_error("Invalid value(s) for j and/or k.");
         }
 
-        this->maxValue = this->m;
+        if(this->seed == 0) {
+            this->seed--;
+            std::cout << this->seed << std::endl;
+        }
 
+        uint64_t starting_value = 21701;
+        
+        switch (this->op) {
+            case '*':
+            case '+':
+            case '-':
+                this->m = 19937;
+                break;
+            case '^':
+                this->m = 132049;
+                starting_value = 12297829382473034410ULL;
+                break;
+            default:
+                this->m = 19937;
+                break;
+        }
+        this->maxValue = this->m;
+        
         // start
-        this->sequence.push_back(seed);
-        for (int i = 1; i <= std::max(j, k); i++) {
+        sequence.push_back(starting_value);
+        this->sequence.push_back(this->seed);
+        for (int i = 2; i <= this->k; i++) {
             sequence.push_back(
-                this->operate(16807, sequence[i-1]) % m
+                this->operate(sequence[i-1], sequence[i-2])
             );
         }
     };
@@ -44,7 +66,7 @@ public:
         int j = this->sequence.size()-this->j-1;
         int k = this->sequence.size()-this->k-1;
 
-        x = this->operate(this->sequence[j], this->sequence[k]) % this->m;
+        x = this->operate(this->sequence[j], this->sequence[k]);
         
         return x;
     };
@@ -59,19 +81,19 @@ public:
         uint64_t c;
         switch (this->op) {
             case '*':
-                c = a * b;
+                c = (a * b) % this->m;
                 break;
             case '+':
-                c = a + b;
+                c = (a + b) % this->m;
                 break;
             case '-':
-                c = a - b;
+                c = (b * 89 - a) % this->m;
                 break;
             case '^':
-                c = a ^ b;
+                c = (a<<1 ^ b<<2) % this->m;
                 break;
             default:
-                c = a * b;
+                c = (a * b) % this->m;
                 break;
         }
         return c;

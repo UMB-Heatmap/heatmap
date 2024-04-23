@@ -13,9 +13,11 @@
 #include "xorshift64.h"
 #include "splitmix.h"
 #include "lehmer.h"
+#include "lcg.h"
 #include "middle_square.h"
 #include "lagged_fibonacci.h"
-#include "lcg.h"
+#include "rule30.h"
+
 
 
 // ADD INDEX HERE
@@ -25,6 +27,8 @@
 #define LCG         4
 #define LAGGED_FIBO 5
 #define MIDDLE_SQUARE 6
+#define RULE30 7
+
 
 // ADD COMMAND LINE NAME HERE
 std::unordered_map<std::string, int> algorithmMap = {
@@ -33,7 +37,8 @@ std::unordered_map<std::string, int> algorithmMap = {
     {"lehmer",      LEHMER},
     {"lcg",         LCG},
     {"middle_square", MIDDLE_SQUARE},
-    {"lfg",         LAGGED_FIBO}
+    {"lfg",         LAGGED_FIBO},
+    {"rule30",      RULE30},
 };
 
 Algorithm * getAlgorithm(int algorithm, uint64_t seed, std::deque<int> algOpt_int, std::deque<std::string> algOpt_string) {
@@ -57,6 +62,9 @@ Algorithm * getAlgorithm(int algorithm, uint64_t seed, std::deque<int> algOpt_in
             break;
         case LAGGED_FIBO:
             algo = new LaggedFibonacci(seed, algOpt_int, algOpt_string);
+            break;
+        case RULE30:
+            algo = new Rule30(seed);
             break;
         default:
             algo = new XorShift64(seed);
