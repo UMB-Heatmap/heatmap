@@ -34,6 +34,8 @@ VISUALS :: result
                     The smoothness can be controlled by the number of interpolation points 
                     aquired from user input. Best result/preformance is around 100 interP.
 
+    shadedrelief :: TODO
+
 Python Dependencies:
     matplotlib
     numpy
