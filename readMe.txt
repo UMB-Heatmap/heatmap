@@ -2,7 +2,7 @@ EXAMPLE USAGE:
 
     python3 main.py (ALGORITHM) (VISUAL) [SEED]
 
-    - should run 'Make clean' and 'Make' to rebuild C++ automatically if it needs to
+    - will run 'Make clean' and 'Make' to rebuild C++ automatically if u do not have working ./prng file
 
 Where:
 
@@ -56,18 +56,22 @@ For Implementing additional Algorithms:
 
 For Implementing additional Visualizations:
     1. write VISUALIZATION_NAME.py in src folder 
+      **import visual_utils as vis
       **(see src/2d.py for example and exaplanation)
       **(see src/visuals_utils.py for common functions and shared values)
     2. update src/visuals_utils.py VISUALS list
-    3. use ALGO_ARGS = vis.getAlgoArgs(ALGORITHM) and use vis.nRandomScalars() to get data (see examples)
+    3. IMPORTANT: use ALGO_ARGS = vis.getAlgoArgs(ALGORITHM) and use vis.nRandomScalars() to get data (see examples)
 
 TODO:
-    Lehmer, LCG, and middle_square:
+    LCG, and middle_square:
         set this->maxValue in algorithm header constructor
 
     LFG fails with 2-digit j or k values
         **(I added a safeguard to the src/visual_utils.py getAlgoArgs() to only allow i,k = 1-9
            but this can be removed if this was a bug and gets fixed)
+
+    Rule30 only giving 1's (at least with default seed)
+        - maybe need to change default seed for rule30
 
     GENERAL TESTING for bugs between all algos and visuals
 
@@ -75,15 +79,14 @@ TODO:
     and more consistent PRNG states without having to use SEED_INCREMENT
 
 
-**** Otherwise, all algorithms work with all visuals ****
-if having errors with gif creation for distribution, 3d_scatter, 3d_walk, or shadedrelief check that you have:
+**if having errors with gif creation for distribution, 3d_scatter, 3d_walk, or shadedrelief check that you have:
     heatmaps/3d_scatter/
     heatmaps/3d_walk/
     heatmaps/distribution/
     heatmaps/shadedrelief/
 subfolders in the heatmaps folder
 
-    Lagged Fibonacci arguments:
+    Lagged Fibonacci arguments Example:
         ./prng [other arguments] -a lfg -O "operator_char,j_int,k_int"
         operator_char can be '*', '+', '-', or '^'
             - right now only '*' seems to make sense
