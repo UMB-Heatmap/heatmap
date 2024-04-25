@@ -28,7 +28,8 @@ maxSeed = vis.getIntFromInput("Maximum seed value: ")
 colorMap = vis.getColorMap()
 
 # STEP 2: Generate data for visualization via ./prng calls (abstracted to vis.nRandomScalars)
-seeds = [*range(minSeed, maxSeed, int(abs(maxSeed - minSeed) / numRows))]
+seeds = [*range(minSeed, maxSeed+1, int(abs(maxSeed - minSeed) / numRows))]
+seeds = seeds[:numRows]
 seeds.sort(reverse=True)
 data = []
 for n in range(numRows):
@@ -36,8 +37,18 @@ for n in range(numRows):
     data.append(row)
 
 # STEP 3: Generate visualization
+ticks = []
+tick_labels = []
 plt.ylabel("Seed")
-plt.yticks([*range(0, numRows)], seeds)
+if (numRows > 25): # maximum 25 seed row labels (more than that looks cluttered)
+    spacing =  numRows // (25 - 1)
+    for x in range(25):
+        ticks.append(int(x*spacing))
+        tick_labels.append(seeds[int(x*spacing)])
+else:
+    ticks = [*range(0, numRows)]
+    tick_labels = seeds
+plt.yticks(ticks, tick_labels)
 plt.imshow(data, cmap=colorMap)
 plt.title(str(numRows) + "x" + str(numCols) + " Heat Map from " + ALGORITHM.upper())
 plt.colorbar()
