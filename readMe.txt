@@ -2,12 +2,12 @@ EXAMPLE USAGE:
 
     python3 main.py (ALGORITHM) (VISUAL) [SEED]
 
-    - should run 'Make clean' and 'Make' to rebuild C++ automatically if it needs to
+    - will run 'Make clean' and 'Make' to rebuild C++ automatically if u do not have working ./prng file
 
 Where:
 
-    ALGORITHM = 'lehmer' | 'splitmix'| 'xorshift' | 'lcg' | 'middle_square' | ...
-    VISUAL = '2d' | 'distribution' | 'frequency' | '3d_scatter' | '3d_walk' | '3d' | ...
+    ALGORITHM = 'lehmer' | 'splitmix'| 'xorshift' | 'lcg' | 'middle_square' | 'lfg' | 'rule30' | 'bbs' | ...
+    VISUAL = '2d' | 'distribution' | 'frequency' | '3d_scatter' | '3d_walk' | '3d' | 'shadedrelief' | 'seed_eval' | ...
     SEED = [<optional> Integer]
 
 VISUALS :: result
@@ -34,14 +34,31 @@ VISUALS :: result
                     The smoothness can be controlled by the number of interpolation points 
                     aquired from user input. Best result/preformance is around 100 interP.
 
+    shadedrelief :: Generates a .gif animation of a random 2D heatmap with a variable 
+                    light source. 
+
+    seed_eval    :: NxM Heatmap of M values from N different seeds in a user-specified 
+                    range with options for color mapping. 
+
 Dependencies:
-    python 3.12
-    matplotlib 3.8.4
-    numpy 1.26.4
-    scipy 1.13.0
+    python 3.8.19
+    matplotlib 3.7.2
+    numpy 1.23.5
+    scipy 1.10.1
     ...
 
 *On Mac OS if pip does not work use Brew.
+
+***IF YOU ARE HAVING TROUBLE WITH PACKAGES:
+    install conda from (https://conda.io/projects/conda/en/latest/user-guide/install/index.html)
+    then run:
+
+        conda create -n [ENV_NAME] python=3.8
+        conda install matplotlib
+        conda install numpy
+        conda install scipy
+
+***to create virtual environment with all necessary packages for heatmap visuals
 
 For Implementing additional Algorithms:
     1. copy include/template.h and implement peekNext()
@@ -54,14 +71,15 @@ For Implementing additional Algorithms:
 
 For Implementing additional Visualizations:
     1. write VISUALIZATION_NAME.py in src folder 
+      **import visual_utils as vis
       **(see src/2d.py for example and exaplanation)
       **(see src/visuals_utils.py for common functions and shared values)
       **(import visual_utils as vis)
     2. update src/visuals_utils.py VISUALS list
-    3. use ALGO_ARGS = vis.getAlgoArgs(ALGORITHM) and use vis.nRandomScalars() to get data (see examples)
+    3. IMPORTANT: use ALGO_ARGS = vis.getAlgoArgs(ALGORITHM) and use vis.nRandomScalars() to get data (see examples)
 
 TODO:
-    Lehmer, LCG, and middle_square:
+    LCG and Lehmer not scaling properly:
         set this->maxValue in algorithm header constructor
 
     LFG fails with 2-digit j or k values
@@ -73,15 +91,20 @@ TODO:
             - k>0
         )*
 
+    Rule30 only giving 1's (at least with default seed)
+        - maybe need to change default seed for rule30
+
+    Maybe create a Default Seed Manager in python front end for Rule30, Middle_square
+        - use system timer as default unless for special case algos like rule30 or middle square
+
     GENERAL TESTING for bugs between all algos and visuals
 
     DONE: Convert visuals to only use a single call to nRandomScalars() for better preformance
     and more consistent PRNG states without having to use SEED_INCREMENT
-
-
-**** Otherwise, all algorithms work with all visuals ****
-
-    - if having errors with gif creation for distribution, 3d_scatter, or 3d_walk, check that you have:
+    
+    
+NOTES:
+    - if having errors with gif creation for distribution, 3d_scatter, 3d_walk, or shadedrelief check that you have:
         heatmaps/3d_scatter/
         heatmaps/3d_walk/
         heatmaps/distribution/
@@ -92,7 +115,7 @@ TODO:
     and other dependencies listed above
 
 
-    Lagged Fibonacci arguments:
+    Lagged Fibonacci arguments Example:
         ./prng [other arguments] -a lfg -O "operator_char,j_int,k_int"
         operator_char can be '*', '+', '-', or '^'
             - right now only '*' seems to make sense

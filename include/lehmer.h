@@ -5,7 +5,9 @@
 
 class Lehmer : public Algorithm {
 public:
-    Lehmer(uint64_t seed) : Algorithm(seed) {};
+    Lehmer(uint64_t seed) : Algorithm(seed) {
+        this-> state = seed;
+    };
     uint64_t peekNext() {
         uint64_t x = this->state;
 

@@ -19,8 +19,6 @@
 #include "rule30.h"
 #include "blumblumshub.h"
 
-
-
 // ADD INDEX HERE
 #define XORSHIFT    1
 #define SPLITMIX    2
@@ -30,7 +28,6 @@
 #define MIDDLE_SQUARE 6
 #define RULE30 7
 #define BLUMBLUMSHUB 8
-
 
 // ADD COMMAND LINE NAME HERE
 std::unordered_map<std::string, int> algorithmMap = {
@@ -58,7 +55,7 @@ Algorithm * getAlgorithm(int algorithm, uint64_t seed, std::deque<int> algOpt_in
             algo = new Lehmer(seed);
             break;
         case LCG:
-            algo = new LinConGen(seed);
+            algo = new Lcg(seed);
             break;
         case MIDDLE_SQUARE:
             algo = new Middle_Square(seed);
