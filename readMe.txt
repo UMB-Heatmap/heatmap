@@ -45,12 +45,17 @@ Dependencies:
     ...
 
 *On Mac OS if pip does not work use Brew.
-*if you have conda:
-    conda create -n [ENV_NAME] python=3.8
-    conda install matplotlib
-    conda install numpy
-    conda install scipy
-*will create virtual environment with all necessary packages
+
+***IF YOU ARE HAVING TROUBLE WITH PACKAGES:
+    install conda from (https://conda.io/projects/conda/en/latest/user-guide/install/index.html)
+    then run:
+
+        conda create -n [ENV_NAME] python=3.8
+        conda install matplotlib
+        conda install numpy
+        conda install scipy
+
+***to create virtual environment with all necessary packages for heatmap visuals
 
 For Implementing additional Algorithms:
     1. copy include/template.h and implement peekNext()
