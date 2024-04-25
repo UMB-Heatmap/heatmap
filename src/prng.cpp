@@ -96,7 +96,7 @@ params handleSwitches(int argc, char** argv) {
     
     // Set default values
     p.algo = XORSHIFT;
-    p.seed = 1;
+    p.seed = 12345;
     p.n = 16;
     p.debug = false;
     p.isOutFile = false;
