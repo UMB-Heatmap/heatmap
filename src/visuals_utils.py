@@ -2,7 +2,7 @@ import numpy as np
 from subprocess import run
 import sys
 
-DEFAULT_SEED = 1
+DEFAULT_SEED = 12345
 DEFAULT_SEED_INCREMENT = 12345
 
 # add algorithm options HERE: (must be all lowercase)
