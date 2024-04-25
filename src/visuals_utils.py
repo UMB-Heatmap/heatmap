@@ -186,10 +186,10 @@ def getAlgoArgs(algo):
     elif algo == "bbs":
         p = getIntFromInput("P Value (Blum Prime): ")
         while not isBlumPrime(p):
-            p = getIntFromInput("Invalid Input: P Value must be a Blum Prime")
-        q = 1
+            p = getIntFromInput("Invalid Input -- P Value must be a Blum Prime: ")
+        q = getIntFromInput("Q Value (Blum Prime): ")
         while not isBlumPrime(q):
-            q = getIntFromInput("Invalid Input: Q Value must be a Blum Prime")
+            q = getIntFromInput("Invalid Input -- Q Value must be a Blum Prime: ")
         return [p, q]
 
 # checks if a number is a Blum Prime

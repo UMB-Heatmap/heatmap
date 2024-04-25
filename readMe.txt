@@ -34,10 +34,11 @@ VISUALS :: result
                     The smoothness can be controlled by the number of interpolation points 
                     aquired from user input. Best result/preformance is around 100 interP.
 
-Python Dependencies:
-    matplotlib
-    numpy
-    scipy
+Dependencies:
+    python 3.12
+    matplotlib 3.8.4
+    numpy 1.26.4
+    scipy 1.13.0
     ...
 
 *On Mac OS if pip does not work use Brew.
@@ -55,6 +56,7 @@ For Implementing additional Visualizations:
     1. write VISUALIZATION_NAME.py in src folder 
       **(see src/2d.py for example and exaplanation)
       **(see src/visuals_utils.py for common functions and shared values)
+      **(import visual_utils as vis)
     2. update src/visuals_utils.py VISUALS list
     3. use ALGO_ARGS = vis.getAlgoArgs(ALGORITHM) and use vis.nRandomScalars() to get data (see examples)
 
@@ -65,6 +67,11 @@ TODO:
     LFG fails with 2-digit j or k values
         **(I added a safeguard to the src/visual_utils.py getAlgoArgs() to only allow i,k = 1-9
            but this can be removed if this was a bug and gets fixed)
+        *(fix python interaction with LFG to account for j and k rules,
+            - j!=k, 
+            - j>0, 
+            - k>0
+        )*
 
     GENERAL TESTING for bugs between all algos and visuals
 
@@ -73,11 +80,17 @@ TODO:
 
 
 **** Otherwise, all algorithms work with all visuals ****
-if having errors with gif creation for distribution, 3d_scatter, or 3d_walk, check that you have:
-    heatmaps/3d_scatter/
-    heatmaps/3d_walk/
-    heatmaps/distribution/
-subfolders in the heatmaps folder
+
+    - if having errors with gif creation for distribution, 3d_scatter, or 3d_walk, check that you have:
+        heatmaps/3d_scatter/
+        heatmaps/3d_walk/
+        heatmaps/distribution/
+        heatmaps/shadedrelief/
+    subfolders in the heatmaps folder
+
+    - if having errors with running visualizations, check that you have updated versions of python
+    and other dependencies listed above
+
 
     Lagged Fibonacci arguments:
         ./prng [other arguments] -a lfg -O "operator_char,j_int,k_int"
@@ -91,4 +104,4 @@ subfolders in the heatmaps folder
         ./prng [other arguments] -a bbs -O p,q
         p and q must be Blum Primes, prime numbers that are congruent to 3(mod 4)
         Ex. 3,7,11,19,23,etc
-        Ex: ./prng -d -a bbs -s 3 -n 10 -O 11,23
+        Ex: ./prng -d -a bbs -s 3 -n 10 -O "11,23"
