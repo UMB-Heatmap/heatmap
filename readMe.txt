@@ -7,7 +7,7 @@ EXAMPLE USAGE:
 Where:
 
     ALGORITHM = 'lehmer' | 'splitmix'| 'xorshift' | 'lcg' | 'middle_square' | 'lfg' | 'rule30' | ...
-    VISUAL = '2d' | 'distribution' | 'frequency' | '3d_scatter' | '3d_walk' | '3d' | 'shadedrelief' | ...
+    VISUAL = '2d' | 'distribution' | 'frequency' | '3d_scatter' | '3d_walk' | '3d' | 'shadedrelief' | 'seed_eval' | ...
     SEED = [<optional> Integer]
 
 VISUALS :: result
@@ -36,6 +36,9 @@ VISUALS :: result
 
     shadedrelief :: Generates a .gif animation of a random 2D heatmap with a variable 
                     light source. 
+
+    seed_eval    :: NxM Heatmap of M values from N different seeds in a user-specified 
+                    range with options for color mapping. 
 
 Dependencies:
     python 3.8.19
