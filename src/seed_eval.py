@@ -30,8 +30,6 @@ colorMap = vis.getColorMap()
 # STEP 2: Generate data for visualization via ./prng calls (abstracted to vis.nRandomScalars)
 seeds = [*range(minSeed, maxSeed, int(abs(maxSeed - minSeed) / numRows))]
 seeds.sort(reverse=True)
-print(seeds)
-
 data = []
 for n in range(numRows):
     row = vis.nRandomScalars(ALGORITHM, seeds[n], numCols, ALGO_ARGS)
