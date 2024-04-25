@@ -34,21 +34,14 @@ VISUALS :: result
                     The smoothness can be controlled by the number of interpolation points 
                     aquired from user input. Best result/preformance is around 100 interP.
 
-<<<<<<< Updated upstream
     shadedrelief :: Generates a .gif animation of a random 2D heatmap with a variable 
                     light source. 
 
-Python Dependencies:
-    matplotlib
-    numpy
-    scipy
-=======
 Dependencies:
     python 3.8.19
     matplotlib 3.7.2
     numpy 1.23.5
     scipy 1.10.1
->>>>>>> Stashed changes
     ...
 
 *On Mac OS if pip does not work use Brew.
