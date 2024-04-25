@@ -63,7 +63,7 @@ For Implementing additional Visualizations:
     3. IMPORTANT: use ALGO_ARGS = vis.getAlgoArgs(ALGORITHM) and use vis.nRandomScalars() to get data (see examples)
 
 TODO:
-    LCG, and middle_square:
+    LCG and Lehmer not scaling properly:
         set this->maxValue in algorithm header constructor
 
     LFG fails with 2-digit j or k values
@@ -72,6 +72,9 @@ TODO:
 
     Rule30 only giving 1's (at least with default seed)
         - maybe need to change default seed for rule30
+
+    Maybe create a Default Seed Manager in python front end for Rule30, Middle_square
+        - use system timer as default unless for special case algos like rule30 or middle square
 
     GENERAL TESTING for bugs between all algos and visuals
 
