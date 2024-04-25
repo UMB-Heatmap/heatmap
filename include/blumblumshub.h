@@ -12,26 +12,25 @@ public:
         } catch (const std::runtime_error &err) {
             throw std::runtime_error("Missing options: p, q");
         }
+
+        if (!isBlumPrime(p)) { // check if p is a Blum Prime
+            throw std::runtime_error("p must be a Blum Prime");
+        }
+        if (!isBlumPrime(q)) { // check if q is a Blum Prime
+            throw std::runtime_error("q must be a Blum Prime");
+        }
+
+        this->maxValue = p * q; // create threshhold for values
     };
 
     bool isBlumPrime(int n) { // check if n is a Blum Prime
-        if (n % 4 != 3) { // check if n is congruent to 3 mod 4
-            return false;
-        }
         for (int i = 2; i < n; i++) { // check if n is prime
             if (n % i == 0) {
                 return false;
             }
         }
-        return true;
-
-    if (!isBlumPrime(p)) { // check if p is a Blum Prime
-        throw std::runtime_error("p must be a Blum Prime");
-        }
-
-    if (!isBlumPrime(q)) { // check if q is a Blum Prime
-        throw std::runtime_error("q must be a Blum Prime");
-        }
+        // check if n is congruent to 3 mod 4
+        return (n % 4 != 3);
     };
     
     uint64_t peekNext() { // Blum Blum Shub algorithm

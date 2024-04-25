@@ -14,7 +14,7 @@ VISUALS :: result
 
     2d           :: NxM Heatmap of Random Values [0, 1) with color mapped to each value
 
-    distribution :: NxM Heatmap animated .gif of Distributions of (X) Random Values [0, N) 
+    distribution :: NxM Heatmap animated .gif of Distributions of (X) Random Values [0, N)
                     per M iterations with color mapped to the distribution of each value
 
     frequency    :: NxN Heatmap of Frequency of random number with color mapped to random 
@@ -47,7 +47,7 @@ For Implementing additional Algorithms:
     2. update include/master_header.h HEADER, INDEX, and COMMAND LINE NAME
     3. update src/visuals_utils.py ALGORITHM list
     if algorithm requires additional arguments (-O flag):
-        1. upate src/visuals_utils.py HAS_EXTRA_ARGS list 
+        1. update src/visuals_utils.py HAS_EXTRA_ARGS list 
         2. update src/visuals_utils.py getAlgoArgs() with elif case for algorithm
         3. update src/visuals_utils.py nRandomScalars() with elif case for algorithm
 
@@ -87,3 +87,8 @@ subfolders in the heatmaps folder
         Ex:
             ./prng -d -a lfg -s 1 -n 10 -O "*,3,9"
 
+    Blum Blum Shub arguments:
+        ./prng [other arguments] -a bbs -O p,q
+        p and q must be Blum Primes, prime numbers that are congruent to 3(mod 4)
+        Ex. 3,7,11,19,23,etc
+        Ex: ./prng -d -a bbs -s 3 -n 10 -O 11,23
