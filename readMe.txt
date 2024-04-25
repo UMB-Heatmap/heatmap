@@ -6,8 +6,8 @@ EXAMPLE USAGE:
 
 Where:
 
-    ALGORITHM = 'lehmer' | 'splitmix'| 'xorshift' | 'lcg' | 'middle_square' | ...
-    VISUAL = '2d' | 'distribution' | 'frequency' | '3d_scatter' | '3d_walk' | '3d' | ...
+    ALGORITHM = 'lehmer' | 'splitmix'| 'xorshift' | 'lcg' | 'middle_square' | 'lfg' | 'rule30' | ...
+    VISUAL = '2d' | 'distribution' | 'frequency' | '3d_scatter' | '3d_walk' | '3d' | 'shadedrelief' | ...
     SEED = [<optional> Integer]
 
 VISUALS :: result
@@ -34,7 +34,8 @@ VISUALS :: result
                     The smoothness can be controlled by the number of interpolation points 
                     aquired from user input. Best result/preformance is around 100 interP.
 
-    shadedrelief :: TODO
+    shadedrelief :: Generates a .gif animation of a random 2D heatmap with a variable 
+                    light source. 
 
 Python Dependencies:
     matplotlib
@@ -75,10 +76,11 @@ TODO:
 
 
 **** Otherwise, all algorithms work with all visuals ****
-if having errors with gif creation for distribution, 3d_scatter, or 3d_walk, check that you have:
+if having errors with gif creation for distribution, 3d_scatter, 3d_walk, or shadedrelief check that you have:
     heatmaps/3d_scatter/
     heatmaps/3d_walk/
     heatmaps/distribution/
+    heatmaps/shadedrelief/
 subfolders in the heatmaps folder
 
     Lagged Fibonacci arguments:
