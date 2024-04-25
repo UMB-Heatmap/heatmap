@@ -6,7 +6,7 @@ EXAMPLE USAGE:
 
 Where:
 
-    ALGORITHM = 'lehmer' | 'splitmix'| 'xorshift' | 'lcg' | 'middle_square' | 'lfg' | 'rule30' | ...
+    ALGORITHM = 'lehmer' | 'splitmix'| 'xorshift' | 'lcg' | 'middle_square' | 'lfg' | 'rule30' | 'bbs' | ...
     VISUAL = '2d' | 'distribution' | 'frequency' | '3d_scatter' | '3d_walk' | '3d' | 'shadedrelief' | 'seed_eval' | ...
     SEED = [<optional> Integer]
 
@@ -14,7 +14,7 @@ VISUALS :: result
 
     2d           :: NxM Heatmap of Random Values [0, 1) with color mapped to each value
 
-    distribution :: NxM Heatmap animated .gif of Distributions of (X) Random Values [0, N) 
+    distribution :: NxM Heatmap animated .gif of Distributions of (X) Random Values [0, N)
                     per M iterations with color mapped to the distribution of each value
 
     frequency    :: NxN Heatmap of Frequency of random number with color mapped to random 
@@ -65,7 +65,7 @@ For Implementing additional Algorithms:
     2. update include/master_header.h HEADER, INDEX, and COMMAND LINE NAME
     3. update src/visuals_utils.py ALGORITHM list
     if algorithm requires additional arguments (-O flag):
-        1. upate src/visuals_utils.py HAS_EXTRA_ARGS list 
+        1. update src/visuals_utils.py HAS_EXTRA_ARGS list 
         2. update src/visuals_utils.py getAlgoArgs() with elif case for algorithm
         3. update src/visuals_utils.py nRandomScalars() with elif case for algorithm
 
@@ -74,6 +74,7 @@ For Implementing additional Visualizations:
       **import visual_utils as vis
       **(see src/2d.py for example and exaplanation)
       **(see src/visuals_utils.py for common functions and shared values)
+      **(import visual_utils as vis)
     2. update src/visuals_utils.py VISUALS list
     3. IMPORTANT: use ALGO_ARGS = vis.getAlgoArgs(ALGORITHM) and use vis.nRandomScalars() to get data (see examples)
 
@@ -84,6 +85,11 @@ TODO:
     LFG fails with 2-digit j or k values
         **(I added a safeguard to the src/visual_utils.py getAlgoArgs() to only allow i,k = 1-9
            but this can be removed if this was a bug and gets fixed)
+        *(fix python interaction with LFG to account for j and k rules,
+            - j!=k, 
+            - j>0, 
+            - k>0
+        )*
 
     Rule30 only giving 1's (at least with default seed)
         - maybe need to change default seed for rule30
@@ -95,14 +101,19 @@ TODO:
 
     DONE: Convert visuals to only use a single call to nRandomScalars() for better preformance
     and more consistent PRNG states without having to use SEED_INCREMENT
+    
+    
+NOTES:
+    - if having errors with gif creation for distribution, 3d_scatter, 3d_walk, or shadedrelief check that you have:
+        heatmaps/3d_scatter/
+        heatmaps/3d_walk/
+        heatmaps/distribution/
+        heatmaps/shadedrelief/
+    subfolders in the heatmaps folder
 
+    - if having errors with running visualizations, check that you have updated versions of python
+    and other dependencies listed above
 
-**if having errors with gif creation for distribution, 3d_scatter, 3d_walk, or shadedrelief check that you have:
-    heatmaps/3d_scatter/
-    heatmaps/3d_walk/
-    heatmaps/distribution/
-    heatmaps/shadedrelief/
-subfolders in the heatmaps folder
 
     Lagged Fibonacci arguments Example:
         ./prng [other arguments] -a lfg -O "operator_char,j_int,k_int"
@@ -112,3 +123,8 @@ subfolders in the heatmaps folder
         Ex:
             ./prng -d -a lfg -s 1 -n 10 -O "*,3,9"
 
+    Blum Blum Shub arguments:
+        ./prng [other arguments] -a bbs -O p,q
+        p and q must be Blum Primes, prime numbers that are congruent to 3(mod 4)
+        Ex. 3,7,11,19,23,etc
+        Ex: ./prng -d -a bbs -s 3 -n 10 -O "11,23"
