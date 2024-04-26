@@ -175,11 +175,11 @@ def getAlgoArgs(algo):
         while op_char not in ['*', '+', '-', '^']:
             op_char = input("Invalid Input -- Select From Operators (*, +, -, ^): ")
         j = -1
-        while not (j > 0 and j < 10):
-            j = getIntFromInput("J Value (1-9): ")
+        while not (j > 0):
+            j = getIntFromInput("J Value: ")
         k = -1
-        while not (k > 0 and k < 10):
-            k = getIntFromInput("K Value (1-9): ")
+        while not (k > 0 and k != j):
+            k = getIntFromInput("K Value: ")
         
         return [op_char, j, k]
     
