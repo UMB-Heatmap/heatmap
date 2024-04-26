@@ -82,15 +82,6 @@ TODO:
     LCG and Lehmer not scaling properly:
         set this->maxValue in algorithm header constructor
 
-    LFG fails with 2-digit j or k values
-        **(I added a safeguard to the src/visual_utils.py getAlgoArgs() to only allow i,k = 1-9
-           but this can be removed if this was a bug and gets fixed)
-        *(fix python interaction with LFG to account for j and k rules,
-            - j!=k, 
-            - j>0, 
-            - k>0
-        )*
-
     Rule30 only giving 1's (at least with default seed)
         - maybe need to change default seed for rule30
 
