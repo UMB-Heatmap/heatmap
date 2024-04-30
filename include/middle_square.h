@@ -8,11 +8,16 @@ public:
     Middle_Square(uint64_t seed) : Algorithm(seed) {};
     uint64_t peekNext() {
         uint64_t x = this->state;
-        this->maxValue = 4294967296;
+        //this->maxValue = 9223372036854775807;
 
         if (x == 0) return x;
 
         if (seedLen == 0) seedLen = std::to_string(x).size();
+        std::string maxVal = "";
+        for (int i = 0; i < seedLen; i++){
+            maxVal = maxVal + "9";
+        }
+        this->maxValue = std::stoull(maxVal);
 
         x = x * x;
         std::string squareX = std::to_string(x);
