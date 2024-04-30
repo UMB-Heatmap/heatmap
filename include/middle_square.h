@@ -8,7 +8,6 @@ public:
     Middle_Square(uint64_t seed) : Algorithm(seed) {};
     uint64_t peekNext() {
         uint64_t x = this->state;
-        //this->maxValue = 9223372036854775807;
 
         if (x == 0) return x;
 
