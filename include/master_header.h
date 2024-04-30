@@ -18,6 +18,8 @@
 #include "lagged_fibonacci.h"
 #include "rule30.h"
 #include "blumblumshub.h"
+#include "number_four.h"
+
 
 // ADD INDEX HERE
 #define XORSHIFT    1
@@ -28,6 +30,7 @@
 #define MIDDLE_SQUARE 6
 #define RULE30 7
 #define BLUMBLUMSHUB 8
+#define NUM_FOUR    9
 
 // ADD COMMAND LINE NAME HERE
 std::unordered_map<std::string, int> algorithmMap = {
@@ -38,6 +41,7 @@ std::unordered_map<std::string, int> algorithmMap = {
     {"middle_square", MIDDLE_SQUARE},
     {"lfg",         LAGGED_FIBO},
     {"rule30",      RULE30},
+    {"four",        NUM_FOUR},
     {"bbs",         BLUMBLUMSHUB}
 };
 
@@ -65,6 +69,9 @@ Algorithm * getAlgorithm(int algorithm, uint64_t seed, std::deque<int> algOpt_in
             break;
         case RULE30:
             algo = new Rule30(seed);
+            break;
+        case NUM_FOUR:
+            algo = new NumberFour(seed);
             break;
         case BLUMBLUMSHUB:
             algo = new BlumBlumShub(seed, algOpt_int);
