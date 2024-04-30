@@ -6,7 +6,7 @@
 class NumberFour : public Algorithm {
 public:
     NumberFour(uint64_t seed) : Algorithm(seed) {
-        this->maxValue = 1;
+        this->maxValue = 10;
         this->seed = 4; 
         this->state = 4;
     };
