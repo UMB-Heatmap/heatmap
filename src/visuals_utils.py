@@ -2,15 +2,15 @@ import numpy as np
 from subprocess import run
 import sys
 
-DEFAULT_SEED = 1
+DEFAULT_SEED = 12345
 DEFAULT_SEED_INCREMENT = 12345
 
 # add algorithm options HERE: (must be all lowercase)
-ALGORITHMS = ['lehmer', 'splitmix', 'xorshift', 'lcg', 'middle_square', 'rule30', 'lfg', 'four']
-HAS_EXTRA_ARGS = ['lfg']
+ALGORITHMS = ['lehmer', 'splitmix', 'xorshift', 'lcg', 'middle_square', 'rule30', 'lfg', 'bbs', 'four']
+HAS_EXTRA_ARGS = ['lfg', 'bbs']
 
 # add visual options HERE: (must be all lowercase and same as python script name)
-VISUALS = ['2d', 'distribution', 'frequency', '3d_scatter', '3d_walk', '3d'] 
+VISUALS = ['2d', 'distribution', 'frequency', '3d_scatter', '3d_walk', '3d', 'shadedrelief', 'seed_eval'] 
 
 def printAlgorithmOptions():
     for algo in ALGORITHMS: 
@@ -175,13 +175,31 @@ def getAlgoArgs(algo):
         while op_char not in ['*', '+', '-', '^']:
             op_char = input("Invalid Input -- Select From Operators (*, +, -, ^): ")
         j = -1
-        while not (j > 0 and j < 10):
-            j = getIntFromInput("J Value (1-9): ")
+        while not (j > 0):
+            j = getIntFromInput("J Value: ")
         k = -1
-        while not (k > 0 and k < 10):
-            k = getIntFromInput("K Value (1-9): ")
+        while not (k > 0 and k != j):
+            k = getIntFromInput("K Value: ")
         
         return [op_char, j, k]
+    
+    elif algo == "bbs":
+        p = getIntFromInput("P Value (Blum Prime): ")
+        while not isBlumPrime(p):
+            p = getIntFromInput("Invalid Input -- P Value must be a Blum Prime: ")
+        q = getIntFromInput("Q Value (Blum Prime): ")
+        while not isBlumPrime(q):
+            q = getIntFromInput("Invalid Input -- Q Value must be a Blum Prime: ")
+        return [p, q]
+
+# checks if a number is a Blum Prime
+def isBlumPrime(n):
+    if n <= 1:
+        return False
+    for i in range(2, n):
+        if n % i == 0:
+            return False
+    return n % 4 == 3
 
 # returns list of N scalars [0, 1) from algo and seed or -1 if invalid inputs
 def nRandomScalars(algo, seed, numVals, args):
@@ -200,7 +218,8 @@ def nRandomScalars(algo, seed, numVals, args):
         cmd = './prng -f ' + filePath + ' -a ' + str(algo.lower()) + ' -s ' + str(s) + ' -n ' + str(n)
     elif algo == 'lfg':
         cmd = './prng -f ' + filePath + ' -a lfg -s ' + str(s) + ' -n ' + str(n) + ' -O \"' + str(args[0]) + ',' + str(args[1]) + ',' + str(args[2]) + '\"'
-    
+    elif algo == 'bbs': 
+        cmd = './prng -f ' + filePath + ' -a bbs -s ' + str(s) + ' -n ' + str(n) + ' -O \"' + str(args[0]) + ',' + str(args[1]) + '\"'
     run(cmd, shell=True)
     nums = np.genfromtxt(filePath)
     if (nums.size == 1): randoms = [nums.item()]
