@@ -53,19 +53,31 @@ class VisualizationHandler:
         match option:
             case 'rows':
                 return InputHandler.getIntFromInput("Number of Rows: ")
-
             case 'columns':
                 return InputHandler.getIntFromInput("Number of Columns: ")
-
             case 'colorMap':
                 print("\nColor Map Options -- Select From:")
                 print("\t" + self.accessor['optionInfo'].getOptionsString('color_maps', "\n\t"))
-                
                 return InputHandler.getItemFromListFromInput("Color Map: ", self.accessor['optionInfo'].OPTIONS['color_maps'])
-
+            case 'points':
+                return InputHandler.getIntFromInput("Number of Points: ")
+            case 'interpolation':
+                return InputHandler.getBoolFromInput("Interpolate? (Y/N): ")
+            case 'interpolationPoints':
+                if self.visualization.params['interpolation']:
+                    return InputHandler.getIntFromInput("Number of Interpolation Points (Higher = Smoother): ")
+                else:
+                    return 0
             case '':
                 pass
-
+            case '':
+                pass
+            case '':
+                pass
+            case '':
+                pass
+            case '':
+                pass
             case _:
                 pass
         return ''

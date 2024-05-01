@@ -14,9 +14,6 @@
 from src.py_classes.vis_imports import *
 
 class Vis_2d(VisualizationInterface):
-    def __init__(self, accessor, params):
-        super().__init__(accessor, params)
-
     def getParamList(self):
         return ['rows', 'columns', 'colorMap']
     
@@ -40,8 +37,4 @@ class Vis_2d(VisualizationInterface):
         # STEP 3: Save visualization in heatmaps folder with appropriate name
         self.params['heatmapPath'] = 'heatmaps/' + str(self.params['algorithm']) + '_' + str(numRows) + 'x' + str(numCols) + '_2d_heatmap.svg'
         plt.savefig(self.params['heatmapPath'])
-
-    def open(self):
-        cmd = 'open ' + self.params['heatmapPath']
-        run(cmd, shell=True)
 

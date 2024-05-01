@@ -101,8 +101,6 @@ class CommandLineHandler:
         return len(self.args)
 
     def getCoreArgs(self, force_seed = False):
-        print('Getting Core Args')
-        print(self.args)
         if self.getArgCount() < 2:
             if self.verbose:
                 self.printUsageTable()

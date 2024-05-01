@@ -11,6 +11,7 @@ class VisualizationInterface:
         self.params.update(params)
         self.params['seed_increment'] = accessor['optionInfo'].OPTIONS['default_seed_increment']
 
+
     @abstractmethod
     def getParamList(self):
         pass
@@ -19,7 +20,7 @@ class VisualizationInterface:
     def generate(self):
         pass
 
-    @abstractmethod
     def open(self):
-        pass
+        cmd = 'open ' + self.params['heatmapPath']
+        run(cmd, shell=True)
 

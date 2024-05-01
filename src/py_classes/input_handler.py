@@ -43,5 +43,5 @@ class InputHandler:
             if (x in list):
                 return x
             else:
-                print("Invalid Input -- Must be in list: " + ', '.join(list))
+                print("Invalid Input -- Must be in list:\n\t" + ", ".join(list))
     
