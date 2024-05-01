@@ -76,7 +76,8 @@ class VisualizationHandler:
                     modified_color_modes[i] = str(i+1) + "= " + str(modified_color_modes[i])
                 print("\nColor Mode Options -- Select From:")
                 print("\t" + "\n\t".join(modified_color_modes))
-                return InputHandler.getItemFromListFromInput("Color Mode: ", self.optionInfo.OPTIONS['color_modes'], modified_color_modes)
+                val = InputHandler.getItemFromListFromInput("Color Mode: ", self.optionInfo.OPTIONS['color_modes'], modified_color_modes)
+                return int(val)
             case 'useGif':
                 return InputHandler.getBoolFromInput("Would you like to generate a .gif? (Y/N): ")
             case 'loopGif':

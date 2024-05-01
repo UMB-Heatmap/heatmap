@@ -36,6 +36,8 @@ class Vis_3d_scatter(VisualizationInterface):
         MAX_FRAMES = self.MAX_FRAMES
         N = self.N
 
+        self.params['heatmap'] = 'heatmaps/' + str(self.params['algorithm']) + '3d_scatter_' + str(MAX_VALUES) + '.gif'
+
         # STEP 2: Generate data for visualization via prng.cpp calls
         data = []
         if (colorMode == 1): 
@@ -64,7 +66,7 @@ class Vis_3d_scatter(VisualizationInterface):
         )
         # Vertical slider to control size of random points
         axPointSize = fig.add_axes([0.1, 0.25, 0.0225, 0.63])
-        pointSize_slider = Slider(
+        self.params['pointSize_slider'] = Slider(
             ax=axPointSize,
             label='Point Size',
             valmin=0.1,
@@ -72,23 +74,10 @@ class Vis_3d_scatter(VisualizationInterface):
             valinit=1,
             orientation='vertical'
         )
-        # update plot when slider value changes
-        def update(val):
-            values = round(self.params['numPoints_slider'].val)
-            ax.cla()
-            ax.scatter(
-                x[0:values], 
-                y[0:values], 
-                z[0:values], 
-                s=pointSize_slider.val, 
-                c=color[0:values], 
-                marker='o', 
-                cmap=colorMap, 
-                alpha=1
-            )
+        
         # register update function with NumPoints slider
-        self.params['numPoints_slider'].on_changed(update)
-        pointSize_slider.on_changed(update)
+        self.params['numPoints_slider'].on_changed(self.update)
+        self.params['pointSize_slider'].on_changed(self.update)
 
         # unpack data / colors
         x = data[0]
@@ -106,10 +95,10 @@ class Vis_3d_scatter(VisualizationInterface):
             color = y.copy()
         elif (colorMode == 5): # z gradient
             color = z.copy()
-        print(colorMode)
-        print(color)
+        else :
+            print('Fatal Error: missing color mode')
+            sys.exit()
         
-
         if (self.params['useGif']):
             # display progress
 
@@ -162,6 +151,21 @@ class Vis_3d_scatter(VisualizationInterface):
         self.params['z'] = z
         self.params['color'] = color
 
+    # update plot when slider value changes
+    def update(self, val):
+        values = round(self.params['numPoints_slider'].val)
+        self.params['ax'].cla()
+        self.params['ax'].scatter(
+            self.params['x'][0:values], 
+            self.params['y'][0:values], 
+            self.params['z'][0:values], 
+            s=self.params['pointSize_slider'].val, 
+            c=self.params['color'][0:values], 
+            marker='o', 
+            cmap=self.params['colorMap'], 
+            alpha=1
+        )
+
     def open(self):
         # clean up pngs
         for file in os.listdir('heatmaps/3d_scatter'):
@@ -178,7 +182,7 @@ class Vis_3d_scatter(VisualizationInterface):
             self.params['x'][0:values], 
             self.params['y'][0:values], 
             self.params['z'][0:values], 
-            c=color[0:values], 
+            c=self.params['color'][0:values], 
             marker='o', 
             cmap=self.params['colorMap'], 
             alpha=1
