@@ -15,20 +15,25 @@ from src.py_classes.imports import *
 # Run external script for visualization
 vis.makeIfNeeded()
 
+IS_SINGLE_LINE = False
+
+# Create objects
 accessor = Accessor()
 
 oi = OptionInfo()
 accessor['optionInfo'] = oi
 
-clh = CommandLineHandler(accessor, sys.argv, False)
+clh = CommandLineHandler(accessor, sys.argv, not IS_SINGLE_LINE)
 accessor['commandLineHandler'] = clh
 
-vr = VisualizationRunner(accessor, False)
+vr = VisualizationRunner(accessor, IS_SINGLE_LINE)
 accessor['visualizationRunner'] = vr
 
-algorithm = vr['algorithm']
-visual = vr['visualization']
-seed = vr['seed']
+# start gathering info
+algorithm, visual, seed = clh.getCoreArgs()
+extra_args = eac.getOptionalArgs(accessor, algorithm)
+
+
 
 # algorithm, visual, seed = vis.handleCLI()
 cmd = 'python3 ' + 'src/' + visual + '.py ' + algorithm + ' ' + str(seed)

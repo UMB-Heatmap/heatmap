@@ -11,6 +11,9 @@ class CommandLineHandler:
 
     def __init__(self, accessor: Accessor, args, verbose):
         self.args = args
+        # pop first item always
+        self.popFrontArgs()
+
         self.accessor = accessor
         self.optionInfo = accessor['optionInfo']
         self.verbose = verbose
@@ -97,9 +100,35 @@ class CommandLineHandler:
     def getArgCount(self):
         return len(self.args)
 
-            
+    def getCoreArgs(self, force_seed = False):
+        print('Getting Core Args')
+        print(self.args)
+        if self.getArgCount() < 2:
+            if self.verbose:
+                self.printUsageTable()
+            sys.exit()
 
+        # set default values
+        algorithm = ''
+        visualization = ''
+        seed = self.accessor['optionInfo'].OPTIONS['default_seed']
 
+        # get algorithm
+        algorithm = self.getString()
+        self.validateOption('algorithms', algorithm)
+
+        # get visualization
+        visualization = self.getString()
+        self.validateOption('visualizations', visualization)
+
+        # get seed
+        if (self.validateArgsLength() or force_seed):
+            seed = self.getInt()
+            self.validateOption('seed', seed)
+        
+        return [algorithm, visualization, seed]
+
+    
 
         
 
