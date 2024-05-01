@@ -4,9 +4,11 @@ class Accessor:
     objects = {
         'commandLineHandler' : None,
         'optionInfo' : None,
-        'visualizationRunner' : None,
+        'visualizationHandler' : None,
         'inputHandler' : InputHandler
     }
+
+    params = {}
 
     def __init__(self):
         pass

@@ -2,7 +2,8 @@ from src.py_classes.imports import *
 
 def getOptionalArgs(accessor, algorithm):
     if algorithm in accessor['optionInfo'].OPTIONS['has_extra_args']:
-        return accessor['optionInfo'].callbacks[algorithm]()
+        items = accessor['optionInfo'].callbacks[algorithm]()
+        return map(lambda x : str(x), items)
 
 def lfg_params():
     op_char = InputHandler.getItemFromListFromInput("Operator (*, +, -, ^): ", ['*', '+', '-', '^'])

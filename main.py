@@ -12,9 +12,6 @@ from subprocess import run
 from src import visuals_utils as vis
 from src.py_classes.imports import *
 
-# Run external script for visualization
-vis.makeIfNeeded()
-
 IS_SINGLE_LINE = False
 
 # Create objects
@@ -26,15 +23,32 @@ accessor['optionInfo'] = oi
 clh = CommandLineHandler(accessor, sys.argv, not IS_SINGLE_LINE)
 accessor['commandLineHandler'] = clh
 
-vr = VisualizationRunner(accessor, IS_SINGLE_LINE)
-accessor['visualizationRunner'] = vr
+vh = VisualizationHandler(accessor, IS_SINGLE_LINE)
+accessor['visualizationHandler'] = vh
+
+cpp = CppHandler(accessor, not IS_SINGLE_LINE)
+accessor['cppHandler'] = cpp
 
 # start gathering info
+cpp.makeIfNeeded()
+
 algorithm, visual, seed = clh.getCoreArgs()
 extra_args = eac.getOptionalArgs(accessor, algorithm)
 
+params = {
+    'algorithm' : algorithm,
+    'visualization' : visual,
+    'seed' : seed,
+    'extra_args' : extra_args
+}
 
+accessor.params = params
+
+vh.setup(params)
+
+vh.run()
+vh.open()
 
 # algorithm, visual, seed = vis.handleCLI()
-cmd = 'python3 ' + 'src/' + visual + '.py ' + algorithm + ' ' + str(seed)
-run(cmd, shell=True)
+# cmd = 'python3 ' + 'src/' + visual + '.py ' + algorithm + ' ' + str(seed)
+# run(cmd, shell=True)

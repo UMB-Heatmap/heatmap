@@ -1,4 +1,5 @@
 import src.py_classes.extra_args_callbacks as eac
+from src.visualizations.vis_exports import *
 
 class OptionInfo:
     OPTIONS = {
@@ -16,6 +17,17 @@ class OptionInfo:
     callbacks = {
         'lfg' : eac.lfg_params,
         'bbs' : eac.bbs_params,
+    }
+
+    visualizations = {
+        '2d'            : Vis_2d, 
+        'distribution'  : None, 
+        'frequency'     : None, 
+        '3d_scatter'    : None, 
+        '3d_walk'       : None, 
+        '3d'            : None, 
+        'shadedrelief'  : None, 
+        'seed_eval'     : None,
     }
 
     def __init__(self):
