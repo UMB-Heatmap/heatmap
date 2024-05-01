@@ -1,5 +1,5 @@
 import src.py_classes.extra_args_callbacks as eac
-from src.visualizations.vis_exports import *
+from src.py_classes.vis_exports import *
 
 class OptionInfo:
     OPTIONS = {

@@ -11,7 +11,7 @@
 #   number_of_rows, number_of_columns, color_map
 
 
-from src.visualizations.vis_imports import *
+from src.py_classes.vis_imports import *
 
 class Vis_2d(VisualizationInterface):
     def __init__(self, accessor, params):

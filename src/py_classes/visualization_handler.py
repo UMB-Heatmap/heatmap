@@ -1,5 +1,5 @@
 from src.py_classes.imports import *
-from src.visualizations.vis_imports import *
+from src.py_classes.vis_imports import *
 
 class VisualizationHandler:
 
