@@ -26,7 +26,7 @@ class InputHandler:
                 print("Invalid Input -- Must be Yes/No or Y/N")
 
     # validates positive float input from standard input
-    def getPosFloatFromInput(message):
+    def getFloatFromInput(message):
         while True: 
             try:
                 x = float(input(message))
@@ -37,11 +37,14 @@ class InputHandler:
             except ValueError:
                 print("Invalid Input -- Must be > 0.0")
 
-    def getItemFromListFromInput(message, list):
+    def getItemFromListFromInput(message, list, secondaryList = []):
         while True: 
             x = input(message)
-            if (x in list):
+            if (x in map(lambda x : str(x), list)):
                 return x
             else:
-                print("Invalid Input -- Must be in list:\n\t" + ", ".join(list))
+                if len(secondaryList) == 0:
+                    print("Invalid Input -- Must be in list:\n\t" + ", ".join(list))
+                else:
+                    print("Invalid Input -- Must be in list:\n\t" + ", ".join(secondaryList))
     

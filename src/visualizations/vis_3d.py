@@ -35,7 +35,7 @@ class Vis_3d(VisualizationInterface):
             row = all_data[(x*numP):((x+1)*numP)]
             data.append(row)
 
-        # STEP 3: Generate visualization
+        # STEP 2: Generate visualization
 
         # Set up plot
         fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
@@ -70,7 +70,7 @@ class Vis_3d(VisualizationInterface):
 
         fig.colorbar(surf, ax=ax, fraction=0.02, pad=0.1, label=str(self.params['colorMap']))
 
-        # STEP 4: Save visualization in heatmaps folder with appropriate name
+        # STEP 3: Save visualization in heatmaps folder with appropriate name
         self.params['heatmapPath'] = 'heatmaps/' + str(self.params['algorithm']) + '_' + str(self.params['seed']) + '_3d_heatmap.svg'
         plt.title("3D Heat Map from " + self.params['algorithm'].upper())
         plt.savefig(self.params['heatmapPath'])

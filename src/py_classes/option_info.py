@@ -23,7 +23,7 @@ class OptionInfo:
         '2d'            : Vis_2d, 
         'distribution'  : None, 
         'frequency'     : None, 
-        '3d_scatter'    : None, 
+        '3d_scatter'    : Vis_3d_scatter, 
         '3d_walk'       : None, 
         '3d'            : Vis_3d, 
         'shadedrelief'  : None, 
@@ -33,7 +33,7 @@ class OptionInfo:
     def __init__(self):
         self.OPTIONS.update({
             # range(1, LENGTH_OF_color_mode_names + 1)
-            'color_modes'       : range(1, len(self.OPTIONS['color_mode_names']) + 1),
+            'color_modes'       : list(range(1, len(self.OPTIONS['color_mode_names']) + 1)),
             'seed'              : self.validateInt,
         })
 

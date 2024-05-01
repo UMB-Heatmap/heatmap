@@ -57,8 +57,8 @@ class VisualizationHandler:
                 return InputHandler.getIntFromInput("Number of Columns: ")
             case 'colorMap':
                 print("\nColor Map Options -- Select From:")
-                print("\t" + self.accessor['optionInfo'].getOptionsString('color_maps', "\n\t"))
-                return InputHandler.getItemFromListFromInput("Color Map: ", self.accessor['optionInfo'].OPTIONS['color_maps'])
+                print("\t" + self.optionInfo.getOptionsString('color_maps', "\n\t"))
+                return InputHandler.getItemFromListFromInput("Color Map: ", self.optionInfo.OPTIONS['color_maps'])
             case 'points':
                 return InputHandler.getIntFromInput("Number of Points: ")
             case 'interpolation':
@@ -68,8 +68,27 @@ class VisualizationHandler:
                     return InputHandler.getIntFromInput("Number of Interpolation Points (Higher = Smoother): ")
                 else:
                     return 0
-            case '':
-                pass
+            case 'maxPoints':
+                return InputHandler.getIntFromInput("Maximum Number of Random Points: ")
+            case 'colorMode':
+                modified_color_modes = self.optionInfo.OPTIONS['color_mode_names'][:]
+                for i in range(len(modified_color_modes)):
+                    modified_color_modes[i] = str(i+1) + "= " + str(modified_color_modes[i])
+                print("\nColor Mode Options -- Select From:")
+                print("\t" + "\n\t".join(modified_color_modes))
+                return InputHandler.getItemFromListFromInput("Color Mode: ", self.optionInfo.OPTIONS['color_modes'], modified_color_modes)
+            case 'useGif':
+                return InputHandler.getBoolFromInput("Would you like to generate a .gif? (Y/N): ")
+            case 'loopGif':
+                if self.visualization.params['useGif']:
+                    return InputHandler.getBoolFromInput("GIF Looping? (Y/N): ")
+                else:
+                    return False
+            case 'gifDuration':
+                if self.visualization.params['useGif']:
+                    return InputHandler.getFloatFromInput("GIF Duration: ")
+                else:
+                    return 0.0
             case '':
                 pass
             case '':
