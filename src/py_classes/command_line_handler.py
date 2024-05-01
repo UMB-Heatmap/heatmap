@@ -1,15 +1,21 @@
-import sys
+from src.py_classes.imports import *
 
 class CommandLineHandler:
     
+    accessor: Accessor = None
+    optionInfo = None
+
     OPTIONS = {}
     verbose = True
     args = []
 
-    def __init__(self, args, OPTIONS, verbose):
+    def __init__(self, accessor: Accessor, args, verbose):
         self.args = args
-        self.OPTIONS = OPTIONS
+        self.accessor = accessor
+        self.optionInfo = accessor['optionInfo']
         self.verbose = verbose
+
+        self.OPTIONS = self.optionInfo.OPTIONS
 
     def getString(self):
         if not self.validateArgsLength():
@@ -56,26 +62,27 @@ class CommandLineHandler:
             "",
             "PRNG Algorithm Options:  ",
             "-------------------------",
-            "\n".join(self.OPTIONS['algorithms']),
+            self.optionInfo.getOptionsString('algorithms', "\n"),
             "",
             "Visualization Options: ",
             "-------------------------",
-            "\n".join(self.OPTIONS['visualizations']),
+            self.optionInfo.getOptionsString('visualizations', "\n"),
             "",
         ]
         print("\n".join(message))
 
     def validateOption(self, option, value):
         result = True
-        if (callable(self.OPTIONS[option])):
-            if (not self.OPTIONS[option](value) and self.verbose):
+        opt = self.OPTIONS[option]
+        if (callable(opt)):
+            if ((not opt(value)) and self.verbose):
                 print("Invalid " + option)
                 result = False
         else:
             if (not (value in self.OPTIONS[option]) and self.verbose):
                 print("Invalid " + option + " -- Select From: ")
                 print("----------------------------------")
-                "\n".join(self.OPTIONS[option])
+                self.optionInfo.getOptionsString(option, "\n"),
                 result = False
         return result
 
