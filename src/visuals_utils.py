@@ -2,6 +2,38 @@ import numpy as np
 from subprocess import run
 import sys
 
+def validateInt(value):
+        result = True
+        try:
+            value = int(value)
+        except ValueError:
+            result = False
+        return result
+
+OPTIONS = {
+    'algorithms'        : ['lehmer', 'splitmix', 'xorshift', 'lcg', 'middle_square', 'rule30', 'lfg', 'bbs', 'four'],
+    'visualizations'    : ['2d', 'distribution', 'frequency', '3d_scatter', '3d_walk', '3d', 'shadedrelief', 'seed_eval'],
+    'has_extra_args'    : ['lfg', 'bbs'],
+    # Color Map Options (directly from MatPlotLib)
+    # https://matplotlib.org/stable/gallery/color/colormap_reference.html
+    'color_maps'        : ['viridis', 'plasma', 'inferno', 'magma', 'cividis', 'binary', 'gist_yarg', 'gist_gray', 'gray', 'bone', 'pink', 'spring', 'summer', 'autumn', 'winter', 'cool', 'Wistia', 'hot', 'afmhot', 'gist_heat', 'copper'],
+    'color_mode_names'  : ['random', 'diagonal gradient', 'x gradient', 'y gradient', 'z gradient'],
+    # range(1, LENGTH_OF_color_mode_names + 1)
+    'color_modes'       : range(1, 5 + 1),
+    'default_seed'      : 12345,
+    'default_seed_increment' : 12345,
+    'seed'              : validateInt,
+}
+
+callbacks = {
+    'bbs' : lambda x : x,
+    'lfg' : lambda y : y,
+}
+
+option_order = ['algorithms', 'visualizations', 'seed']
+
+
+
 DEFAULT_SEED = 12345
 DEFAULT_SEED_INCREMENT = 12345
 

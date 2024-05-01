@@ -9,10 +9,18 @@
 # requires algorithm and visual, seed is optional and will default to DEFAULT_SEED
 
 from subprocess import run
+import sys
 from src import visuals_utils as vis
+from src.py_classes.visualization_runner import VisualizationRunner
 
 # Run external script for visualization
 vis.makeIfNeeded()
-algorithm, visual, seed = vis.handleCLI()
+ih = VisualizationRunner(False)
+
+algorithm = ih['algorithm']
+visual = ih['visualization']
+seed = ih['seed']
+
+# algorithm, visual, seed = vis.handleCLI()
 cmd = 'python3 ' + 'src/' + visual + '.py ' + algorithm + ' ' + str(seed)
 run(cmd, shell=True)
