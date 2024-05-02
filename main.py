@@ -8,14 +8,16 @@
 #
 # requires algorithm and visual, seed is optional and will default to DEFAULT_SEED
 
-from subprocess import run
+import subprocess
+import sys
 from src import visuals_utils as vis
 
-# install dependencies via pip
-run('pip install -q -r requirements.txt', shell=True)
+# install dependencies via pip WORK IN PROGRESS
+# subprocess.check_call([sys.executable, '-m', 'pip', 'install', '-q', '-r', 'requirements.txt'])
+# subprocess.run('python3 -m pip install -q -r requirements.txt', shell=True, check=True)
 
 # Run external script for visualization
 vis.makeIfNeeded()
 algorithm, visual, seed = vis.handleCLI()
 cmd = 'python3 ' + 'src/' + visual + '.py ' + algorithm + ' ' + str(seed)
-run(cmd, shell=True)
+subprocess.run(cmd, shell=True)
