@@ -12,8 +12,9 @@ import subprocess
 import sys
 from src import visuals_utils as vis
 
-# install dependencies via pip
-subprocess.check_call([sys.executable, '-m', 'pip', 'install', '-q', '-r', 'requirements.txt'])
+# install dependencies via pip WORK IN PROGRESS
+# subprocess.check_call([sys.executable, '-m', 'pip', 'install', '-q', '-r', 'requirements.txt'])
+# subprocess.run('python3 -m pip install -q -r requirements.txt', shell=True, check=True)
 
 # Run external script for visualization
 vis.makeIfNeeded()
