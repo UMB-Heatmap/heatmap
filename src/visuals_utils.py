@@ -112,7 +112,7 @@ def openVisual(path):
     elif (HOST_OS == 'Darwin'):
         cmd = 'open ' + path
     elif (HOST_OS == 'Windows'):
-        cmd = path
+        cmd = './' + path
     else:
         print('Could not open Visual... saved in \'heatmaps\' folder')
         return
