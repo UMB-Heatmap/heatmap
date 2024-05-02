@@ -1,7 +1,8 @@
 *.o
 **/*.o
 prng
-heatmaps/*
+heatmaps/*.*
+heatmaps/**/*.*
 data/*
 .DS_store
 output.txt
@@ -11,3 +12,5 @@ src/__pycache__/*
 # Exemptions adsdfs
 !heatmaps/README.txt
 !data/README.txt
+!heatmaps/**/README.txt
+
