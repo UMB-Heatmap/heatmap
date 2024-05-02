@@ -14,8 +14,6 @@
 # 
 # can use native matplotlib zoom to explore distribution of random points
 
-from pylab import *
-
 from src.py_classes.vis_imports import *
 
 class Vis_3d_scatter(VisualizationInterface):

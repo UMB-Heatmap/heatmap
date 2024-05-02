@@ -73,8 +73,6 @@ class VisualizationHandler:
                     return 0.0
             case 'openPlotAfterGif':
                 return InputHandler.getBoolFromInput("Open Interactive plot? (Y/N): ")
-            case '':
-                pass
             case _:
                 return self.visualization.getOptionInput(option)
         return ''
