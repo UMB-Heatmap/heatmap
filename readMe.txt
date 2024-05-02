@@ -70,13 +70,12 @@ For Implementing additional Algorithms:
         3. update src/visuals_utils.py nRandomScalars() with elif case for algorithm
 
 For Implementing additional Visualizations:
-    1. write VISUALIZATION_NAME.py in src folder 
-      **import visual_utils as vis
-      **(see src/2d.py for example and exaplanation)
-      **(see src/visuals_utils.py for common functions and shared values)
-      **(import visual_utils as vis)
-    2. update src/visuals_utils.py VISUALS list
-    3. IMPORTANT: use ALGO_ARGS = vis.getAlgoArgs(ALGORITHM) and use vis.nRandomScalars() to get data (see examples)
+    1. write vis_VISUALIZATION_NAME.py in src/visualizations/ folder 
+      ** `from src.py_classes.vis_imports import *`
+    2. add your file to the src/py_classes/vis_exports.py file
+    3. update src/py_classes/option_info.py OPTIONS list, and visualizations list
+    
+    TODO: finish writing this
 
 TODO:
     LCG and Lehmer not scaling properly:
