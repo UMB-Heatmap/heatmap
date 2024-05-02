@@ -90,12 +90,12 @@ class VisualizationHandler:
                     return InputHandler.getFloatFromInput("GIF Duration: ")
                 else:
                     return 0.0
-            case '':
-                pass
-            case '':
-                pass
-            case '':
-                pass
+            case 'steps':
+                return InputHandler.getIntFromInput("Maximum Number of Steps: ")
+            case 'stepSize':
+                return InputHandler.getIntFromInput("Maximum Step Size: ")
+            case 'openPlotAfterGif':
+                return InputHandler.getBoolFromInput("Open Interactive plot? (Y/N): ")
             case '':
                 pass
             case _:

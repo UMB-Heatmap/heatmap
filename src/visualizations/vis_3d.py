@@ -20,9 +20,9 @@ class Vis_3d(VisualizationInterface):
 
     def generate(self):
         # This only serves to fix an error down the line
-        colorMap1 = plt.colormaps.get_cmap(self.params['colorMap'])
+        colorMap1 = plt.colormaps.get_cmap(self['colorMap'])
 
-        numP = self.params['points']
+        numP = self['points']
 
         # STEP 1: Generate data for visualization via prng.cpp calls
         #   to get NUM_VALUES random doubles in range [0, 1) using ALGORITHM and SEED:
@@ -52,8 +52,8 @@ class Vis_3d(VisualizationInterface):
         X, Y = np.meshgrid(X, Y)
         Z = np.asarray(data)
 
-        if (self.params['interpolation']):
-            interP = self.params['interpolationPoints']
+        if (self['interpolation']):
+            interP = self['interpolationPoints']
             # Define new grid for interpolation
             newX, newY = np.mgrid[0:1:1j * interP, 0:1:1j * interP]
 
@@ -68,10 +68,10 @@ class Vis_3d(VisualizationInterface):
             # Plot surface
             surf = ax.plot_surface(X, Y, Z, cmap=colorMap1, antialiased=True)
 
-        fig.colorbar(surf, ax=ax, fraction=0.02, pad=0.1, label=str(self.params['colorMap']))
+        fig.colorbar(surf, ax=ax, fraction=0.02, pad=0.1, label=str(self['colorMap']))
 
         # STEP 3: Save visualization in heatmaps folder with appropriate name
-        self.params['heatmapPath'] = 'heatmaps/' + str(self.params['algorithm']) + '_' + str(self.params['seed']) + '_3d_heatmap.svg'
-        plt.title("3D Heat Map from " + self.params['algorithm'].upper())
-        plt.savefig(self.params['heatmapPath'])
+        self['heatmapPath'] = 'heatmaps/' + str(self['algorithm']) + '_' + str(self['seed']) + '_3d_heatmap.svg'
+        plt.title("3D Heat Map from " + self['algorithm'].upper())
+        plt.savefig(self['heatmapPath'])
 

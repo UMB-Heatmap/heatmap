@@ -24,7 +24,7 @@ class OptionInfo:
         'distribution'  : None, 
         'frequency'     : None, 
         '3d_scatter'    : Vis_3d_scatter, 
-        '3d_walk'       : None, 
+        '3d_walk'       : Vis_3d_walk, 
         '3d'            : Vis_3d, 
         'shadedrelief'  : None, 
         'seed_eval'     : None,

@@ -18,9 +18,9 @@ class Vis_2d(VisualizationInterface):
         return ['rows', 'columns', 'colorMap']
     
     def generate(self):
-        numRows = self.params['rows']
-        numCols = self.params['columns']
-        colorMap = self.params['colorMap']
+        numRows = self['rows']
+        numCols = self['columns']
+        colorMap = self['colorMap']
 
         # STEP 1: Generate data for visualization via ./prng calls (abstracted to vis.nRandomScalars)
         data = []
@@ -31,10 +31,10 @@ class Vis_2d(VisualizationInterface):
 
         # STEP 2: Generate visualization
         plt.imshow(data, cmap=colorMap)
-        plt.title(str(numRows) + "x" + str(numCols) + " Heat Map from " + self.params['algorithm'].upper())
+        plt.title(str(numRows) + "x" + str(numCols) + " Heat Map from " + self['algorithm'].upper())
         plt.colorbar()
 
         # STEP 3: Save visualization in heatmaps folder with appropriate name
-        self.params['heatmapPath'] = 'heatmaps/' + str(self.params['algorithm']) + '_' + str(numRows) + 'x' + str(numCols) + '_2d_heatmap.svg'
-        plt.savefig(self.params['heatmapPath'])
+        self['heatmapPath'] = 'heatmaps/' + str(self['algorithm']) + '_' + str(numRows) + 'x' + str(numCols) + '_2d_heatmap.svg'
+        plt.savefig(self['heatmapPath'])
 
