@@ -73,6 +73,8 @@ class VisualizationHandler:
                     return 0.0
             case 'openPlotAfterGif':
                 return InputHandler.getBoolFromInput("Open Interactive plot? (Y/N): ")
+            case 'rows/columns':
+                return InputHandler.getIntFromInput("Number of rows/columns: ")
             case _:
                 return self.visualization.getOptionInput(option)
         return ''

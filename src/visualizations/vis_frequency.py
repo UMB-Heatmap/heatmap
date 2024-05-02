@@ -35,13 +35,6 @@ class Vis_Frequency(VisualizationInterface):
     def getParamList(self):
         return ['rows/columns', 'colorMap']
 
-    def getOptionInput(self, option):
-        match option:
-            case 'rows/columns':
-                return InputHandler.getIntFromInput("Number of rows/columns: ")
-            case _:
-                return ''
-
     def generate(self):
         numRowsCols = self['rows/columns']
         # STEP 2: Generate data for visualization via prng.cpp calls (abstracted to vis.nRandomScalars)
