@@ -9,11 +9,6 @@
 #   - each subsequent frame will advance point by some random length step 
 #     at some random angle from the previous point
 
-# TODO: 
-#   have colors change for individual points / lines
-#   implement color modes & color maps
-#   ** might have to switch matplotlib -> plotly
-
 from subprocess import run
 import matplotlib.pylab as plt
 from pylab import *
@@ -40,9 +35,12 @@ max_step_size = vis.getIntFromInput("Maximum Step Size: ")
 colorMap = vis.getColorMap()
 genGif = vis.getBoolFromInput("Would you like to generate a .gif? (Y/N): ")
 if (genGif): isLoop = vis.getBoolFromInput("GIF Looping? (Y/N): ")
-if (genGif): gifDuration = vis.getPosFloatFromInput("GIF Duration (seconds): ") 
 if (genGif): openPlot = vis.getBoolFromInput("Open Interactive plot? (Y/N): ")
 else: openPlot = True
+
+# create 3d_walk subfolder if not exists
+if not os.path.exists('heatmaps/3d_walk'):
+    os.makedirs('heatmaps/3d_walk')
 
 # get random numbers
 scale = 6
@@ -123,7 +121,7 @@ if (genGif):
         img = Image.open(png_path)
         frames.append(img)
     gifPath = 'heatmaps/' + str(ALGORITHM) + '_' + str(steps) + 'x' + str(max_step_size) + '_3d_walk_frame.gif'
-    frames[0].save(gifPath, save_all=True, append_images=frames[1:], loop=(not isLoop), duration=gifDuration) # duration=gifDuration
+    frames[0].save(gifPath, save_all=True, append_images=frames[1:], loop=(not isLoop)) # duration=gifDuration
 
     # clean up pngs
     for file in os.listdir('heatmaps/3d_walk'):

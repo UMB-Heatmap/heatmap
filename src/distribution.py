@@ -16,10 +16,6 @@
 #   color_map : string in COLOR_MAPS
 #   is_looping? : 'y' | 'n'
 
-# TODO: 
-#   add sliders for interactive plot
-#   optional gif generation
-
 from subprocess import run
 import matplotlib.pyplot as plt
 import numpy as np
@@ -39,14 +35,17 @@ SEED_INCREMENT = vis.DEFAULT_SEED_INCREMENT
 # clear any warnings
 os.system('clear')
 
+# create distribution subfolder if not exists
+if not os.path.exists('heatmaps/distribution'):
+    os.makedirs('heatmaps/distribution')
+
 # STEP 1: Acquire and Validate visualization-specific inputs
 numCandidates = vis.getIntFromInput("Number of Candidates: ")
 numIterations = vis.getIntFromInput("Number of Iterations: ")
 numValsPerIter = vis.getIntFromInput("Number of Values per Iteration: ")
-isNormalized = vis.getBoolFromInput("Normalize Distributions? (Y/N): ")
+isNormalized = False # vis.getBoolFromInput("Normalize Distributions? (Y/N): ")
 isLoop = vis.getBoolFromInput("GIF Looping? (Y/N): ")
-gifDuration = vis.getPosFloatFromInput("GIF Duration: ")
-isScaleColorMap = True # vis.getBoolFromInput("Scale Color Map? (Y/N): ")
+isScaleColorMap = True 
 colorMap = vis.getColorMap()
 
 # STEP 2: Generate data for visualization via prng.cpp calls (abstracted to vis.nRandomScalars)
@@ -137,9 +136,10 @@ for png_path in framePaths:
     # convert to .png and open
     img = Image.open(png_path)
     frames.append(img)
+
 # generate .gif
 gifPath = 'heatmaps/'+ str(ALGORITHM) + '_' + str(numCandidates) + 'x' + str(numIterations) + 'x' + str(numValsPerIter) + '_dist_HM.gif'
-frames[0].save(gifPath, save_all=True, append_images=frames[1:], loop=(not isLoop), duration=gifDuration) # duration=gifDuration
+frames[0].save(gifPath, save_all=True, append_images=frames[1:], loop=(not isLoop)) # duration=gifDuration
 
 # clean up pngs
 for file in os.listdir('heatmaps/distribution'):
