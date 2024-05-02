@@ -11,6 +11,9 @@
 from subprocess import run
 from src import visuals_utils as vis
 
+# install dependencies via pip
+run('pip install -q -r requirements.txt', shell=True)
+
 # Run external script for visualization
 vis.makeIfNeeded()
 algorithm, visual, seed = vis.handleCLI()

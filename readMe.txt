@@ -2,8 +2,6 @@ EXAMPLE USAGE:
 
     python3 main.py (ALGORITHM) (VISUAL) [SEED]
 
-    - will run 'Make clean' and 'Make' to rebuild C++ automatically if u do not have working ./prng file
-
 Where:
 
     ALGORITHM = 'lehmer' | 'splitmix'| 'xorshift' | 'lcg' | 'middle_square' | 'lfg' | 'rule30' | 'bbs' 
@@ -40,14 +38,6 @@ VISUALS :: result
     seed_eval    :: NxM Heatmap of M values from N different seeds in a user-specified 
                     range with options for color mapping. 
 
-Dependencies:
-    python 3.8.19
-    matplotlib 3.7.2
-    numpy 1.23.5
-    scipy 1.10.1
-    pillow 10.2.0
-    ...
-
 TODO:
     LCG and Lehmer not scaling properly:
         - set this->maxValue in algorithm header constructor
@@ -60,7 +50,12 @@ TODO:
     
 NOTES:
 
-    *On Mac OS if pip does not work use Brew.
+    - Moved Dependencies list to requirements.txt
+
+    - main.py should now install dependencies listed in requirements.txt (via pip) before running visuals
+    ^^^ NEEDS TESTING
+
+    - main.py will run 'Make clean' and 'Make' to rebuild C++ automatically if u do not have working ./prng file
 
     ***IF YOU ARE HAVING TROUBLE WITH PACKAGES:
         install conda from (https://conda.io/projects/conda/en/latest/user-guide/install/index.html)
@@ -89,7 +84,7 @@ NOTES:
         **(see src/visuals_utils.py for common functions and shared values)
         2. update src/visuals_utils.py VISUALS list
         3. IMPORTANT: use ALGO_ARGS = vis.getAlgoArgs(ALGORITHM) and use vis.nRandomScalars() to get data (see examples)
-
+        4. add any python dependencies to requirements.txt
 
     Lagged Fibonacci arguments Example:
         ./prng [other arguments] -a lfg -O "operator_char,j_int,k_int"
