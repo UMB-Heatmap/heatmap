@@ -8,8 +8,6 @@
 #
 # requires algorithm and visual, seed is optional and will default to DEFAULT_SEED
 
-from subprocess import run
-from src import visuals_utils as vis
 from src.py_classes.imports import *
 
 IS_SINGLE_LINE = False
@@ -48,7 +46,3 @@ vh.setup(params)
 
 vh.run()
 vh.open()
-
-# algorithm, visual, seed = vis.handleCLI()
-# cmd = 'python3 ' + 'src/' + visual + '.py ' + algorithm + ' ' + str(seed)
-# run(cmd, shell=True)
