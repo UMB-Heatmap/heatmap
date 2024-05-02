@@ -38,6 +38,11 @@ VISUALS :: result
     seed_eval    :: NxM Heatmap of M values from N different seeds in a user-specified 
                     range with options for color mapping. 
 
+TO DOWNLOAD NECESSARY PACKAGES:
+
+    pip install -r requirements.txt
+
+
 TODO:
     LCG and Lehmer not scaling properly:
         - set this->maxValue in algorithm header constructor
@@ -50,12 +55,16 @@ TODO:
     
 NOTES:
 
+    - OS-dependent command:
+        $ open
+        Variations:
+            Mac ('Darwin'): open 'path/to/file.svg'
+            Linux: xdg-open 'path/to/file.gif'
+            Windows: 'path/to/file.gif'
+
     - Moved Dependencies list to requirements.txt
 
-    - main.py should now install dependencies listed in requirements.txt (via pip) before running visuals
-    ^^^ NEEDS TESTING
-
-    - main.py will run 'Make clean' and 'Make' to rebuild C++ automatically if u do not have working ./prng file
+    - main.py will run 'make clean' and 'make' to rebuild C++ automatically if u do not have working ./prng file
 
     ***IF YOU ARE HAVING TROUBLE WITH PACKAGES:
         install conda from (https://conda.io/projects/conda/en/latest/user-guide/install/index.html)

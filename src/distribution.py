@@ -146,5 +146,6 @@ for file in os.listdir('heatmaps/distribution'):
     if file.endswith('.png'):
         os.remove('heatmaps/distribution/' + file)
 
-cmd = 'open ' + gifPath
-run(cmd, shell=True)
+# cmd = 'open ' + gifPath
+# run(cmd, shell=True)
+vis.openVisual(gifPath)

@@ -158,8 +158,9 @@ if (genGif):
             os.remove('heatmaps/3d_scatter/' + file)
 
     # open .gif
-    cmd = 'open ' + gifPath
-    run(cmd, shell=True)
+    # cmd = 'open ' + gifPath
+    # run(cmd, shell=True)
+    vis.openVisual(gifPath)
 
 # initialize plot
 values = round(numPoints_slider.val)

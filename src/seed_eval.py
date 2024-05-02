@@ -58,6 +58,7 @@ heatmapPath = 'heatmaps/' + str(ALGORITHM) + '_' + str(numRows) + 'x' + str(numC
 plt.savefig(heatmapPath)
 
 # STEP 5: Open visualization 
-cmd = 'open ' + heatmapPath
-run(cmd, shell=True)
+# cmd = 'open ' + heatmapPath
+# run(cmd, shell=True)
+vis.openVisual(heatmapPath)
 

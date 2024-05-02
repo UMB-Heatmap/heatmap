@@ -1,6 +1,8 @@
+import os
 import numpy as np
 from subprocess import run
 import sys
+import platform
 
 DEFAULT_SEED = 12345
 DEFAULT_SEED_INCREMENT = 12345
@@ -82,9 +84,32 @@ def makeIfNeeded():
         return
     except:
         print('Rebuilding ./prng ...')
-        run('Make clean', shell=True)
-        run('Make', shell=True)
+        run('make clean', shell=True)
+        run('make', shell=True)
         return
+
+# fetch host's operating system platform
+def getOS():
+    os_str = platform.system()
+    if (os_str == 'Linux' or os_str == 'Windows' or os_str == 'Darwin'):
+        return os_str
+    else:
+        return 'OTHER'
+
+# open visual using OS-specific command
+def openVisual(path):
+    HOST_OS = getOS()
+    cmd = ''
+    if (HOST_OS == 'Linux'):
+        cmd = 'xdg-open ' + path
+    elif (HOST_OS == 'Darwin'):
+        cmd = 'open ' + path
+    elif (HOST_OS == 'Windows'):
+        cmd = path
+    else:
+        print('Could not open Visual... saved in \'heatmaps\' folder')
+        return
+    run(cmd, shell=True)
 
 # Color Map Options (directly from MatPlotLib)
 # https://matplotlib.org/stable/gallery/color/colormap_reference.html

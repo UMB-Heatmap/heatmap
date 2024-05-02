@@ -86,5 +86,6 @@ plt.title("3D Heat Map from " + ALGORITHM.upper())
 plt.savefig(heatmapPath)
 
 # STEP 5: Open visualization
-cmd = 'open ' + heatmapPath
-run(cmd, shell=True)
+# cmd = 'open ' + heatmapPath
+# run(cmd, shell=True)
+vis.openVisual(heatmapPath)

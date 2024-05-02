@@ -9,11 +9,10 @@
 # requires algorithm and visual, seed is optional and will default to DEFAULT_SEED
 
 import subprocess
-import sys
 from src import visuals_utils as vis
 
 # install dependencies via pip WORK IN PROGRESS
-# subprocess.check_call([sys.executable, '-m', 'pip', 'install', '-q', '-r', 'requirements.txt'])
+# subprocess.run([sys.executable, '-m', 'pip3', 'install', '-q', '-r', 'requirements.txt'], shell=True, check=True)
 # subprocess.run('python3 -m pip install -q -r requirements.txt', shell=True, check=True)
 
 # Run external script for visualization
