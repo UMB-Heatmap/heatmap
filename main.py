@@ -39,7 +39,7 @@ params = {
     'algorithm' : algorithm,
     'visualization' : visual,
     'seed' : seed,
-    'extra_args' : extra_args
+    'extra_args' : extra_args[:]
 }
 
 accessor.params = params

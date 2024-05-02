@@ -23,6 +23,7 @@ class CppHandler:
     
     def getNumbers(self, n):
         params = self.accessor.params
+        extra_args =  params['extra_args'][:]
         OPTIONS = self.accessor['optionInfo'].OPTIONS
         try: #filter out bad inputs
             s = int(params['seed'])
@@ -41,7 +42,7 @@ class CppHandler:
         if algo not in OPTIONS['has_extra_args']:
             cmd = './prng -f ' + filePath + ' -a ' + str(algo.lower()) + ' -s ' + str(s) + ' -n ' + str(n)
         else:
-            cmd = './prng -f ' + filePath + ' -a lfg -s ' + str(s) + ' -n ' + str(n) + ' -O \"' + ",".join(params['extra_args']) + '\"'
+            cmd = './prng -f ' + filePath + ' -a lfg -s ' + str(s) + ' -n ' + str(n) + ' -O \"' + ",".join(extra_args) + '\"'
         run(cmd, shell=True)
         nums = np.genfromtxt(filePath)
         if (nums.size == 1): randoms = [nums.item()]

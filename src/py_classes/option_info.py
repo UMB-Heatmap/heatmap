@@ -27,7 +27,7 @@ class OptionInfo:
         '3d_walk'       : Vis_3d_walk, 
         '3d'            : Vis_3d, 
         'shadedrelief'  : Vis_ShadedRelief, 
-        'seed_eval'     : None,
+        'seed_eval'     : Vis_SeedEval,
     }
 
     def __init__(self):
