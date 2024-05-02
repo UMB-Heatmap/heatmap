@@ -18,6 +18,20 @@ class Vis_3d(VisualizationInterface):
     def getParamList(self):
         return ['points', 'interpolation', 'interpolationPoints', 'colorMap']
 
+    def getOptionInput(self, option):
+        match option:
+            case 'points':
+                return InputHandler.getIntFromInput("Number of Points: ")
+            case 'interpolation':
+                return InputHandler.getBoolFromInput("Interpolate? (Y/N): ")
+            case 'interpolationPoints':
+                if self.visualization.params['interpolation']:
+                    return InputHandler.getIntFromInput("Number of Interpolation Points (Higher = Smoother): ")
+                else:
+                    return 0
+            case _:
+                return ''
+
     def generate(self):
         # This only serves to fix an error down the line
         colorMap1 = plt.colormaps.get_cmap(self['colorMap'])

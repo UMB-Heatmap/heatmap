@@ -59,25 +59,6 @@ class VisualizationHandler:
                 print("\nColor Map Options -- Select From:")
                 print("\t" + self.optionInfo.getOptionsString('color_maps', "\n\t"))
                 return InputHandler.getItemFromListFromInput("Color Map: ", self.optionInfo.OPTIONS['color_maps'])
-            case 'points':
-                return InputHandler.getIntFromInput("Number of Points: ")
-            case 'interpolation':
-                return InputHandler.getBoolFromInput("Interpolate? (Y/N): ")
-            case 'interpolationPoints':
-                if self.visualization.params['interpolation']:
-                    return InputHandler.getIntFromInput("Number of Interpolation Points (Higher = Smoother): ")
-                else:
-                    return 0
-            case 'maxPoints':
-                return InputHandler.getIntFromInput("Maximum Number of Random Points: ")
-            case 'colorMode':
-                modified_color_modes = self.optionInfo.OPTIONS['color_mode_names'][:]
-                for i in range(len(modified_color_modes)):
-                    modified_color_modes[i] = str(i+1) + "= " + str(modified_color_modes[i])
-                print("\nColor Mode Options -- Select From:")
-                print("\t" + "\n\t".join(modified_color_modes))
-                val = InputHandler.getItemFromListFromInput("Color Mode: ", self.optionInfo.OPTIONS['color_modes'], modified_color_modes)
-                return int(val)
             case 'useGif':
                 return InputHandler.getBoolFromInput("Would you like to generate a .gif? (Y/N): ")
             case 'loopGif':
@@ -90,16 +71,12 @@ class VisualizationHandler:
                     return InputHandler.getFloatFromInput("GIF Duration: ")
                 else:
                     return 0.0
-            case 'steps':
-                return InputHandler.getIntFromInput("Maximum Number of Steps: ")
-            case 'stepSize':
-                return InputHandler.getIntFromInput("Maximum Step Size: ")
             case 'openPlotAfterGif':
                 return InputHandler.getBoolFromInput("Open Interactive plot? (Y/N): ")
             case '':
                 pass
             case _:
-                pass
+                return self.visualization.getOptionInput(option)
         return ''
 
 

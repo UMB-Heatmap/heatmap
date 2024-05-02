@@ -21,7 +21,7 @@ class OptionInfo:
 
     visualizations = {
         '2d'            : Vis_2d, 
-        'distribution'  : None, 
+        'distribution'  : Vis_Distribution, 
         'frequency'     : None, 
         '3d_scatter'    : Vis_3d_scatter, 
         '3d_walk'       : Vis_3d_walk, 

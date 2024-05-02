@@ -29,6 +29,22 @@ class Vis_3d_scatter(VisualizationInterface):
     def getParamList(self):
         return ['maxPoints', 'colorMap', 'colorMode', 'useGif', 'loopGif', 'gifDuration']
 
+    def getOptionInput(self, option):
+        match option:
+            case 'maxPoints':
+                return InputHandler.getIntFromInput("Maximum Number of Random Points: ")
+            case 'colorMode':
+                OPTIONS = self.accessor['optionInfo'].OPTIONS
+                modified_color_modes = OPTIONS['color_mode_names'][:]
+                for i in range(len(modified_color_modes)):
+                    modified_color_modes[i] = str(i+1) + "= " + str(modified_color_modes[i])
+                print("\nColor Mode Options -- Select From:")
+                print("\t" + "\n\t".join(modified_color_modes))
+                val = InputHandler.getItemFromListFromInput("Color Mode: ", OPTIONS['color_modes'], modified_color_modes)
+                return int(val)
+            case _:
+                return ''
+
     def generate(self):
         colorMode = self['colorMode']
         colorMap = self['colorMap']

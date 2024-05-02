@@ -29,3 +29,6 @@ class VisualizationInterface:
         cmd = 'open ' + self.params['heatmapPath']
         run(cmd, shell=True)
 
+    def getOptionInput(self, option):
+        return ''
+

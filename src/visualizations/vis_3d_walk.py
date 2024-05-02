@@ -27,6 +27,15 @@ class Vis_3d_walk(VisualizationInterface):
     def getParamList(self):
         return ['steps', 'stepSize', 'colorMap', 'useGif', 'loopGif', 'gifDuration', 'openPlotAfterGif']
 
+    def getOptionInput(self, option):
+        match option:
+            case 'steps':
+                return InputHandler.getIntFromInput("Maximum Number of Steps: ")
+            case 'stepSize':
+                return InputHandler.getIntFromInput("Maximum Step Size: ")
+            case _:
+                return ''
+
     def generate(self):
         # clear any warnings
         os.system('clear')
