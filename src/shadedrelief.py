@@ -24,6 +24,10 @@ colorMap = vis.getColorMap()
 isLoop = vis.getBoolFromInput("GIF Looping? (Y/N): ")
 #colorMap = get_cmap(colorMap)
 
+# create shadedrelief subfolder if not exists
+if not os.path.exists('heatmaps/shadedrelief'):
+    os.makedirs('heatmaps/shadedrelief')
+
 NUM_FRAMES = 72
 framePaths = []
 frames = []

@@ -15,7 +15,6 @@
 # can use native matplotlib zoom to explore distribution of random points
 
 from pylab import *
-
 from subprocess import run
 import numpy as np
 import matplotlib.pylab as plt
@@ -31,19 +30,19 @@ ALGORITHM = sys.argv[1]
 ALGO_ARGS = vis.getAlgoArgs(ALGORITHM)
 START_SEED = int(sys.argv[2])
 SEED_INCREMENT = 12345 # default value
-MAX_FRAMES = 500 # limit maximum number of .gif frames
-
+MAX_FRAMES = 250 # limit maximum number of .gif frames (250 frames will take about 1-2 minutes to generate)
 N = 100 # default scalar for random values
 
 # STEP 1: Acquire and Validate visualization-specific inputs
 MAX_VALUES = vis.getIntFromInput("Maximum Number of Random Points: ")
 colorMap = vis.getColorMap()
 colorMode = vis.getColorMode()
-
-# TODO: allow .gif generation
 genGif = vis.getBoolFromInput("Would you like to generate a .gif? (Y/N): ")
 if (genGif): isLoop = vis.getBoolFromInput("GIF Looping? (Y/N): ")
-if (genGif): gifDuration = vis.getPosFloatFromInput("GIF Duration: ")
+
+# create 3d_scatter subfolder if not exists
+if not os.path.exists('heatmaps/3d_scatter'):
+    os.makedirs('heatmaps/3d_scatter')
 
 # STEP 2: Generate data for visualization via prng.cpp calls
 data = []
@@ -151,7 +150,7 @@ if (genGif):
 
     # generate .gif
     gifPath = 'heatmaps/' + str(ALGORITHM) + '3d_scatter_' + str(MAX_VALUES) + '.gif'
-    frames[0].save(gifPath, save_all=True, append_images=frames[1:], loop=(not isLoop), duration=gifDuration) # duration=gifDuration
+    frames[0].save(gifPath, save_all=True, append_images=frames[1:], loop=(not isLoop)) # duration=gifDuration
 
     # clean up pngs
     for file in os.listdir('heatmaps/3d_scatter'):
