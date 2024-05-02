@@ -100,6 +100,7 @@ def makeIfNeeded():
         else:
             print('Error - Invalid ./prng file and could not rebuild automatically...')
             print('Windows Users, please re-Make prng object according to Makefile')
+            sys.exit()
         return
 
 # open visual using OS-specific command [OS SPECIFIC COMMAND]
