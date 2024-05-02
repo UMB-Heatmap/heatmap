@@ -72,7 +72,7 @@ plt.colorbar()
 heatmapPath = 'heatmaps/' + str(ALGORITHM) + '_' + str(numRowsCols) + 'x' + str(numRowsCols) + '_frequency_heatmap.svg'
 plt.savefig(heatmapPath)
 
-# STEP 6: Open visualization 
+# STEP 6: Open visualization [OS SPECIFIC COMMAND]
 # cmd = 'open ' + heatmapPath
 # run(cmd, shell=True)
 vis.openVisual(heatmapPath)

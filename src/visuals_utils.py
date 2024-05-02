@@ -96,7 +96,7 @@ def getOS():
     else:
         return 'OTHER'
 
-# open visual using OS-specific command
+# open visual using OS-specific command [OS SPECIFIC COMMAND]
 def openVisual(path):
     HOST_OS = getOS()
     cmd = ''

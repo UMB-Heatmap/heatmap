@@ -157,7 +157,7 @@ if (genGif):
         if file.endswith('.png'):
             os.remove('heatmaps/3d_scatter/' + file)
 
-    # open .gif
+    # open .gif [OS SPECIFIC COMMAND]
     # cmd = 'open ' + gifPath
     # run(cmd, shell=True)
     vis.openVisual(gifPath)
