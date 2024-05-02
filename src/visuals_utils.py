@@ -77,17 +77,6 @@ def handleCLI():
         printUsageTable()
         sys.exit()
 
-# rebuilds prng.cpp objects via makefile if necessary
-def makeIfNeeded():
-    try:
-        run('./prng -f data/output.txt', shell=True, check=True)
-        return
-    except:
-        print('Rebuilding ./prng ...')
-        run('make clean', shell=True)
-        run('make', shell=True)
-        return
-
 # fetch host's operating system platform
 def getOS():
     os_str = platform.system()
@@ -95,6 +84,23 @@ def getOS():
         return os_str
     else:
         return 'OTHER'
+
+# rebuilds prng.cpp objects via makefile if necessary/possible
+def makeIfNeeded():
+    try:
+        run('./prng -f data/output.txt', shell=True, check=True)
+        return
+    except:
+        HOST_OS = getOS()
+        if (HOST_OS == 'Linux' or HOST_OS == 'Darwin'):
+            print('Rebuilding ./prng ...')
+            # [OS SPECIFIC COMMAND - only MAC and Linux]
+            run('make clean', shell=True)
+            run('make', shell=True)
+        else:
+            print('Error - Invalid ./prng file and could not rebuild automatically...')
+            print('Windows Users, please re-Make prng object according to Makefile')
+        return
 
 # open visual using OS-specific command [OS SPECIFIC COMMAND]
 def openVisual(path):
