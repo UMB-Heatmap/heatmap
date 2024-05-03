@@ -1,6 +1,8 @@
+import os
 import numpy as np
 from subprocess import run
 import sys
+import platform
 
 DEFAULT_SEED = 12345
 DEFAULT_SEED_INCREMENT = 12345
@@ -75,16 +77,46 @@ def handleCLI():
         printUsageTable()
         sys.exit()
 
-# rebuilds prng.cpp objects via makefile if necessary
+# fetch host's operating system platform
+def getOS():
+    os_str = platform.system()
+    if (os_str == 'Linux' or os_str == 'Windows' or os_str == 'Darwin'):
+        return os_str
+    else:
+        return 'OTHER'
+
+# rebuilds prng.cpp objects via makefile if necessary/possible
 def makeIfNeeded():
     try:
         run('./prng -f data/output.txt', shell=True, check=True)
         return
     except:
-        print('Rebuilding ./prng ...')
-        run('Make clean', shell=True)
-        run('Make', shell=True)
+        HOST_OS = getOS()
+        if (HOST_OS == 'Linux' or HOST_OS == 'Darwin'):
+            print('Rebuilding ./prng ...')
+            # [OS SPECIFIC COMMAND - only MAC and Linux]
+            run('make clean', shell=True)
+            run('make', shell=True)
+        else:
+            print('Error - Invalid ./prng file and could not rebuild automatically...')
+            print('Windows Users, please re-Make prng object according to Makefile')
+            sys.exit()
         return
+
+# open visual using OS-specific command [OS SPECIFIC COMMAND]
+def openVisual(path):
+    HOST_OS = getOS()
+    cmd = ''
+    if (HOST_OS == 'Linux'):
+        cmd = 'xdg-open ' + path
+    elif (HOST_OS == 'Darwin'):
+        cmd = 'open ' + path
+    elif (HOST_OS == 'Windows'):
+        cmd = './' + path
+    else:
+        print('Could not open Visual... saved in \'heatmaps\' folder')
+        return
+    run(cmd, shell=True)
 
 # Color Map Options (directly from MatPlotLib)
 # https://matplotlib.org/stable/gallery/color/colormap_reference.html

@@ -128,9 +128,10 @@ if (genGif):
         if file.endswith('.png'):
             os.remove('heatmaps/3d_walk/' + file)
 
-    # open result .gif
-    cmd = 'open ' + gifPath
-    run(cmd, shell=True)
+    # open result .gif [OS SPECIFIC COMMAND]
+    # cmd = 'open ' + gifPath
+    # run(cmd, shell=True)
+    vis.openVisual(gifPath)
     plt.close()
 
 # initialize plot

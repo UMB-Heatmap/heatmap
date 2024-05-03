@@ -95,6 +95,8 @@ for file in os.listdir('heatmaps/shadedrelief'):
     if file.endswith('.png'):
         os.remove('heatmaps/shadedrelief/' + file)
 
-cmd = 'open ' + gifPath
-run(cmd, shell=True)
+# open .gif file [OS SPECIFIC COMMAND]
+# cmd = 'open ' + gifPath
+# run(cmd, shell=True)
+vis.openVisual(gifPath)
 

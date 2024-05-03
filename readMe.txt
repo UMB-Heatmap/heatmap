@@ -38,34 +38,36 @@ VISUALS :: result
     seed_eval    :: NxM Heatmap of M values from N different seeds in a user-specified 
                     range with options for color mapping. 
 
+TO DOWNLOAD NECESSARY PACKAGES:
+
+    pip install -r requirements.txt
+
+
 TODO:
-    LCG and Lehmer not scaling properly:
+    - LCG and Lehmer not scaling properly:
         - set this->maxValue in algorithm header constructor
 
-    Rule30 only giving 1's (at least with default seed)
-
-    Maybe create a Default Seed Manager in python front end for Rule30, Middle_square
-
-    GENERAL TESTING for bugs between all algos and visuals
+    - Rule30 only giving 1's with default seed
     
 NOTES:
+    - OS-dependent command:
+        $ open
+        Variations:
+            Mac ('Darwin'): open 'path/to/file.svg'
+            Linux: xdg-open 'path/to/file.gif'
+            Windows: 'path/to/file.gif'
 
-    - Moved Dependencies list to requirements.txt
-
-    - main.py should now install dependencies listed in requirements.txt (via pip) before running visuals
-    ^^^ NEEDS TESTING
-
-    - main.py will run 'Make clean' and 'Make' to rebuild C++ automatically if u do not have working ./prng file
+    - main.py will run 'make clean' and 'make' to rebuild C++ automatically if u do not have working ./prng file
+        - (for linux and mac users only)
+        - mingw-make suggested for windows users to rebuild C++
 
     ***IF YOU ARE HAVING TROUBLE WITH PACKAGES:
         install conda from (https://conda.io/projects/conda/en/latest/user-guide/install/index.html)
         then run:
-
             conda create -n [ENV_NAME] python=3.8
             conda install matplotlib
             conda install numpy
             conda install scipy
-
     ***to create virtual environment with all necessary packages for heatmap visuals
 
     For Implementing additional Algorithms:

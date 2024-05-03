@@ -85,6 +85,7 @@ heatmapPath = 'heatmaps/' + str(ALGORITHM) + '_' + str(START_SEED) + '_3d_heatma
 plt.title("3D Heat Map from " + ALGORITHM.upper())
 plt.savefig(heatmapPath)
 
-# STEP 5: Open visualization
-cmd = 'open ' + heatmapPath
-run(cmd, shell=True)
+# STEP 5: Open visualization [OS SPECIFIC COMMAND]
+# cmd = 'open ' + heatmapPath
+# run(cmd, shell=True)
+vis.openVisual(heatmapPath)

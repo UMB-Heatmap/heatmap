@@ -57,7 +57,8 @@ plt.colorbar()
 heatmapPath = 'heatmaps/' + str(ALGORITHM) + '_' + str(numRows) + 'x' + str(numCols) + '_2d_heatmap.svg'
 plt.savefig(heatmapPath)
 
-# STEP 5: Open visualization 
-cmd = 'open ' + heatmapPath
-run(cmd, shell=True)
+# STEP 5: Open visualization [OS SPECIFIC COMMAND]
+# cmd = 'open ' + heatmapPath
+# run(cmd, shell=True)
+vis.openVisual(heatmapPath)
 
